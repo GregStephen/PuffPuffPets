@@ -41,6 +41,13 @@ namespace PuffPuffPets.Api.Repositories
             {
                 // needs to do a check to see if the username already exists
                 // needs to do a check to see if the email already exits
+                var addressRepo = new AddressRepository();
+                var newAddress = new AddAddressDto();
+                newAddress.AddressLine1 = newUser.AddressLine1;
+                newAddress.AddressLine2 = newUser.AddressLine2;
+                newAddress.City = newUser.City;
+                newAddress.State = newUser.State;
+                newAddress.ZipCode = newUser.ZipCode;
                 var sql = @"
                             INSERT INTO [User]
                                 ([IsSeller],
@@ -51,6 +58,7 @@ namespace PuffPuffPets.Api.Repositories
                                  [DateCreated],
                                  [Password],
                                  [BusinessName])
+                            OUTPUT INSERTED.Id
                             VALUES
                                 ([@isSeller],
                                  [@userName],
@@ -60,7 +68,18 @@ namespace PuffPuffPets.Api.Repositories
                                  [@dateCreated],
                                  [@password],
                                  [@businessName])";
-                return db.Execute(sql, newUser) == 1;
+                var userId = db.QueryFirst<Guid>(sql, newUser);
+                if (  userId != null)
+                // This would be if there was no trouble creating the user
+                {
+                    newAddress.UserId = userId;
+                    return addressRepo.AddNewAddress(newAddress);
+                }
+                else
+                // This would be if there WAS trouble creating the user
+                {
+                    return false;
+                }
             }
         }
     }
