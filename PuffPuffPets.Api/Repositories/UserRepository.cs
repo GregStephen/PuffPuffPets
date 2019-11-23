@@ -43,16 +43,6 @@ namespace PuffPuffPets.Api.Repositories
                 // needs to do a check to see if the email already exits
                 var addressRepo = new AddressRepository();
                 var newAddress = new AddAddressDto();
-                var user = new AddUserDto();
-                user.UserName = newUser.UserName;
-                user.FirstName = newUser.FirstName;
-                user.LastName = newUser.LastName;
-                user.IsSeller = newUser.IsSeller;
-                user.Email = newUser.Email;
-                user.DateCreated = newUser.DateCreated;
-                user.Password = newUser.Password;
-                user.BusinessName = newUser.BusinessName;
-
                 newAddress.AddressLine1 = newUser.AddressLine1;
                 newAddress.AddressLine2 = newUser.AddressLine2;
                 newAddress.City = newUser.City;
@@ -90,6 +80,25 @@ namespace PuffPuffPets.Api.Repositories
                 {
                     return false;
                 }
+            }
+        }
+
+        public bool DeleteUser(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var addressRepo = new AddressRepository();
+                addressRepo.DeleteUserAddresses(userId);
+                //var paymentTypeRepo = new PaymentTypeRepository();
+                //paymentTypeRepo.DeleteUserPaymentTypes(userId);
+                var sql = @"UPDATE [User]
+                            SET [FirstName] = '',
+                                [LastName] = '',
+                                [Email] = '',
+                                [Password] = ''
+                            WHERE Id = @userId";
+                var parameters = new { userId };
+                return db.Execute(sql, parameters) == 1;
             }
         }
     }

@@ -21,7 +21,7 @@ namespace PuffPuffPets.Api.Repositories
                                 ([UserId],
                                  [AddressLine1],
                                  [AddressLine2],
-                                 [City]
+                                 [City],
                                  [State],
                                  [ZipCode])
                             VALUES
@@ -34,5 +34,18 @@ namespace PuffPuffPets.Api.Repositories
                 return db.Execute(sql, newAddress) == 1;
             }
         }
+        public void DeleteUserAddresses(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            FROM [UserAddress]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                db.Execute(sql, parameters);
+            }
+        }
     }
+
+
 }
