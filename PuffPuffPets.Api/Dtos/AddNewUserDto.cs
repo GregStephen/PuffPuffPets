@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PuffPuffPets.Api.Dtos
 {
-    public class AddUserDto
+    public class AddNewUserDto
     {
         public bool IsSeller { get; set; }
         public string UserName { get; set; }
@@ -15,5 +15,10 @@ namespace PuffPuffPets.Api.Dtos
         public DateTime DateCreated { get; set; }
         public string Password { get; set; }
         public string BusinessName { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
     }
 }

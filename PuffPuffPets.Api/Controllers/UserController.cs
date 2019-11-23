@@ -37,7 +37,7 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser(AddUserDto newUser)
+        public IActionResult AddUser(AddNewUserDto newUser)
         {
             if (_repo.AddNewUser(newUser))
             {

@@ -35,7 +35,7 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public bool AddNewUser(AddUserDto newUser)
+        public bool AddNewUser(AddNewUserDto newUser)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -43,6 +43,16 @@ namespace PuffPuffPets.Api.Repositories
                 // needs to do a check to see if the email already exits
                 var addressRepo = new AddressRepository();
                 var newAddress = new AddAddressDto();
+                var user = new AddUserDto();
+                user.UserName = newUser.UserName;
+                user.FirstName = newUser.FirstName;
+                user.LastName = newUser.LastName;
+                user.IsSeller = newUser.IsSeller;
+                user.Email = newUser.Email;
+                user.DateCreated = newUser.DateCreated;
+                user.Password = newUser.Password;
+                user.BusinessName = newUser.BusinessName;
+
                 newAddress.AddressLine1 = newUser.AddressLine1;
                 newAddress.AddressLine2 = newUser.AddressLine2;
                 newAddress.City = newUser.City;
@@ -60,14 +70,14 @@ namespace PuffPuffPets.Api.Repositories
                                  [BusinessName])
                             OUTPUT INSERTED.Id
                             VALUES
-                                ([@isSeller],
-                                 [@userName],
-                                 [@firstName],
-                                 [@lastName],
-                                 [@email],
-                                 [@dateCreated],
-                                 [@password],
-                                 [@businessName])";
+                                (@isSeller,
+                                 @userName,
+                                 @firstName,
+                                 @lastName,
+                                 @email,
+                                 @dateCreated,
+                                 @password,
+                                 @businessName)";
                 var userId = db.QueryFirst<Guid>(sql, newUser);
                 if (  userId != null)
                 // This would be if there was no trouble creating the user

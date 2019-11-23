@@ -25,12 +25,12 @@ namespace PuffPuffPets.Api.Repositories
                                  [State],
                                  [ZipCode])
                             VALUES
-                                ([@userId],
-                                 [@addressLine1],
-                                 [@addressLine2],
-                                 [@city]
-                                 [@state],
-                                 [@zipCode])";
+                                (@userId,
+                                 @addressLine1,
+                                 @addressLine2,
+                                 @city,
+                                 @state,
+                                 @zipCode)";
                 return db.Execute(sql, newAddress) == 1;
             }
         }
