@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PuffPuffPets.Api.DataModels;
+using PuffPuffPets.Api.Dtos;
 using PuffPuffPets.Api.Repositories;
 
 namespace PuffPuffPets.Api.Controllers
@@ -33,6 +34,31 @@ namespace PuffPuffPets.Api.Controllers
         public PaymentType GetSinglePaymentType(Guid paymentTypeId)
         {
             return _repo.GetSinglePaymentType(paymentTypeId);
+        }
+
+        [HttpPost]
+        public IActionResult AddNewPayment(AddPaymentTypeDto newPaymentType)
+        {
+            if (_repo.AddNewPaymentType(newPaymentType))
+            {
+                return Created($"paymentType/{newPaymentType.Type}", newPaymentType);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{paymentTypeId}")]
+        public IActionResult DeletePayment(Guid paymentTypeId)
+        {
+            if (_repo.DeletePaymentType(paymentTypeId))
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

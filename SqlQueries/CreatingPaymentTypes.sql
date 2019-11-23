@@ -1,7 +1,9 @@
 -- FIRST in dbo.PaymentType, right click on AccountNumer and select 'Modify' 
 -- Change the name to 'AccountNumber' and the type to 'bigint'. 
 -- Save and then refresh
--- THEN run this code
+-- Run SELECT * FROM [User]
+-- Copy some of the customers Ids and put them in place of the userId's that I put on lines 13, 16, 19
+-- THEN run the code
 
 INSERT INTO [PaymentType]
 ([UserId],

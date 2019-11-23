@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using PuffPuffPets.Api.DataModels;
+using PuffPuffPets.Api.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,5 +38,33 @@ namespace PuffPuffPets.Api.Repositories
                 return paymentType;
             }
         }
+
+        public bool AddNewPaymentType(AddPaymentTypeDto newPaymentType)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [PaymentType]
+                                ([UserId],
+                                 [AccountNumber],
+                                 [Type])
+                            VALUES
+                                (@userId,
+                                 @accountNumber,
+                                 @type)";
+                return db.Execute(sql, newPaymentType) == 1;
+            }
+        }
+        public bool DeletePaymentType(Guid paymentTypeId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            FROM [PaymentType]
+                            WHERE [Id] = @paymentTypeId";
+                var parameters = new { paymentTypeId };
+                return db.Execute(sql, parameters) == 1;
+            }
+        }
+
     }
 }
