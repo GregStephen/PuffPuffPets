@@ -23,10 +23,16 @@ namespace PuffPuffPets.Api.Controllers
             _repo = repo;
         }
 
-        [HttpGet]
-        public IEnumerable<PaymentType> GetAll()
+        [HttpGet("user/{userId}")]
+        public IEnumerable<PaymentType> GetAll(Guid userId)
         {
-            return _repo.GetAllPaymentTypes();
+            return _repo.GetAllPaymentTypes(userId);
+        }
+
+        [HttpGet("type/{paymentTypeId}")]
+        public PaymentType GetSinglePaymentType(Guid paymentTypeId)
+        {
+            return _repo.GetSinglePaymentType(paymentTypeId);
         }
     }
 }

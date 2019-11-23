@@ -12,13 +12,29 @@ namespace PuffPuffPets.Api.Repositories
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 
-        public IEnumerable<PaymentType> GetAllPaymentTypes()
+        public IEnumerable<PaymentType> GetAllPaymentTypes(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"";
-                var paymentTypes = db.Query<PaymentType>(sql);
+                var sql = @"SELECT * 
+                            FROM [PaymentType]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                var paymentTypes = db.Query<PaymentType>(sql, parameters);
                 return paymentTypes;
+            }
+        }
+
+        public PaymentType GetSinglePaymentType(Guid paymentTypeId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [PaymentType]
+                            WHERE [Id] = @paymentTypeId";
+                var parameters = new { paymentTypeId };
+                var paymentType = db.QueryFirst<PaymentType>(sql, parameters);
+                return paymentType;
             }
         }
     }

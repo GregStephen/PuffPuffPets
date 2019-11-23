@@ -8,6 +8,7 @@ namespace PuffPuffPets.Api.Repositories
 {
     public interface IPaymentTypeRepository
     {
-        IEnumerable<PaymentType> GetAllPaymentTypes();
+        IEnumerable<PaymentType> GetAllPaymentTypes(Guid userId);
+        PaymentType GetSinglePaymentType(Guid paymentTypeId);
     }
 }
