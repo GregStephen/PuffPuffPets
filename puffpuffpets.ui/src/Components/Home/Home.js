@@ -9,7 +9,7 @@ class Home extends Component {
       <div className="Home">
           <h3 className="testTarget">{testText}</h3>
           <button className="btn btn-success">Bootstrap Button</button>
-          <h1>Sup noobs</h1>
+          <h1>USER/UNAUTHED HOMEPAGE</h1>
       </div>
     );
   }
