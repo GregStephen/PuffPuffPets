@@ -30,7 +30,9 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'Product')
 		[ImgUrl] NVARCHAR(max) not null,
 		[TypeId] UNIQUEIDENTIFIER not null,
 		[Description] NVARCHAR(255) not null,
-		[CategoryId] UNIQUEIDENTIFIER not null
+		[CategoryId] UNIQUEIDENTIFIER not null,
+		[Price] BIGINT not null DEFAULT (0),
+		[Quantity] INT not null DEFAULT (0)
 	)
 	END
 ELSE
@@ -74,19 +76,6 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'UserAddress')
 ELSE
 	PRINT 'UserAddress table already exists'
 
-IF not exists (SELECT * FROM sys.tables WHERE [name] = 'SellerProduct')
-	BEGIN
-	CREATE TABLE [SellerProduct]
-	(
-		[Id] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-		[SellerId] UNIQUEIDENTIFIER not null,
-		[ProductId] UNIQUEIDENTIFIER not null,
-		[Price] Int not null
-	)
-	END
-ELSE
-	PRINT 'SellerProduct table already exists'
-
 IF not exists (SELECT * FROM sys.tables WHERE [name] = 'ProductOrder')
 	BEGIN
 	CREATE TABLE [ProductOrder]
@@ -124,7 +113,7 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'PaymentType')
 	(
 		[Id] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
 		[UserId] UNIQUEIDENTIFIER not null,
-		[AccountNumer] Int not null,
+		[AccountNumber] NVARCHAR(25) not null,
 		[Type] NVARCHAR(255) not null
 	)
 	END
@@ -170,26 +159,6 @@ IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_UserAddress_Use
 	END
 ELSE
 	PRINT 'Foreign key FK_UserAddress_User already exists'
-
-IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_SellerProduct_User')
-	BEGIN
-	ALTER TABLE [SellerProduct]
-	ADD CONSTRAINT FK_SellerProduct_User
-		FOREIGN KEY (SellerId) 
-		REFERENCES [User] (Id)
-	END
-ELSE
-	PRINT 'Foreign key FK_SellerProduct_User already exists'
-
-IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_SellerProduct_Product')
-	BEGIN
-	ALTER TABLE [SellerProduct]
-	ADD CONSTRAINT FK_SellerProduct_Product
-		FOREIGN KEY (ProductId) 
-		REFERENCES [Product] (Id)
-	END
-ELSE
-	PRINT 'Foreign key FK_SellerProduct_Product already exists'
 
 IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_PaymentType_User')
 	BEGIN
