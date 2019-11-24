@@ -1,3 +1,7 @@
+DECLARE @user1 UNIQUEIDENTIFIER
+DECLARE @user2 UNIQUEIDENTIFIER
+DECLARE @user3 UNIQUEIDENTIFIER
+
 INSERT INTO [User]
 ([UserName],
 [FirstName],
@@ -41,5 +45,44 @@ VALUES
 'HeyMyNameIsDavid123',
 'Lets Fuck Up Pets Inc.')
 
+SELECT *
+INTO #tempUser
+FROM [User]
+
+SELECT @user1 = [Id]
+FROM #tempUser results
+WHERE FirstName = 'Austin'
+
+SELECT @user2 = [Id]
+FROM #tempUser results
+WHERE FirstName = 'Calvin'
+
+SELECT @user3 = [Id]
+FROM #tempUser results
+WHERE FirstName = 'David'
+
+INSERT INTO [UserAddress]
+([UserId],
+[AddressLine1],
+[City],
+[State],
+[ZipCode])
+VALUES
+(@user1,
+'123 Fake Street',
+'Nashville',
+'TN',
+'37213'),
+(@user2,
+'420 High Avenue',
+'Antioch',
+'TN',
+'37013'),
+(@user3,
+'6969 Freek Street',
+'McMinnville',
+'TN',
+'37110')
 
 SELECT * FROM [User]
+SELECT * FROM [UserAddress]
