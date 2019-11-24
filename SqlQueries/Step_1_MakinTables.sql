@@ -189,16 +189,6 @@ IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_ProductOrder_Or
 ELSE
 	PRINT 'Foreign key FK_ProductOrder_Order already exists'
 
-IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_ProductOrder_User')
-	BEGIN
-	ALTER TABLE [ProductOrder]
-	ADD CONSTRAINT FK_ProductOrder_User
-		FOREIGN KEY (SellerId) 
-		REFERENCES [User] (Id)
-	END
-ELSE
-	PRINT 'Foreign key FK_ProductOrder_User already exists'
-
 IF not exists (SELECT * FROM sys.foreign_keys WHERE [name] = 'FK_Order_User')
 	BEGIN
 	ALTER TABLE [Order]
