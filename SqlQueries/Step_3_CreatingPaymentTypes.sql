@@ -1,8 +1,3 @@
--- FIRST in dbo.PaymentType, right click on AccountNumer and select 'Modify' 
--- Change the name to 'AccountNumber' and the type to 'nvarchar(25)'. 
--- Save and then refresh
--- THEN run the code
-
 DECLARE @user1 UNIQUEIDENTIFIER
 DECLARE @user2 UNIQUEIDENTIFIER
 
@@ -23,10 +18,6 @@ FROM #temp results
 
 SELECT @user2 = user2
 FROM #temp2 results
-
-
- -- drop table #temp
- -- drop table #temp2
 
 INSERT INTO [PaymentType]
 ([UserId],
