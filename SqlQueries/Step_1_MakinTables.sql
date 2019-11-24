@@ -81,12 +81,11 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'ProductOrder')
 	CREATE TABLE [ProductOrder]
 	(
 		[Id] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-		[SellerId] UNIQUEIDENTIFIER not null,
 		[ProductId] UNIQUEIDENTIFIER not null,
 		[OrderId] UNIQUEIDENTIFIER not null,
 		[Quantity] Int not null,
 		[IsShipped] Bit not null,
-		[ShippedDate] DateTime not null
+		[ShippedDate] DateTime null
 	)
 	END
 ELSE
