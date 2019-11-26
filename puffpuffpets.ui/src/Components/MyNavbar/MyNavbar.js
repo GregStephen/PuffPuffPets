@@ -126,7 +126,7 @@ class MyNavbar extends React.Component {
         </Navbar>
         <div>
                     <Modal isOpen={this.state.loginOpen} toggle={this.toggleModal}>
-                        <ModalHeader toggle={this.loginOpen}>Add Candy!</ModalHeader>
+                        <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
                         <LoginModal
                         toggleLogin={this.toggleLogin}                       
                         />
