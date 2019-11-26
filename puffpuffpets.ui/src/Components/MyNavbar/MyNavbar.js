@@ -10,14 +10,24 @@ import {
   DropdownMenu,
   DropdownToggle,
   DropdownItem,
+  Modal,
+  ModalHeader,
 } from 'reactstrap';
 
 import './MyNavbar.scss';
+import LoginModal from './LoginModal/LoginModal';
 
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
+    loginOpen: false,
   }
+
+  toggleLogin = () => {
+    this.setState(prevState => ({
+      loginOpen: !prevState.loginOpen,
+    }));
+}
 
   displayUnauthedNav = () => {
     return <UncontrolledDropdown nav inNavbar>
@@ -26,10 +36,10 @@ class MyNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                <Link to={'/userprofile'}/*Login Modal here*/>Log In to Existing</Link>
+                <button onClick={this.toggleLogin}/*Login Modal here*/>Log In to Existing</button>
                 </DropdownItem>
                 <DropdownItem>
-                  <Link to={'/userprofile'}/*Create Account Modal here*/>Create New Account</Link>
+                  <button to={'/userprofile'}/*Create Account Modal here*/>Create New Account</button>
                 </DropdownItem>                
               </DropdownMenu>
             </UncontrolledDropdown>;
@@ -114,6 +124,14 @@ class MyNavbar extends React.Component {
             {buildNavbar()}
           </Collapse>
         </Navbar>
+        <div>
+                    <Modal isOpen={this.state.loginOpen} toggle={this.toggleModal}>
+                        <ModalHeader toggle={this.loginOpen}>Add Candy!</ModalHeader>
+                        <LoginModal
+                        toggleLogin={this.toggleLogin}                       
+                        />
+                    </Modal>
+                </div>
       </div>
     );
   }
