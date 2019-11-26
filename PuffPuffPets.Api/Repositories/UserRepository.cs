@@ -35,6 +35,19 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE ([Password] = @password AND [Email] = @email)";
+                var parameters = new { email, password };
+                var user = db.QueryFirst<User>(sql, parameters);
+                return user;
+            }
+        }
+
         public bool UserNameCheck(string newUserNameCheck)
         {
             using (var db = new SqlConnection(_connectionString))

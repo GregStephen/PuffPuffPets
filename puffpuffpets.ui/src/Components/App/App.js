@@ -23,10 +23,18 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 };
 
 const defaultUser = {
+  UserName: '',
   FirstName: '',
   LastName: '',
+  IsSeller: false,
+  Password: '',
   Email: '',
-  AcctType: 'buyer' /*Buyer or Seller*/
+  BusinessName: null,
+  AddressLine1: '',
+  AddresLine2: '',
+  City: '',
+  State: '',
+  ZipCode: ''
 };
 
 class App extends React.Component {
@@ -61,7 +69,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
-          <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut }/>
+          <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } userLoggedIn={ this.userLoggedIn}/>
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn }/>
               <PublicRoute path='/home' component={ Home } authed={ authed } userLoggedIn = { this.userLoggedIn }/>

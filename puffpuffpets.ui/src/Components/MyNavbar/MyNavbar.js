@@ -16,18 +16,26 @@ import {
 
 import './MyNavbar.scss';
 import LoginModal from './LoginModal/LoginModal';
+import CreateAcctModal from './CreateAcctModal/CreateAcctModal';
 
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
     loginOpen: false,
+    createAccountModal: false,
   }
 
   toggleLogin = () => {
     this.setState(prevState => ({
       loginOpen: !prevState.loginOpen,
     }));
-}
+  }
+
+  toggleCreateAccount = () => {
+    this.setState(prevState => ({
+      createAccountModal: !prevState.createAccountModal,
+    }));
+  }
 
   displayUnauthedNav = () => {
     return <UncontrolledDropdown nav inNavbar>
@@ -36,10 +44,10 @@ class MyNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                <button onClick={this.toggleLogin}/*Login Modal here*/>Log In to Existing</button>
+                  <button onClick={this.toggleLogin}/*Login Modal here*/>Log In to Existing</button>
                 </DropdownItem>
                 <DropdownItem>
-                  <button to={'/userprofile'}/*Create Account Modal here*/>Create New Account</button>
+                  <button onClick={this.toggleCreateAccount}/*Create Account Modal here*/>Create New Account</button>
                 </DropdownItem>                
               </DropdownMenu>
             </UncontrolledDropdown>;
@@ -83,6 +91,10 @@ class MyNavbar extends React.Component {
     });
   }
 
+  logMeIn = (user) => {
+    this.props.userLoggedIn(user);
+  }
+
   logMeOut = (e) => {
     e.preventDefault();
     this.props.userLoggedOut();
@@ -90,14 +102,15 @@ class MyNavbar extends React.Component {
 
   render() {
     const buildNavbar = () => {
-      if (this.props.authed === false)
+      const {authed, userObj} = this.props;
+      if (!authed)
       {
         return (
           <Nav className="ml-auto" navbar>
             {this.displayUnauthedNav()}
           </Nav>
         );
-      } else if (this.props.authed === true && this.props.userObj.AcctType === 'buyer')
+      } else if (authed && !userObj.IsSeller)
       {
         return (
           <Nav className="ml-auto" navbar>
@@ -105,7 +118,7 @@ class MyNavbar extends React.Component {
           </Nav>
         );
       }
-      else if (this.props.authed === true && this.props.userObj.AcctType === 'seller')
+      else if (authed && userObj.IsSeller)
       {
         return (
           <Nav className="ml-auto" navbar>
@@ -125,13 +138,23 @@ class MyNavbar extends React.Component {
           </Collapse>
         </Navbar>
         <div>
-                    <Modal isOpen={this.state.loginOpen} toggle={this.toggleModal}>
-                        <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
-                        <LoginModal
-                        toggleLogin={this.toggleLogin}                       
-                        />
-                    </Modal>
-                </div>
+          <Modal isOpen={this.state.loginOpen} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
+              <LoginModal
+              toggleLogin={this.toggleLogin} 
+              logMeIn={this.logMeIn}                      
+              />
+          </Modal>
+        </div>
+        <div>
+          <Modal isOpen={this.state.createAccountModal} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.toggleCreateAccount}>Create Account!</ModalHeader>
+              <CreateAcctModal
+              toggleCreateAccount={this.toggleCreateAccount}
+              logMeIn={this.logMeIn}
+              />
+          </Modal>
+        </div>
       </div>
     );
   }

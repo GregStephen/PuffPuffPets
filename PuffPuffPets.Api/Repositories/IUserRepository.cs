@@ -11,6 +11,7 @@ namespace PuffPuffPets.Api.Repositories
     {
         IEnumerable<User> GetAllUsers();
         User GetUserById(Guid userId);
+        User GetUserByEmailAndPassword(string email, string password);
         bool AddNewUser(AddNewUserDto newUser);
         bool DeleteUser(Guid userId);
     }

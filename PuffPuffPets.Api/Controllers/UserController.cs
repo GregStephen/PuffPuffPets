@@ -36,6 +36,12 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetUserById(userId);
         }
 
+        [HttpGet("{email}/p/{password}")]
+        public User Get(string email, string password)
+        {
+            return _repo.GetUserByEmailAndPassword(email, password);
+        }
+
         [HttpPost]
         public IActionResult AddUser(AddNewUserDto newUser)
         {
