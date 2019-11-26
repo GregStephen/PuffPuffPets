@@ -3,7 +3,11 @@ import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
 
+import Auth from '../Auth/Auth';
 import Home from '../Home/Home';
+import MyNavbar from '../MyNavbar/MyNavbar';
+import UserRequests from '../../Helpers/Data/UserRequests';
+import SellerHome from '../SellerHome/SellerHome';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -14,31 +18,55 @@ const PublicRoute = ({ component: Component, authed, ...rest }) => {
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
+  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/sellerhome', state: { from: props.location } }} />);
   return <Route render={props => routeChecker(props)} />;
+};
+
+const defaultUser = {
+  FirstName: '',
+  LastName: '',
+  Email: '',
+  AcctType: 'buyer' /*Buyer or Seller*/
 };
 
 class App extends React.Component {
   state = {
-    authed: true,
-    testText: "This text is to make sure you can pass other props from App to your child components. You can delete this."
+    authed: false,
+    userObj: defaultUser,
   };
 
-  componentDidMount() {
+  userLoggedIn = (user) => {
+    this.setState({
+      authed : true,
+      userObj : user})
   }
 
-  componentWillUnmount() {
+  userLoggedOut = () => {
+    this.setState({
+      authed : false,
+      userObj : defaultUser})
+  }
+
+  refreshUserObj = () => {
+    const {userObj} = this.state;
+    UserRequests.getUserById(userObj.id)
+      .then((refreshedUserObj) => {
+        this.setState({ userObj : refreshedUserObj })
+      })
+      .catch()
   }
 
   render() {
-    const authed = this.state.authed;
-    const testText = this.state.testText;
+    const { authed, userObj } = this.state;
     return (
       <div className="App">
         <Router>
+          <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut }/>
             <Switch>
-              {/* <PublicRoute path="/auth" component={Auth} authed={authed} /> */}
-              <PrivateRoute path="/" exact component={Home} authed={authed} testText={testText}/>
+              <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn }/>
+              <PublicRoute path='/home' component={ Home } authed={ authed } userLoggedIn = { this.userLoggedIn }/>
+              <PrivateRoute path='/sellerhome' exact component={ SellerHome } authed={ authed } userObj={ userObj }/>
+              <Redirect from='*' to='/home'/>
             </Switch>
         </Router>
       </div>

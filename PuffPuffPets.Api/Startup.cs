@@ -29,7 +29,12 @@ namespace PuffPuffPets.Api
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
+<<<<<<< HEAD
             services.AddScoped<IOrderRepository, OrderRepository>();
+=======
+            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+>>>>>>> master
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
