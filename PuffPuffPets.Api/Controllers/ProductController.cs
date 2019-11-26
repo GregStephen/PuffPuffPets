@@ -56,9 +56,9 @@ namespace PuffPuffPets.Api.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public IActionResult EditProduct(Guid ProductId)
+        public IActionResult EditProduct(EditProductDto editedProduct, Guid id)
         {
-            _repo.EditProduct(ProductId);
+            _repo.EditProduct(editedProduct, id);
             return Ok();
         }
 

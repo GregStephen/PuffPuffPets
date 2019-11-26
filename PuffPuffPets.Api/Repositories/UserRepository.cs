@@ -35,12 +35,66 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE ([Password] = @password AND [Email] = @email)";
+                var parameters = new { email, password };
+                var user = db.QueryFirst<User>(sql, parameters);
+                return user;
+            }
+        }
+
+        public bool UserNameCheck(string newUserNameCheck)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE [UserName] = @newUserNameCheck";
+                var parameters = new { newUserNameCheck };
+                var userNamesComesBack = db.Query<User>(sql, parameters);
+                if (userNamesComesBack.Count() != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool UserEmailCheck(string newUserEmailCheck)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE [Email] = @newUserEmailCheck";
+                var parameters = new { newUserEmailCheck };
+                var userEmailComesBack = db.Query<User>(sql, parameters);
+                if (userEmailComesBack.Count() != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool AddNewUser(AddNewUserDto newUser)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                // needs to do a check to see if the username already exists
-                // needs to do a check to see if the email already exits
+                var userNameExists = UserNameCheck(newUser.UserName);
+                var userEmailExists = UserEmailCheck(newUser.Email);
+                // if either of these are true then STOP 
                 var addressRepo = new AddressRepository();
                 var newAddress = new AddAddressDto();
                 newAddress.AddressLine1 = newUser.AddressLine1;
