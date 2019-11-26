@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Form, Label, Input, Button, ModalBody,FormGroup, ModalFooter, Row, Col, CustomInput, Collapse,
 } from 'reactstrap';
-import UserRequests from '../../../Helpers/Data/UserRequests';
 
 const defaultUser = {
   UserName: '',
@@ -57,17 +56,8 @@ class CreateAcctModal extends React.Component {
     e.preventDefault();
     const { newUser } = this.state;
     newUser.DateCreated = new Date();
-    UserRequests.addUser(newUser)
-      .then(() => {
-        var Password = newUser.Password;
-        var Email = newUser.Email;
-        UserRequests.logInUser(Email, Password)
-          .then((user) => {
-            this.props.logMeIn(user)
-          });
-      })
-      .catch();
-      this.toggleModal();
+    this.props.logMeIn(newUser);
+    this.toggleModal();
   }
 
   formFieldStringState = (e) => {

@@ -17,6 +17,7 @@ import {
 import './MyNavbar.scss';
 import LoginModal from './LoginModal/LoginModal';
 import CreateAcctModal from './CreateAcctModal/CreateAcctModal';
+import UserRequests from '../../Helpers/Data/UserRequests';
 
 class MyNavbar extends React.Component {
   state = {
@@ -91,9 +92,22 @@ class MyNavbar extends React.Component {
     });
   }
 
-  logMeIn = (user) => {
+  loggedIn = (user) => {
     this.props.userLoggedIn(user);
-    console.error('to navbar', user);
+  }
+
+  logMeIn = (newUser) => {
+    UserRequests.addUser(newUser)
+    .then(() => {
+      var Password = newUser.Password;
+      var Email = newUser.Email;
+      UserRequests.logInUser(Email, Password)
+        .then((user) => {
+          console.error('logged in');
+          this.props.userLoggedIn(user)
+        });
+    })
+    .catch();
   }
 
   logMeOut = (e) => {
@@ -143,7 +157,7 @@ class MyNavbar extends React.Component {
               <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
               <LoginModal
               toggleLogin={this.toggleLogin} 
-              logMeIn={this.logMeIn}                      
+              loggedIn={this.loggedIn}                      
               />
           </Modal>
         </div>

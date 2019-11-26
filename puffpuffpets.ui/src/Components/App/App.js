@@ -12,13 +12,13 @@ import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
+  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/sellerhome', state: { from: props.location } }} />);
   return <Route render={props => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/sellerhome', state: { from: props.location } }} />);
+  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
   return <Route render={props => routeChecker(props)} />;
 };
 
@@ -39,12 +39,11 @@ const defaultUser = {
 
 class App extends React.Component {
   state = {
-    authed: false,
+    authed: true,
     userObj: defaultUser,
   };
 
   userLoggedIn = (user) => {
-    console.error('to app', user)
     this.setState({
       authed : true,
       userObj : user})
@@ -76,7 +75,7 @@ class App extends React.Component {
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn }/>
               <PublicRoute path='/home' component={ Home } authed={ authed } userLoggedIn = { this.userLoggedIn }/>
-              <PrivateRoute path='/sellerhome' exact component={ SellerHome } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/sellerhome' component={ SellerHome } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/home'/>
             </Switch>
         </Router>
