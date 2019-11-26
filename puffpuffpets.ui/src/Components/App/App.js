@@ -44,6 +44,7 @@ class App extends React.Component {
   };
 
   userLoggedIn = (user) => {
+    console.error('to app', user)
     this.setState({
       authed : true,
       userObj : user})
@@ -63,7 +64,9 @@ class App extends React.Component {
       })
       .catch()
   }
-
+  componentDidMount() {
+  }
+  
   render() {
     const { authed, userObj } = this.state;
     return (

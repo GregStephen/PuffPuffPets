@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:443322/api/user'
+const baseUrl = 'https://localhost:44332/api/user'
 
 
 const getAllUsers = () => new Promise((resolve, reject) => {

@@ -16,7 +16,8 @@ const defaultUser = {
   AddressLine2: '',
   City: '',
   State: '',
-  ZipCode: ''
+  ZipCode: '',
+  DateCreated: '',
 };
 
 class CreateAcctModal extends React.Component {
@@ -55,6 +56,7 @@ class CreateAcctModal extends React.Component {
   formSubmit = (e) => {
     e.preventDefault();
     const { newUser } = this.state;
+    newUser.DateCreated = new Date();
     UserRequests.addUser(newUser)
       .then(() => {
         var Password = newUser.Password;

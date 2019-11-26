@@ -93,6 +93,7 @@ class MyNavbar extends React.Component {
 
   logMeIn = (user) => {
     this.props.userLoggedIn(user);
+    console.error('to navbar', user);
   }
 
   logMeOut = (e) => {
