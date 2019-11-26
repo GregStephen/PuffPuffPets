@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import SellerHome from '../SellerHome/SellerHome';
+import CustomerHome from '../CustomerHome/CustomerHome';
+
 import './Home.scss';
 
 class Home extends Component {
 
   render () {
+    const {userObj} = this.props;
     return (
       <div className="Home">
-          <button className="btn btn-success">Bootstrap Button</button>
-          <h1>USER/UNAUTHED HOMEPAGE</h1>
+        {userObj.isSeller ? <SellerHome userObj={userObj}/> 
+        : <CustomerHome userObj={userObj}/>}
       </div>
     );
   }

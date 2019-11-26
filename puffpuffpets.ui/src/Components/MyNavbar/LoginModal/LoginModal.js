@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  Form, ModalBody, ModalFooter, Button,
+  Form, ModalBody, ModalFooter, Button, FormGroup, Input, Label
 } from 'reactstrap';
-import UserRequests from '../../../Helpers/Data/UserRequests';
 
 class LoginModal extends React.Component {
   state = {
@@ -18,10 +17,7 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const {email, password} = this.state;
     const { loggedIn } = this.props;
-    UserRequests.logInUser(email,password)
-      .then((user) => {
-        loggedIn(user);
-      }).catch()
+    loggedIn(email,password);
     this.toggleModal();
   }
 
@@ -32,38 +28,35 @@ class LoginModal extends React.Component {
 };
 
   render() {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
+    const { error } = this.props;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
           <ModalBody>
-          <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={this.handleChange}
-              placeholder="John@puffpuffpets.com"
-              required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={this.handleChange}
-              required
-              />
-            </div>            
+          <FormGroup>
+              <Label for="email">Email</Label>
+              <Input
+                type="input"
+                name="email"
+                id="email"
+                value={email}
+                onChange={this.handleChange}
+                required />
+              <Label for="[assword">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                onChange={this.handleChange}
+                required />
+            </FormGroup>            
           </ModalBody>
           <ModalFooter>
          <Button type="submit" color="primary">Login</Button>{' '}
          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+         <p>{error}</p>
        </ModalFooter>
         </Form>
       </div>

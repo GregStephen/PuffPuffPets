@@ -95,6 +95,10 @@ namespace PuffPuffPets.Api.Repositories
                 var userNameExists = UserNameCheck(newUser.UserName);
                 var userEmailExists = UserEmailCheck(newUser.Email);
                 // if either of these are true then STOP 
+                if (userNameExists || userEmailExists)
+                {
+                    return false;
+                }
                 var addressRepo = new AddressRepository();
                 var newAddress = new AddAddressDto();
                 newAddress.AddressLine1 = newUser.AddressLine1;
