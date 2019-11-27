@@ -6,6 +6,7 @@ import {
 import Auth from '../Auth/Auth';
 import Home from '../Home/Home';
 import MyNavbar from '../MyNavbar/MyNavbar';
+import UserProfile from '../UserProfile/UserProfile'
 import UserRequests from '../../Helpers/Data/UserRequests';
 import './App.scss';
 
@@ -73,7 +74,8 @@ class App extends React.Component {
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } userLoggedIn={ this.userLoggedIn}/>
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed }/>
-              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={userObj}/>
+              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>

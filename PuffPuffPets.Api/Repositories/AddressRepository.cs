@@ -34,6 +34,30 @@ namespace PuffPuffPets.Api.Repositories
                 return db.Execute(sql, newAddress) == 1;
             }
         }
+        public IEnumerable<Address> GetAddressesByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [UserAddress]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                var addresses = db.Query<Address>(sql, parameters);
+                return addresses;
+            }
+        }
+
+        public Address GetPreferredAddressOfUserByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [UserAddress]
+                            WHERE ([UserId] = @userId AND [Preferred] = 1)";
+                var parameters = new { userId };
+                return db.QueryFirst<Address>(sql, parameters);
+            }
+        }
         public void DeleteUserAddresses(Guid userId)
         {
             using (var db = new SqlConnection(_connectionString))

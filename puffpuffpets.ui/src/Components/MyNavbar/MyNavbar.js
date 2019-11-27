@@ -62,7 +62,7 @@ class MyNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                  <Link to={'/userprofile'}>User Profile</Link>
+                  <Link to={'/user'}>User Profile</Link>
                 </DropdownItem>                
                 <DropdownItem onClick={this.logMeOut}>
                     Log Out

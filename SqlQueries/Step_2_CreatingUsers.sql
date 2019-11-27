@@ -63,22 +63,26 @@ WHERE FirstName = 'David'
 
 INSERT INTO [UserAddress]
 ([UserId],
+[Preferred],
 [AddressLine1],
 [City],
 [State],
 [ZipCode])
 VALUES
 (@user1,
+1,
 '123 Fake Street',
 'Nashville',
 'TN',
 '37213'),
 (@user2,
+1,
 '420 High Avenue',
 'Antioch',
 'TN',
 '37013'),
 (@user3,
+1,
 '6969 Freek Street',
 'McMinnville',
 'TN',
