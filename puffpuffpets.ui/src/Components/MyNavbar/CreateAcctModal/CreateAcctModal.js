@@ -22,7 +22,6 @@ const defaultUser = {
 class CreateAcctModal extends React.Component {
   state = {
     newUser: defaultUser,
-    error: '',
     collapse: false,
     status: 'Closed',
   }
@@ -56,7 +55,7 @@ class CreateAcctModal extends React.Component {
     e.preventDefault();
     const { newUser } = this.state;
     newUser.DateCreated = new Date();
-    this.props.logMeIn(newUser);
+    this.props.createNewUser(newUser);
     this.toggleModal();
   }
 
@@ -74,7 +73,8 @@ class CreateAcctModal extends React.Component {
   }
 
   render() {
-    const { newUser, error } = this.state;
+    const { newUser } = this.state;
+    const { error } = this.props;
     return (
       <div className="CreateAcctModal container">
         <Form className="row justify-content-center" onSubmit={this.formSubmit}>
@@ -216,6 +216,7 @@ class CreateAcctModal extends React.Component {
           <ModalFooter>
             <Button type="submit" color="primary">Create Account</Button>{' '}
             <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+            <p>{error}</p>
           </ModalFooter>
         </Form>
       </div>

@@ -24,6 +24,7 @@ class MyNavbar extends React.Component {
     isOpen: false,
     loginOpen: false,
     createAccountModal: false,
+    error: '',
   }
 
   toggleLogin = () => {
@@ -57,7 +58,7 @@ class MyNavbar extends React.Component {
   displayBuyerNav = () => {
     return <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                Username
+              {this.props.userObj.userName}
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
@@ -73,7 +74,7 @@ class MyNavbar extends React.Component {
   displaySellerNav = () => {
     return <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                Username
+                {this.props.userObj.userName}
               </DropdownToggle>
               <DropdownMenu right>                
                 <DropdownItem>
@@ -92,22 +93,20 @@ class MyNavbar extends React.Component {
     });
   }
 
-  loggedIn = (user) => {
-    this.props.userLoggedIn(user);
+  loggedIn = (email, password) => {
+    UserRequests.logInUser(email, password)
+      .then((user) => {
+        this.props.userLoggedIn(user)
+      })
+      .catch(err => this.setState({ error: err}));
   }
 
-  logMeIn = (newUser) => {
+  createNewUser = (newUser) => {
     UserRequests.addUser(newUser)
     .then(() => {
-      var Password = newUser.Password;
-      var Email = newUser.Email;
-      UserRequests.logInUser(Email, Password)
-        .then((user) => {
-          console.error('logged in');
-          this.props.userLoggedIn(user)
-        });
+      this.loggedIn(newUser.Email, newUser.Password)
     })
-    .catch();
+    .catch(err => this.setState({ error: err}));
   }
 
   logMeOut = (e) => {
@@ -116,8 +115,9 @@ class MyNavbar extends React.Component {
   };
 
   render() {
+    const { error } = this.state;
     const buildNavbar = () => {
-      const {authed, userObj} = this.props;
+      const { authed, userObj } = this.props;
       if (!authed)
       {
         return (
@@ -125,7 +125,7 @@ class MyNavbar extends React.Component {
             {this.displayUnauthedNav()}
           </Nav>
         );
-      } else if (authed && !userObj.IsSeller)
+      } else if (authed && !userObj.isSeller)
       {
         return (
           <Nav className="ml-auto" navbar>
@@ -133,7 +133,7 @@ class MyNavbar extends React.Component {
           </Nav>
         );
       }
-      else if (authed && userObj.IsSeller)
+      else if (authed && userObj.isSeller)
       {
         return (
           <Nav className="ml-auto" navbar>
@@ -146,7 +146,7 @@ class MyNavbar extends React.Component {
     return (
       <div className="MyNavbar">
         <Navbar dark color="dark" expand="md">
-          <NavbarBrand className="navbar-brand" tag={RRNavLink} to='/home'>Puff Puff Parrots</NavbarBrand>
+          <NavbarBrand className="navbar-brand" tag={RRNavLink} to='/home'>Puff Puff Pets</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
@@ -157,7 +157,8 @@ class MyNavbar extends React.Component {
               <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
               <LoginModal
               toggleLogin={this.toggleLogin} 
-              loggedIn={this.loggedIn}                      
+              loggedIn={this.loggedIn}  
+              error={error}                    
               />
           </Modal>
         </div>
@@ -166,7 +167,8 @@ class MyNavbar extends React.Component {
               <ModalHeader toggle={this.toggleCreateAccount}>Create Account!</ModalHeader>
               <CreateAcctModal
               toggleCreateAccount={this.toggleCreateAccount}
-              logMeIn={this.logMeIn}
+              createNewUser={this.createNewUser}
+              error={error}
               />
           </Modal>
         </div>

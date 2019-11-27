@@ -7,18 +7,17 @@ import Auth from '../Auth/Auth';
 import Home from '../Home/Home';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import UserRequests from '../../Helpers/Data/UserRequests';
-import SellerHome from '../SellerHome/SellerHome';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/sellerhome', state: { from: props.location } }} />);
+  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
   return <Route render={props => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
+  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
   return <Route render={props => routeChecker(props)} />;
 };
 
@@ -39,7 +38,7 @@ const defaultUser = {
 
 class App extends React.Component {
   state = {
-    authed: true,
+    authed: false,
     userObj: defaultUser,
   };
 
@@ -73,10 +72,9 @@ class App extends React.Component {
         <Router>
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } userLoggedIn={ this.userLoggedIn}/>
             <Switch>
-              <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn }/>
-              <PublicRoute path='/home' component={ Home } authed={ authed } userLoggedIn = { this.userLoggedIn }/>
-              <PrivateRoute path='/sellerhome' component={ SellerHome } authed={ authed } userObj={ userObj }/>
-              <Redirect from='*' to='/home'/>
+              <PublicRoute path='/auth' component={ Auth } authed={ authed }/>
+              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={userObj}/>
+              <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
       </div>
