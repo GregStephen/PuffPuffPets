@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PuffPuffPets.Api.DataModels;
-using PuffPuffPets.Api.Dtos;
 using PuffPuffPets.Api.Repositories;
 
 namespace PuffPuffPets.Api.Controllers
@@ -43,7 +42,7 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpPost]
-        public void Add(AddOrderDto newOrder)
+        public void Add(Order newOrder)
         {
             _repo.AddNewOrder(newOrder);
         }

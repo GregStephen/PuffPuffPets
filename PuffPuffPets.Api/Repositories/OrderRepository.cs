@@ -13,7 +13,7 @@ namespace PuffPuffPets.Api.Repositories
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 
-        public bool AddNewOrder(AddOrderDto newOrder)
+        public bool AddNewOrder(Order newOrder)
         {
             using (var db = new SqlConnection(_connectionString))
             {

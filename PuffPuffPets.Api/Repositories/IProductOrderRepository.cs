@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace PuffPuffPets.Api.Repositories
 {
-    interface IProductOrder
+    public interface IProductOrderRepository
     {
         IEnumerable<ProductOrder> GetAllProductOrders();
-        IEnumerable<ProductOrder> GetProductOrdersByUserId(Guid userId);
+        IEnumerable<Order_ProductOrder> GetProductOrdersByUserId(Guid userId);
         ProductOrder GetProductOrderById(Guid productOrderId);
-        bool AddNewProductOrder(IProductOrder newProductOrder);
+        bool AddNewProductOrder(ProductOrder newProductOrder);
         bool DeleteProductOrder(Guid productOrderId);
-        bool EditProductOrder(Guid productOrderId);
+        ProductOrder EditProductOrder(ProductOrder updatedProductOrder, Guid productOrderId);
     }
 }

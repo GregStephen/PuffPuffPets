@@ -30,15 +30,15 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpGet("{productOrderId}")]
-        public ProductOrder GetProductOrderById(Guid orderId)
+        public ProductOrder GetProductOrderById(Guid productOrderId)
         {
-            return _repo.GetProductOrderById(orderId);
+            return _repo.GetProductOrderById(productOrderId);
         }
 
         [HttpGet("user/{userId}")]
-        public IEnumerable<ProductOrder> GetByUserId(Guid userId)
+        public IEnumerable<Order_ProductOrder> GetByUserId(Guid userId)
         {
-            return _repo.GetOrdersByUserId(userId).Where(productOrder => productOrder.UserId == userId);
+            return _repo.GetProductOrdersByUserId(userId);
         }
 
         [HttpPost]
