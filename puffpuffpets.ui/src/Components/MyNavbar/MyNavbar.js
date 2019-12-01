@@ -118,6 +118,7 @@ class MyNavbar extends React.Component {
     const { error } = this.state;
     const buildNavbar = () => {
       const { authed, userObj } = this.props;
+      const myOrders = `/myOrders/${userObj.id}`;
       if (!authed)
       {
         return (
@@ -129,6 +130,7 @@ class MyNavbar extends React.Component {
       {
         return (
           <Nav className="ml-auto" navbar>
+            <Link tag={RRNavLink} to={myOrders}>Product Orders</Link>
             {this.displayBuyerNav()}
           </Nav>
         );
