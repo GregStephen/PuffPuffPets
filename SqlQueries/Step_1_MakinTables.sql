@@ -66,7 +66,7 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'UserAddress')
 	(
 		[Id] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
 		[UserId] UNIQUEIDENTIFIER not null,
-		[Preferred] BIT not null,
+		[IsPreferred] BIT not null,
 		[AddressLine1] NVARCHAR(255) not null,
 		[AddressLine2] NVARCHAR(255) null,
 		[City] NVARCHAR(255) not null,

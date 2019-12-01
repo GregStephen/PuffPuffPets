@@ -8,7 +8,7 @@ using Dapper;
 using PuffPuffPets.Api.Dtos;
 namespace PuffPuffPets.Api.Repositories
 {
-    public class AddressRepository
+    public class AddressRepository : IAddressRepository
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 

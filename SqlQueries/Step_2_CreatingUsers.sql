@@ -45,25 +45,21 @@ VALUES
 'HeyMyNameIsDavid123',
 'Lets Fuck Up Pets Inc.')
 
-SELECT *
-INTO #tempUser
-FROM [User]
-
 SELECT @user1 = [Id]
-FROM #tempUser results
+FROM [User]
 WHERE FirstName = 'Austin'
 
 SELECT @user2 = [Id]
-FROM #tempUser results
+FROM [User]
 WHERE FirstName = 'Calvin'
 
 SELECT @user3 = [Id]
-FROM #tempUser results
+FROM [User] results
 WHERE FirstName = 'David'
 
 INSERT INTO [UserAddress]
 ([UserId],
-[Preferred],
+[IsPreferred],
 [AddressLine1],
 [City],
 [State],
@@ -75,6 +71,12 @@ VALUES
 'Nashville',
 'TN',
 '37213'),
+(@user1,
+0,
+'321 Real Street',
+'New York City',
+'NY',
+'81234'),
 (@user2,
 1,
 '420 High Avenue',

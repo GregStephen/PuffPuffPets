@@ -1,4 +1,5 @@
 import React from 'react';
+import AddressRequests from '../../Helpers/Data/AddressRequests';
 import './UserProfile.scss';
 
 const defaultAddress = {
@@ -12,9 +13,17 @@ const defaultAddress = {
 class UserProfile extends React.Component {
   state = {
     preferredAddress: defaultAddress,
+    allAddresses: [],
   }
   componentDidMount() {
-    // need to call database to get preferred address from userObj and then setstate with it to display
+    const {userObj} = this.props;
+    AddressRequests.getAllAddressesByUserId(userObj.id)
+      .then((results) => {
+        this.setState({ allAddresses: results });
+        const prefAddress = results.filter(address => address.isPreferred === true);
+        this.setState({ preferredAddress: prefAddress[0] });
+      })
+      .catch(err => console.error(err));
   }
   render() {
     const { preferredAddress } = this.state;
