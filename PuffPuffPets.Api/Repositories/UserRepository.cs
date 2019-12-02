@@ -106,6 +106,7 @@ namespace PuffPuffPets.Api.Repositories
                 newAddress.City = newUser.City;
                 newAddress.State = newUser.State;
                 newAddress.ZipCode = newUser.ZipCode;
+                newAddress.IsPreferred = true;
                 var sql = @"
                             INSERT INTO [User]
                                 ([IsSeller],

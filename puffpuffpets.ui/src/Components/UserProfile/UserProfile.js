@@ -32,6 +32,11 @@ class UserProfile extends React.Component {
     return (
       <div className="UserProfile">
         <h1>Hey {userObj.firstName} {userObj.lastName}</h1>
+        <p>Preferred Address:</p>
+        <p>{preferredAddress.addressLine1}</p>
+        {preferredAddress.addressLine2 != null 
+        ? <p>{preferredAddress.addressLine2}</p>
+        : ''}
         <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
         <button className='btn btn-info'>Change Personal Info</button>
       </div>
