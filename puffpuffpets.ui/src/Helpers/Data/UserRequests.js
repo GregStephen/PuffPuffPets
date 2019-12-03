@@ -25,8 +25,15 @@ const editUser = (editedUser) => new Promise((resolve, reject) => {
     axios.put(`${baseUrl}`, editedUser)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
-})
+});
+
 const addUser = userObj => axios.post(`${baseUrl}`, userObj);
+
+const deleteUser = uid => new Promise((resolve, reject) => {
+    axios.delete(`${baseUrl}/${uid}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+});
 
 export default {
     getAllUsers,
@@ -34,4 +41,5 @@ export default {
     addUser,
     logInUser,
     editUser,
+    deleteUser,
 };

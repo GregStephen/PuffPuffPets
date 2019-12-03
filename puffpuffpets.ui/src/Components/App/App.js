@@ -63,6 +63,14 @@ class App extends React.Component {
       .catch(err => console.error(err));
   }
   
+  deleteThisUser = () => {
+    const {userObj} = this.state;
+    UserRequests.deleteUser(userObj.id)
+      .then(() => {
+        this.userLoggedOut();
+      })
+      .catch(err => console.error(err));
+  }
   refreshUserObj = () => {
     const {userObj} = this.state;
     UserRequests.getUserById(userObj.id)
@@ -84,7 +92,7 @@ class App extends React.Component {
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed }/>
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
-              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser}/>
+              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser} deleteThisUser={this.deleteThisUser}/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
