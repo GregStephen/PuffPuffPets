@@ -53,17 +53,26 @@ class App extends React.Component {
   userLoggedOut = () => {
     this.setState({
       authed : false,
-      userObj : defaultUser})
+      userObj : defaultUser })
   }
 
+  editThisUser = (userToEdit) => {
+    UserRequests.editUser(userToEdit)
+      .then(() => {
+        this.refreshUserObj();
+      })
+      .catch(err => console.error(err));
+  }
+  
   refreshUserObj = () => {
     const {userObj} = this.state;
     UserRequests.getUserById(userObj.id)
       .then((refreshedUserObj) => {
         this.setState({ userObj : refreshedUserObj })
       })
-      .catch()
+      .catch(err => console.error(err));
   }
+
   componentDidMount() {
   }
   
