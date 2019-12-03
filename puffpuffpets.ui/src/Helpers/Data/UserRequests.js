@@ -21,12 +21,17 @@ const logInUser = (email, password) => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
+const editUser = (editedUser) => new Promise((resolve, reject) => {
+    axios.put(`${baseUrl}`, editedUser)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+})
 const addUser = userObj => axios.post(`${baseUrl}`, userObj);
 
 export default {
     getAllUsers,
     getUserById,
     addUser,
-    logInUser
+    logInUser,
+    editUser,
 };
-
