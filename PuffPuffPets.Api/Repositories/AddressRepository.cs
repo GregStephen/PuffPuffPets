@@ -8,7 +8,7 @@ using Dapper;
 using PuffPuffPets.Api.Dtos;
 namespace PuffPuffPets.Api.Repositories
 {
-    public class AddressRepository
+    public class AddressRepository : IAddressRepository
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 
@@ -23,15 +23,41 @@ namespace PuffPuffPets.Api.Repositories
                                  [AddressLine2],
                                  [City],
                                  [State],
-                                 [ZipCode])
+                                 [ZipCode],
+                                 [IsPreferred])
                             VALUES
                                 (@userId,
                                  @addressLine1,
                                  @addressLine2,
                                  @city,
                                  @state,
-                                 @zipCode)";
+                                 @zipCode,
+                                 @isPreferred)";
                 return db.Execute(sql, newAddress) == 1;
+            }
+        }
+        public IEnumerable<Address> GetAddressesByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [UserAddress]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                var addresses = db.Query<Address>(sql, parameters);
+                return addresses;
+            }
+        }
+
+        public Address GetPreferredAddressOfUserByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [UserAddress]
+                            WHERE ([UserId] = @userId AND [Preferred] = 1)";
+                var parameters = new { userId };
+                return db.QueryFirst<Address>(sql, parameters);
             }
         }
         public void DeleteUserAddresses(Guid userId)

@@ -28,6 +28,7 @@ namespace PuffPuffPets.Api
         {
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductOrderRepository, ProductOrderRepository>();

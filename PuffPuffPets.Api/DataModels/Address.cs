@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PuffPuffPets.Api.Dtos
+namespace PuffPuffPets.Api.DataModels
 {
-    public class AddAddressDto
+    public class Address
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
