@@ -6,6 +6,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  NavLink,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
@@ -130,7 +131,7 @@ class MyNavbar extends React.Component {
       {
         return (
           <Nav className="ml-auto" navbar>
-            <Link tag={RRNavLink} to={myOrders}>Product Orders</Link>
+            <NavLink tag={RRNavLink} to={myOrders}>Product Orders</NavLink>
             {this.displayBuyerNav()}
           </Nav>
         );
