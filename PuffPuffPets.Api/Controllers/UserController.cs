@@ -41,6 +41,19 @@ namespace PuffPuffPets.Api.Controllers
         {
             return _repo.GetUserByEmailAndPassword(email, password);
         }
+        [HttpPut]
+        public IActionResult EditUser(EditUserDto editUserDto)
+        {
+            var editedUser = editUserDto;
+            if(_repo.EditUser(editedUser))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpPost]
         public IActionResult AddUser(AddNewUserDto newUser)

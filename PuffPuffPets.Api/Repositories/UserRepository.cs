@@ -87,7 +87,20 @@ namespace PuffPuffPets.Api.Repositories
                 }
             }
         }
-
+        public bool EditUser(EditUserDto editedUser)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [User]
+                            SET 
+                                [UserName] = @userName,
+                                [FirstName] = @firstName,
+                                [LastName] = @lastName,
+                                [Email] = @email
+                            WHERE [Id] = @id";
+                return db.Execute(sql, editedUser) == 1;
+            }
+        }
         public bool AddNewUser(AddNewUserDto newUser)
         {
             using (var db = new SqlConnection(_connectionString))

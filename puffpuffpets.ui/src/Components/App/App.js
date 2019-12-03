@@ -52,17 +52,26 @@ class App extends React.Component {
   userLoggedOut = () => {
     this.setState({
       authed : false,
-      userObj : defaultUser})
+      userObj : defaultUser })
   }
 
+  editThisUser = (userToEdit) => {
+    UserRequests.editUser(userToEdit)
+      .then(() => {
+        this.refreshUserObj();
+      })
+      .catch(err => console.error(err));
+  }
+  
   refreshUserObj = () => {
     const {userObj} = this.state;
     UserRequests.getUserById(userObj.id)
       .then((refreshedUserObj) => {
         this.setState({ userObj : refreshedUserObj })
       })
-      .catch()
+      .catch(err => console.error(err));
   }
+
   componentDidMount() {
   }
   
@@ -75,7 +84,7 @@ class App extends React.Component {
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed }/>
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
-              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser}/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
