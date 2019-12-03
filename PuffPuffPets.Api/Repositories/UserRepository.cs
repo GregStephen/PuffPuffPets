@@ -161,13 +161,13 @@ namespace PuffPuffPets.Api.Repositories
             {
                 var addressRepo = new AddressRepository();
                 addressRepo.DeleteUserAddresses(userId);
-                //var paymentTypeRepo = new PaymentTypeRepository();
-                //paymentTypeRepo.DeleteUserPaymentTypes(userId);
+                var paymentTypeRepo = new PaymentTypeRepository();
+                paymentTypeRepo.DeleteAllPaymentTypesByUserId(userId);
                 var sql = @"UPDATE [User]
-                            SET [FirstName] = '',
-                                [LastName] = '',
-                                [Email] = '',
-                                [Password] = ''
+                            SET [FirstName] = 'DELETED',
+                                [LastName] = 'DELETED',
+                                [Email] = 'DELETED',
+                                [Password] = 'DELETED'
                             WHERE Id = @userId";
                 var parameters = new { userId };
                 return db.Execute(sql, parameters) == 1;

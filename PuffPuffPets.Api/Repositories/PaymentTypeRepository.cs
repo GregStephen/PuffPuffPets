@@ -66,5 +66,17 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public void DeleteAllPaymentTypesByUserId(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE
+                            FROM [PaymentType]
+                            WHERE [UserId] = @userId";
+                var parameters = new { userId };
+                db.Execute(sql, parameters);
+            }
+        }
+
     }
 }
