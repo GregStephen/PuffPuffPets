@@ -4,6 +4,7 @@ import {
   ModalHeader,
 } from 'reactstrap';
 import EditUserInfoModal from '../EditUserInfoModal/EditUserInfoModal';
+import DeleteUserModal from '../DeleteUserModal/DeleteUserModal';
 import AddressRequests from '../../Helpers/Data/AddressRequests';
 import './UserProfile.scss';
 
@@ -20,6 +21,7 @@ class UserProfile extends React.Component {
     preferredAddress: defaultAddress,
     allAddresses: [],
     editUserInfoModalIsOpen: false,
+    deleteUserModalIsOpen: false,
   }
 
   toggleEditUserInfo = () => {
@@ -28,10 +30,22 @@ class UserProfile extends React.Component {
     }));
   }
 
+  toggleDeleteUser = () => {
+    this.setState(prevState => ({
+      deleteUserModalIsOpen: !prevState.deleteUserModalIsOpen,
+    }));
+  }
+
   userEdited = (editedUser) => {
     const {editThisUser} = this.props;
     editThisUser(editedUser);
   }
+
+  userDeleted = () => {
+    const {deleteThisUser} = this.props;
+    deleteThisUser();
+  }
+
   componentDidMount() {
     const {userObj} = this.props;
     AddressRequests.getAllAddressesByUserId(userObj.id)
@@ -42,6 +56,7 @@ class UserProfile extends React.Component {
       })
       .catch(err => console.error(err));
   }
+
   render() {
     const { preferredAddress } = this.state;
     const { userObj } = this.props;
@@ -56,14 +71,22 @@ class UserProfile extends React.Component {
         : ''}
         <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
         <button className='btn btn-info' onClick={this.toggleEditUserInfo}>Change Personal Info</button>
-
+        <button className='btn btn-danger' onClick={this.toggleDeleteUser}>DELETE PROFILE</button>
         <div>
           <Modal isOpen={this.state.editUserInfoModalIsOpen} toggle={this.toggleModal}>
               <ModalHeader toggle={this.editUserInfoModalIsOpen}>Edit Account</ModalHeader>
               <EditUserInfoModal
-              toggleEditUserInfo= {this.toggleEditUserInfo} 
-              userObj= {userObj}  
-              userEdited = {this.userEdited}                 
+              toggleEditUserInfo = { this.toggleEditUserInfo } 
+              userObj = { userObj }  
+              userEdited = { this.userEdited }                 
+              />
+          </Modal>
+          <Modal isOpen={this.state.deleteUserModalIsOpen} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.deleteUserModalIsOpen}>Edit Account</ModalHeader>
+              <DeleteUserModal
+              toggleDeleteUser = { this.toggleDeleteUser } 
+              userObj = { userObj }
+              userDeleted = { this.userDeleted }                
               />
           </Modal>
         </div>
