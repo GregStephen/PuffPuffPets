@@ -31,7 +31,7 @@ const defaultUser = {
   Email: '',
   BusinessName: null,
   AddressLine1: '',
-  AddresLine2: '',
+  AddressLine2: '',
   City: '',
   State: '',
   ZipCode: ''
