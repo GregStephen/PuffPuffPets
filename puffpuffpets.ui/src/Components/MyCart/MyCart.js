@@ -21,7 +21,6 @@ class MyCart extends React.Component {
 
   sortDates = () => {
     const descendingDates = this.state.cartProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    console.error(this.state.cartProducts);
     return descendingDates;
   }
 

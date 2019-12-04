@@ -10,7 +10,9 @@ class CartCard extends React.Component {
       <div className="Cart col-3">
         <div className="cart-card card">
           <div className="card-body">
-            <h5 className="card-title">{cartProduct.id}123</h5>
+            <h3 className="card-title">{cartProduct.productId}</h3>
+            <h5>{cartProduct.userId}</h5>
+            <img src={cartProduct.imgUrl} alt="product"></img>
             <Link className="btn btn-warning" to={editLink}>Edit</Link>
           </div>
         </div>

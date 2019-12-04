@@ -51,7 +51,7 @@ WHERE userId = @userId2
 INSERT INTO ProductOrder
 (ProductId,
  OrderId,
- Quantity,
+ QuantityOrdered,
  IsShipped,
  ShippedDate)
 VALUES
