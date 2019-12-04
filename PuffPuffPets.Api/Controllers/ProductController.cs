@@ -17,9 +17,9 @@ namespace PuffPuffPets.Api.Controllers
 
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly ProductRepository _repo;
+        private readonly IProductRepository _repo;
 
-        public ProductController(ILogger<ProductController> logger, ProductRepository repo)
+        public ProductController(ILogger<ProductController> logger, IProductRepository repo)
         {
             _logger = logger;
             _repo = repo;
