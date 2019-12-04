@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Form, Label, Input, Button, ModalBody,FormGroup, ModalFooter,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const defaultUser = {
   id: '',
@@ -11,9 +12,16 @@ const defaultUser = {
   email: '',
   password: ''
 }
+
 class EditUserInfoModal extends React.Component {
   state = {
     updatedUser: defaultUser,
+  }
+
+  static propTypes = {
+    userObj: PropTypes.object.isRequired,
+    toggleEditUserInfo: PropTypes.func,
+    userEdited: PropTypes.func,
   }
 
   componentDidMount() {
