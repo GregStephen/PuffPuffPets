@@ -33,6 +33,7 @@ namespace PuffPuffPets.Api
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

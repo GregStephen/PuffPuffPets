@@ -115,7 +115,7 @@ class MyNavbar extends React.Component {
     .then(() => {
       this.loggedIn(newUser.Email, newUser.Password)
     })
-    .catch(err => this.setState({ error: err}));
+    .catch(err => console.error(err));
   }
 
   logMeOut = (e) => {
