@@ -86,9 +86,9 @@ namespace PuffPuffPets.Api.Repositories
                                                             
                                                             SELECT *
                                                             FROM #tempPO
-                                                            FULL JOIN [Order]
-                                                            ON #tempPO.OrderId = [Order].Id
-                                                            WHERE UserId = @UserId
+                                                            FULL JOIN [Product]
+                                                            ON #tempPO.ProductId = [Product].Id
+                                                            WHERE ProductOrder.UserId = @UserId
 
                                                             DROP TABLE #tempPO", new { userId });
 
