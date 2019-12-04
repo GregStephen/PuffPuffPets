@@ -68,7 +68,7 @@ namespace PuffPuffPets.Api.Controllers
             }
 
         }
-        [HttpPut("delete/{userId}")]
+        [HttpDelete("{userId}")]
         public IActionResult DeleteUser(Guid userId)
         {
             _repo.DeleteUser(userId);
