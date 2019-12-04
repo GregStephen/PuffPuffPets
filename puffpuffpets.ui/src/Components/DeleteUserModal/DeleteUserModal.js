@@ -2,17 +2,27 @@ import React from 'react';
 import {
   Button, ModalBody, ModalFooter,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
+
 
 class DeleteUserModal extends React.Component {
+  static propTypes = {
+    userObj: PropTypes.object.isRequired,
+    toggleDeleteUser: PropTypes.func,
+    userDeleted: PropTypes.func,
+  };
+
   toggleModal = () => {
     const { toggleDeleteUser } = this.props;
     toggleDeleteUser();
   };
+
   confirmDeletion = () => {
     const {userDeleted} = this.props;
     this.toggleModal();
     userDeleted();
-  }
+  };
+
   render() {
     return (
       <div className='DeleteUserModal'>

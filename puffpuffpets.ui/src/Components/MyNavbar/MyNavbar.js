@@ -13,11 +13,13 @@ import {
   Modal,
   ModalHeader,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
-import './MyNavbar.scss';
 import LoginModal from './LoginModal/LoginModal';
 import CreateAcctModal from './CreateAcctModal/CreateAcctModal';
 import UserRequests from '../../Helpers/Data/UserRequests';
+
+import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
   state = {
@@ -25,6 +27,13 @@ class MyNavbar extends React.Component {
     loginOpen: false,
     createAccountModal: false,
     error: '',
+  }
+
+  static propTypes = {
+    authed: PropTypes.bool.isRequired,
+    userObj: PropTypes.object.isRequired,
+    userLoggedIn: PropTypes.func,
+    userLoggedOut: PropTypes.func,
   }
 
   toggleLogin = () => {
@@ -45,11 +54,11 @@ class MyNavbar extends React.Component {
                 Sign In
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
-                  <button onClick={this.toggleLogin}/*Login Modal here*/>Log In to Existing</button>
+                <DropdownItem onClick={this.toggleLogin}>
+                  Log In to Existing
                 </DropdownItem>
-                <DropdownItem>
-                  <button onClick={this.toggleCreateAccount}/*Create Account Modal here*/>Create New Account</button>
+                <DropdownItem onClick={this.toggleCreateAccount}>
+                  Create New Account
                 </DropdownItem>                
               </DropdownMenu>
             </UncontrolledDropdown>;

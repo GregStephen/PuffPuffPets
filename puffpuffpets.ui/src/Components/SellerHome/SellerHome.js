@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import './SellerHome.scss';
 
 class SellerHome extends Component {
-
+  static propTypes = {
+    userObj: PropTypes.object.isRequired,
+  };
+  
   render () {
     const {userObj} = this.props;
     return (
