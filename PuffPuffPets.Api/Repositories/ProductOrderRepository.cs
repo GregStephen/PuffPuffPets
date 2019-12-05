@@ -76,22 +76,36 @@ namespace PuffPuffPets.Api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var productOrders = db.Query<Order_ProductOrder>(@"SELECT PO.*, O.[Id] AS OId
-                                                                    ,O.[UserId]
-                                                                    ,O.[PaymentTypeId]
-                                                                    ,O.[TotalPrice]
-                                                                    ,O.[IsCompleted]
-                                                                    ,O.[PurchaseDate]
-                                                                INTO #tempPOO
-                                                                FROM [Order] O
-                                                                JOIN ProductOrder PO
-                                                                ON PO.OrderId = O.Id
-                                                                WHERE O.UserId = @UserId
-                                                                SELECT *
-                                                                FROM Product P
-                                                                JOIN #tempPOO
-                                                                ON #tempPOO.productId = P.Id
-
-                                                                DROP TABLE #tempPOO",
+                                                                      ,O.[UserId]
+                                                                      ,O.[PaymentTypeId]
+                                                                      ,O.[TotalPrice]
+                                                                      ,O.[IsCompleted]
+                                                                      ,O.[PurchaseDate]
+                                                                  INTO #tempPOO
+                                                                  FROM [Order] O
+                                                                  JOIN ProductOrder PO
+                                                                  ON PO.OrderId = O.Id
+                                                                  WHERE O.UserId = @UserId
+                                                                  SELECT DISTINCT P.Id
+                                                                      ,[Title]
+                                                                      ,[SellerId]
+                                                                      ,[ImgUrl]
+                                                                      ,[TypeId]
+                                                                      ,[Description]
+                                                                      ,[CategoryId]
+                                                                      ,[Price]
+                                                                      ,[QuantityInStock]
+                                                                	  ,t.[OrderId]
+                                                                	  ,t.[QuantityOrdered]
+                                                                	  ,t.[isShipped]
+                                                                	  ,t.[TotalPrice]
+                                                                	  ,t.[isCompleted]
+                                                                	  ,t.[PurchaseDate]
+                                                                  FROM Product P
+                                                                  JOIN #tempPOO AS t
+                                                                  ON t.productId = P.Id
+                                                                
+                                                                  drop table #tempPOO",
                                                                 new { userId });
 
                 return productOrders.ToList();
