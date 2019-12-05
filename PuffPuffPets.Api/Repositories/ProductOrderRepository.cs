@@ -104,8 +104,9 @@ namespace PuffPuffPets.Api.Repositories
                                                                   FROM Product P
                                                                   JOIN #tempPOO AS t
                                                                   ON t.productId = P.Id
-                                                                
-                                                                  drop table #tempPOO",
+                                                                  WHERE t.isCompleted = 0
+
+                                                                  DROP TABLE #tempPOO",
                                                                 new { userId });
 
                 return productOrders.ToList();

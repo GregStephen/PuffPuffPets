@@ -33,7 +33,7 @@ class MyCart extends React.Component {
     ));
     return (
       <div className="MyCart container">
-        MY CART
+        <h1>CART</h1>
         { makeCartCardsNewest }
       </div>
     );
