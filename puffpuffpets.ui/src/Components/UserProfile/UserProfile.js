@@ -28,7 +28,6 @@ class UserProfile extends React.Component {
   }
 
   static propTypes = {
-    authed: PropTypes.bool.isRequired,
     userObj: PropTypes.object.isRequired,
     editThisUser: PropTypes.func,
     deleteThisUser: PropTypes.func,
