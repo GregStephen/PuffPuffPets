@@ -1,7 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './CustomerHome.scss';
 
 class CustomerHome extends React.Component {
+  static propTypes = {
+    userObj: PropTypes.object.isRequired,
+  };
 
   render () {
     const {userObj} = this.props;

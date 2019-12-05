@@ -91,7 +91,7 @@ class App extends React.Component {
         <Router>
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } userLoggedIn={ this.userLoggedIn}/>
             <Switch>
-              <PublicRoute path='/auth' component={ Auth } authed={ authed }/>
+              <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn} />
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser} deleteThisUser={this.deleteThisUser}/>
               <PrivateRoute path='/myCart/:userId' component={MyCart} authed={authed} userObj={userObj}/>

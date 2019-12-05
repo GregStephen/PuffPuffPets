@@ -3,9 +3,12 @@ import {
   Modal,
   ModalHeader,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
+
 import EditUserInfoModal from '../EditUserInfoModal/EditUserInfoModal';
 import DeleteUserModal from '../DeleteUserModal/DeleteUserModal';
 import AddressRequests from '../../Helpers/Data/AddressRequests';
+
 import './UserProfile.scss';
 
 const defaultAddress = {
@@ -22,6 +25,12 @@ class UserProfile extends React.Component {
     allAddresses: [],
     editUserInfoModalIsOpen: false,
     deleteUserModalIsOpen: false,
+  }
+
+  static propTypes = {
+    userObj: PropTypes.object.isRequired,
+    editThisUser: PropTypes.func,
+    deleteThisUser: PropTypes.func,
   }
 
   toggleEditUserInfo = () => {
