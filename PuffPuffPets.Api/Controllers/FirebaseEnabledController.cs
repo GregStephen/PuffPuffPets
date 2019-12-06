@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PuffPuffPets.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FirebaseEnabledController : ControllerBase
+    public abstract class FirebaseEnabledController : ControllerBase
     {
+        protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
     }
 }

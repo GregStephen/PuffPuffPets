@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,8 +13,8 @@ using PuffPuffPets.Api.Repositories;
 namespace PuffPuffPets.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    [ApiController, Authorize]
+    public class UserController : FirebaseEnabledController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserRepository _repo;
