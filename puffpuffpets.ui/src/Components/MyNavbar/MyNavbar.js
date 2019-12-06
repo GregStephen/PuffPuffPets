@@ -6,6 +6,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  NavLink,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
@@ -127,6 +128,7 @@ class MyNavbar extends React.Component {
     const { error } = this.state;
     const buildNavbar = () => {
       const { authed, userObj } = this.props;
+      const myCart = `/myCart/${userObj.id}`;
       if (!authed)
       {
         return (
@@ -138,6 +140,7 @@ class MyNavbar extends React.Component {
       {
         return (
           <Nav className="ml-auto" navbar>
+            <NavLink tag={RRNavLink} to={myCart}>Cart</NavLink>
             {this.displayBuyerNav()}
           </Nav>
         );

@@ -10,7 +10,7 @@ namespace PuffPuffPets.Api.DataModels
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
         public Guid OrderId { get; set; }
-        public int Quantity { get; set; }
+        public int QuantityOrdered { get; set; }
         public bool isShipped { get; set; }
         public DateTime ShippedDate { get; set; }
     }

@@ -32,7 +32,7 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'Product')
 		[Description] NVARCHAR(255) not null,
 		[CategoryId] UNIQUEIDENTIFIER not null,
 		[Price] BIGINT not null DEFAULT (0),
-		[Quantity] INT not null DEFAULT (0)
+		[QuantityInStock] INT not null DEFAULT (0)
 	)
 	END
 ELSE
@@ -84,7 +84,7 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'ProductOrder')
 		[Id] UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
 		[ProductId] UNIQUEIDENTIFIER not null,
 		[OrderId] UNIQUEIDENTIFIER not null,
-		[Quantity] Int not null,
+		[QuantityOrdered] Int not null,
 		[IsShipped] Bit not null,
 		[ShippedDate] DateTime null
 	)

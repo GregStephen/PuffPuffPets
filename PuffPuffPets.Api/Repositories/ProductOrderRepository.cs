@@ -20,14 +20,14 @@ namespace PuffPuffPets.Api.Repositories
                             INSERT INTO [ProductOrder]
                                     (ProductId,
                                     OrderId,
-                                    Quantity,
+                                    QuantityOrdered,
                                     isShipped,
                                     ShippedDate)
                                OUTPUT INSERTED.*
                                VALUES
                                     (@ProductId,
                                     @OrderId,
-                                    @Quantity,
+                                    @QuantityOrdered,
                                     @isShipped,
                                     @ShippedDate)";
 
@@ -75,22 +75,39 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var productOrders = db.Query<Order_ProductOrder>(@"SELECT [Id] AS ProductOrderId
-                                                                ,[ProductId]
-                                                                ,[OrderId]
-                                                                ,[Quantity]
-                                                                ,[IsShipped]
-                                                                ,[ShippedDate]
-                                                            INTO #tempPO
-                                                            FROM ProductOrder
-                                                            
-                                                            SELECT *
-                                                            FROM #tempPO
-                                                            FULL JOIN [Order]
-                                                            ON #tempPO.OrderId = [Order].Id
-                                                            WHERE UserId = @UserId
+                var productOrders = db.Query<Order_ProductOrder>(@"SELECT PO.*, O.[Id] AS OId
+                                                                      ,O.[UserId]
+                                                                      ,O.[PaymentTypeId]
+                                                                      ,O.[TotalPrice]
+                                                                      ,O.[IsCompleted]
+                                                                      ,O.[PurchaseDate]
+                                                                  INTO #tempPOO
+                                                                  FROM [Order] O
+                                                                  JOIN ProductOrder PO
+                                                                  ON PO.OrderId = O.Id
+                                                                  WHERE O.UserId = @UserId
+                                                                  SELECT DISTINCT P.Id
+                                                                      ,[Title]
+                                                                      ,[SellerId]
+                                                                      ,[ImgUrl]
+                                                                      ,[TypeId]
+                                                                      ,[Description]
+                                                                      ,[CategoryId]
+                                                                      ,[Price]
+                                                                      ,[QuantityInStock]
+                                                                	  ,t.[OrderId]
+                                                                	  ,t.[QuantityOrdered]
+                                                                	  ,t.[isShipped]
+                                                                	  ,t.[TotalPrice]
+                                                                	  ,t.[isCompleted]
+                                                                	  ,t.[PurchaseDate]
+                                                                  FROM Product P
+                                                                  JOIN #tempPOO AS t
+                                                                  ON t.productId = P.Id
+                                                                  WHERE t.isCompleted = 0
 
-                                                            DROP TABLE #tempPO", new { userId });
+                                                                  DROP TABLE #tempPOO",
+                                                                new { userId });
 
                 return productOrders.ToList();
             }
@@ -101,7 +118,7 @@ namespace PuffPuffPets.Api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"update ProductOrder
-                            set Quantity = @Quantity,
+                            set QuantityOrdered = @QuantityOrdered,
                             	isShipped = @isShipped,
                             	ShippedDate = @ShippedDate
                             output inserted.*

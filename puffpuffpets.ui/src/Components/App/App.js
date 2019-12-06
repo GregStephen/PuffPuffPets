@@ -9,6 +9,7 @@ import MyNavbar from '../MyNavbar/MyNavbar';
 import UserProfile from '../UserProfile/UserProfile'
 import UserRequests from '../../Helpers/Data/UserRequests';
 import './App.scss';
+import MyCart from '../MyCart/MyCart';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
@@ -93,6 +94,7 @@ class App extends React.Component {
               <PublicRoute path='/auth' component={ Auth } authed={ authed } userLoggedIn={ this.userLoggedIn} />
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser} deleteThisUser={this.deleteThisUser}/>
+              <PrivateRoute path='/myCart/:userId' component={MyCart} authed={authed} userObj={userObj}/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
