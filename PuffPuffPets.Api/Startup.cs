@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using PuffPuffPets.Api.Repositories;
 
 namespace PuffPuffPets.Api
@@ -42,6 +44,22 @@ namespace PuffPuffPets.Api
                        .AllowAnyHeader();
             }));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.IncludeErrorDetails = true;
+                   options.Authority = "https://securetoken.google.com/fish-store-a71e6";
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidIssuer = "https://securetoken.google.com/fish-store-a71e6",
+                       ValidateAudience = true,
+                       ValidAudience = "fish-store-a71e6",
+                       ValidateLifetime = true
+                   };
+               }
+               );
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -58,6 +76,8 @@ namespace PuffPuffPets.Api
             }
 
             app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
