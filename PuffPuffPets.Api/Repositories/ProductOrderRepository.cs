@@ -39,7 +39,14 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"
+                var sql = @"DECLARE @varOrderId varchar(max)
+                            SET @varOrderId = (SELECT OrderId
+                            FROM [ProductOrder]
+                            WHERE [Id] = @productOrderId)
+
+                            DELETE FROM [Order]
+                            WHERE [Id] = @varOrderId
+
                             DELETE FROM [ProductOrder]
                             WHERE [Id] = @productOrderId";
                 var parameters = new { productOrderId };
@@ -75,7 +82,13 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var productOrders = db.Query<Order_ProductOrder>(@"SELECT PO.*, O.[Id] AS OId
+                var productOrders = db.Query<Order_ProductOrder>(@"SELECT PO.[Id] AS ProductOrderId
+                                                                      ,PO.[ProductId]
+                                                                      ,PO.[OrderId]
+                                                                      ,PO.[QuantityOrdered]
+                                                                      ,PO.[IsShipped]
+                                                                      ,PO.[ShippedDate]
+                                                                      ,O.[Id] AS OId
                                                                       ,O.[UserId]
                                                                       ,O.[PaymentTypeId]
                                                                       ,O.[TotalPrice]
@@ -86,8 +99,9 @@ namespace PuffPuffPets.Api.Repositories
                                                                   JOIN ProductOrder PO
                                                                   ON PO.OrderId = O.Id
                                                                   WHERE O.UserId = @UserId
-                                                                  SELECT DISTINCT P.Id
-                                                                      ,[Title]
+                                                                  SELECT *
+                                                                  FROM (
+                                                                  SELECT [Title]
                                                                       ,[SellerId]
                                                                       ,[ImgUrl]
                                                                       ,[TypeId]
@@ -95,16 +109,13 @@ namespace PuffPuffPets.Api.Repositories
                                                                       ,[CategoryId]
                                                                       ,[Price]
                                                                       ,[QuantityInStock]
-                                                                	  ,t.[OrderId]
-                                                                	  ,t.[QuantityOrdered]
-                                                                	  ,t.[isShipped]
-                                                                	  ,t.[TotalPrice]
-                                                                	  ,t.[isCompleted]
-                                                                	  ,t.[PurchaseDate]
+                                                                	  ,t.*
+                                                                      ,ROW_NUMBER() OVER(PARTITION BY P.Id ORDER BY P.Id DESC) rn
                                                                   FROM Product P
                                                                   JOIN #tempPOO AS t
                                                                   ON t.productId = P.Id
-                                                                  WHERE t.isCompleted = 0
+                                                                  ) a
+                                                                  WHERE rn = 1
 
                                                                   DROP TABLE #tempPOO",
                                                                 new { userId });

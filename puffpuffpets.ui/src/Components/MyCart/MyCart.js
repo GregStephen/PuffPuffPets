@@ -29,6 +29,7 @@ class MyCart extends React.Component {
       <CartCard
       key={cartProduct.id}
       cartProduct={cartProduct}
+      getMyCartProducts={this.getMyCartProducts}
       />
     ));
     return (

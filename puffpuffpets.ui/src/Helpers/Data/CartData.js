@@ -9,6 +9,9 @@ const getMyCartProducts = uid => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
+const deleteFromCart = productOrderId => axios.delete(`${baseUrl}/delete/${productOrderId}`);
+
 export default {
-  getMyCartProducts
+  getMyCartProducts,
+  deleteFromCart
 };
