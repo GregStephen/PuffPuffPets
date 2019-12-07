@@ -48,13 +48,13 @@ namespace PuffPuffPets.Api
                .AddJwtBearer(options =>
                {
                    options.IncludeErrorDetails = true;
-                   options.Authority = "https://securetoken.google.com/fish-store-a71e6";
+                   options.Authority = "https://securetoken.google.com/puffpuffpets";
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        ValidateIssuer = true,
-                       ValidIssuer = "https://securetoken.google.com/fish-store-a71e6",
+                       ValidIssuer = "https://securetoken.google.com/puffpuffpets",
                        ValidateAudience = true,
-                       ValidAudience = "fish-store-a71e6",
+                       ValidAudience = "puffpuffpets",
                        ValidateLifetime = true
                    };
                }

@@ -9,7 +9,7 @@ INSERT INTO [User]
 [Email],
 [IsSeller],
 [DateCreated],
-[Password])
+[FirebaseUid])
 VALUES
 ('ACasey98',
 'Austin',
@@ -17,14 +17,14 @@ VALUES
 'AustinCasey420@hotmail.com',
 0,
 '20190508 12:35:23 AM',
-'HeyMyNameIsAustin123'),
+'firebaseUid'),
 ('CalvinDaMogul',
 'Calvin',
 'Foster',
 'cal.j.foster@gmail.com',
 0,
 '20191010 04:20:10 AM',
-'HeyMyNameIsCalvin123')
+'firebaseUidd')
 
 INSERT INTO [User]
 ([UserName],
@@ -33,7 +33,7 @@ INSERT INTO [User]
 [Email],
 [IsSeller],
 [DateCreated],
-[Password],
+[FirebaseUid],
 [BusinessName])
 VALUES
 ('MullinAround',
@@ -42,7 +42,7 @@ VALUES
 'DavidTheDestroyer@hotmail.com',
 1,
 '20190609 06:06:06 AM',
-'HeyMyNameIsDavid123',
+'FirebaseUiddd',
 'Lets Fuck Up Pets Inc.')
 
 SELECT @user1 = [Id]

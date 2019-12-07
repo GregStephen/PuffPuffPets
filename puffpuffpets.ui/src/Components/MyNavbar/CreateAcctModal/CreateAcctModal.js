@@ -8,20 +8,21 @@ const defaultUser = {
   FirstName: '',
   LastName: '',
   IsSeller: false,
-  Password: '',
   Email: '',
-  BusinessName: null,
+  BusinessName: '',
   AddressLine1: '',
   AddressLine2: '',
   City: '',
   State: '',
   ZipCode: '',
   DateCreated: '',
+  FirebaseUid: ''
 };
 
 class CreateAcctModal extends React.Component {
   state = {
     newUser: defaultUser,
+    password: '',
     collapse: false,
     status: 'Closed',
   }
@@ -53,9 +54,9 @@ class CreateAcctModal extends React.Component {
 
   formSubmit = (e) => {
     e.preventDefault();
-    const { newUser } = this.state;
+    const { newUser, password } = this.state;
     newUser.DateCreated = new Date();
-    this.props.createNewUser(newUser);
+    this.props.createNewUser(newUser, password);
     this.toggleModal();
   }
 
@@ -63,6 +64,12 @@ class CreateAcctModal extends React.Component {
     const tempUser = { ...this.state.newUser };
     tempUser[e.target.id] = e.target.value;
     this.setState({ newUser: tempUser });
+  }
+
+  changePasswordField = (e) => {
+    let tempPassword = this.state.password;
+    tempPassword = e.target.value;
+    this.setState({ password: tempPassword});
   }
 
   formFieldSwitchState = (e) => {
@@ -116,13 +123,13 @@ class CreateAcctModal extends React.Component {
                 value={newUser.Email}
                 onChange={this.formFieldStringState}
                 required />
-              <Label for="Password">Password</Label>
+              <Label for="password">Password</Label>
               <Input
                 type="password"
-                name="Password"
-                id="Password"
-                value={newUser.Password}
-                onChange={this.formFieldStringState}
+                name="password"
+                id="password"
+                value={this.state.password}
+                onChange={this.changePasswordField}
                 required />
             </FormGroup>
             <FormGroup>
