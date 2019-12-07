@@ -44,9 +44,6 @@ namespace PuffPuffPets.Api.Repositories
                             FROM [ProductOrder]
                             WHERE [Id] = @productOrderId)
 
-                            DELETE FROM [Order]
-                            WHERE [Id] = @varOrderId
-
                             DELETE FROM [ProductOrder]
                             WHERE [Id] = @productOrderId";
                 var parameters = new { productOrderId };
@@ -114,6 +111,7 @@ namespace PuffPuffPets.Api.Repositories
                                                                   FROM Product P
                                                                   JOIN #tempPOO AS t
                                                                   ON t.productId = P.Id
+                                                                  WHERE t.isCompleted = 0
                                                                   ) a
                                                                   WHERE rn = 1
 

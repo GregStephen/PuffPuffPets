@@ -9,10 +9,9 @@ class CartCard extends React.Component {
   deleteMe = (e) => {
     e.preventDefault();
     const { cartProduct } = this.props;
-    // cartData.deleteFromCart(cartProduct.id)
-    console.error(this.props);
-    // .then(() => this.props.getMyCartProducts('83AAE846-FA58-4DA7-8834-F86870D1FE9B'))
-    // .catch(err => console.error(err, 'unable to delete from CartCard'));
+    cartData.deleteFromCart(cartProduct.productOrderId)
+    .then(() => this.props.getMyCartProducts())
+    .catch(err => console.error(err, 'unable to delete from CartCard'));
   }
 
   render() {
