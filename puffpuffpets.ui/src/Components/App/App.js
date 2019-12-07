@@ -2,15 +2,20 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
+import firebase from 'firebase';
 
 import Auth from '../Auth/Auth';
 import Home from '../Home/Home';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import UserProfile from '../UserProfile/UserProfile'
-import UserRequests from '../../Helpers/Data/UserRequests';
-import './App.scss';
 import MyCart from '../MyCart/MyCart';
+import UserProfile from '../UserProfile/UserProfile';
 
+import fbConnect from '../../Helpers/Data/fbConnection';
+import UserRequests from '../../Helpers/Data/UserRequests';
+
+import './App.scss';
+
+fbConnect();
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
   const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
@@ -35,7 +40,8 @@ const defaultUser = {
   AddressLine2: '',
   City: '',
   State: '',
-  ZipCode: ''
+  ZipCode: '',
+  FirebaseUid: ''
 };
 
 class App extends React.Component {
@@ -44,6 +50,20 @@ class App extends React.Component {
     userObj: defaultUser,
   };
 
+  componentDidMount () {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({authed: true});
+      } else {
+        this.setState({authed: false});
+      }
+    });
+  }
+
+  componentWillUnmount () {
+    this.removeListener();
+  }
+
   userLoggedIn = (user) => {
     this.setState({
       authed : true,
@@ -51,9 +71,10 @@ class App extends React.Component {
   }
 
   userLoggedOut = () => {
+    firebase.auth().signOut();
     this.setState({
-      authed : false,
-      userObj : defaultUser })
+      userObj: defaultUser
+    })
   }
 
   editThisUser = (userToEdit) => {
@@ -72,6 +93,7 @@ class App extends React.Component {
       })
       .catch(err => console.error(err));
   }
+
   refreshUserObj = () => {
     const {userObj} = this.state;
     UserRequests.getUserById(userObj.id)
@@ -79,9 +101,6 @@ class App extends React.Component {
         this.setState({ userObj : refreshedUserObj })
       })
       .catch(err => console.error(err));
-  }
-
-  componentDidMount() {
   }
   
   render() {

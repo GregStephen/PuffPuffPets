@@ -48,6 +48,19 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public User GetUserByFirebaseUid(string firebaseUid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [User]
+                            WHERE [FirebaseUid] = @firebaseUid";
+                var parameters = new { firebaseUid };
+                var user = db.QueryFirst<User>(sql, parameters);
+                return user;
+            }
+        }
+
         public bool UserNameCheck(string newUserNameCheck)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -128,7 +141,7 @@ namespace PuffPuffPets.Api.Repositories
                                  [LastName],
                                  [Email],
                                  [DateCreated],
-                                 [Password],
+                                 [FirebaseUid],
                                  [BusinessName])
                             OUTPUT INSERTED.Id
                             VALUES
@@ -138,7 +151,7 @@ namespace PuffPuffPets.Api.Repositories
                                  @lastName,
                                  @email,
                                  @dateCreated,
-                                 @password,
+                                 @firebaseUid,
                                  @businessName)";
                 var userId = db.QueryFirst<Guid>(sql, newUser);
                 if (  userId != null)
