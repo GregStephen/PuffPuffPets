@@ -17,14 +17,14 @@ VALUES
 'AustinCasey420@hotmail.com',
 0,
 '20190508 12:35:23 AM',
-'firebaseUid'),
+'jcNLJFsyBRNQQVnygu96IATq0bX2'),
 ('CalvinDaMogul',
 'Calvin',
 'Foster',
 'cal.j.foster@gmail.com',
 0,
 '20191010 04:20:10 AM',
-'firebaseUidd')
+'RRwPHELUs3RPrRsrMZ1WqWyZ1Lr2')
 
 INSERT INTO [User]
 ([UserName],
@@ -42,7 +42,7 @@ VALUES
 'DavidTheDestroyer@hotmail.com',
 1,
 '20190609 06:06:06 AM',
-'FirebaseUiddd',
+'aLiD4fZ1fOVeo7E1mncBXwd6dgg2',
 'Lets Fuck Up Pets Inc.')
 
 SELECT @user1 = [Id]
