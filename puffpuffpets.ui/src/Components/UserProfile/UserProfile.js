@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 import EditUserInfoModal from '../EditUserInfoModal/EditUserInfoModal';
 import DeleteUserModal from '../DeleteUserModal/DeleteUserModal';
+import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
+
 import AddressRequests from '../../Helpers/Data/AddressRequests';
 
 import './UserProfile.scss';
@@ -25,6 +27,7 @@ class UserProfile extends React.Component {
     allAddresses: [],
     editUserInfoModalIsOpen: false,
     deleteUserModalIsOpen: false,
+    changePasswordModalIsOpen: false,
   }
 
   static propTypes = {
@@ -44,7 +47,11 @@ class UserProfile extends React.Component {
       deleteUserModalIsOpen: !prevState.deleteUserModalIsOpen,
     }));
   }
-
+  toggleChangePassword = () => {
+    this.setState(prevState => ({
+      changePasswordModalIsOpen: !prevState.changePasswordModalIsOpen,
+    }));
+  }
   userEdited = (editedUser) => {
     const {editThisUser} = this.props;
     editThisUser(editedUser);
@@ -80,6 +87,7 @@ class UserProfile extends React.Component {
         : ''}
         <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
         <button className='btn btn-info' onClick={this.toggleEditUserInfo}>Change Personal Info</button>
+        <button className='btn btn-info' onClick={this.toggleChangePassword}>Change Password</button>
         <button className='btn btn-danger' onClick={this.toggleDeleteUser}>DELETE PROFILE</button>
         <div>
           <Modal isOpen={this.state.editUserInfoModalIsOpen} toggle={this.toggleModal}>
@@ -91,11 +99,18 @@ class UserProfile extends React.Component {
               />
           </Modal>
           <Modal isOpen={this.state.deleteUserModalIsOpen} toggle={this.toggleModal}>
-              <ModalHeader toggle={this.deleteUserModalIsOpen}>Edit Account</ModalHeader>
+              <ModalHeader toggle={this.deleteUserModalIsOpen}>Delete Account</ModalHeader>
               <DeleteUserModal
               toggleDeleteUser = { this.toggleDeleteUser } 
               userObj = { userObj }
               userDeleted = { this.userDeleted }                
+              />
+          </Modal>
+          <Modal isOpen={this.state.changePasswordModalIsOpen} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.changePasswordModalIsOpen}>Change Password</ModalHeader>
+              <ChangePasswordModal
+              toggleChangePassword = { this.toggleChangePassword } 
+              userObj = { userObj }               
               />
           </Modal>
         </div>

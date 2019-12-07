@@ -11,7 +11,6 @@ namespace PuffPuffPets.Api.Repositories
     {
         IEnumerable<User> GetAllUsers();
         User GetUserById(Guid userId);
-        User GetUserByEmailAndPassword(string email, string password);
         User GetUserByFirebaseUid(string firebaseUid);
         bool EditUser(EditUserDto editedUser);
         bool AddNewUser(AddNewUserDto newUser);

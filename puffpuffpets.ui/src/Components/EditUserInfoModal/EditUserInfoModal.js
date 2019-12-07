@@ -9,8 +9,6 @@ const defaultUser = {
   userName: '',
   firstName: '',
   lastName: '',
-  email: '',
-  password: ''
 }
 
 class EditUserInfoModal extends React.Component {
@@ -79,16 +77,6 @@ class EditUserInfoModal extends React.Component {
               name="lastName"
               id="lastName"
               value={updatedUser.lastName}
-              onChange={this.formFieldStringState}
-              required />
-          </FormGroup>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
-              type="input"
-              name="email"
-              id="email"
-              value={updatedUser.email}
               onChange={this.formFieldStringState}
               required />
           </FormGroup>
