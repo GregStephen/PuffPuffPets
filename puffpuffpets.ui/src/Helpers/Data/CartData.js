@@ -11,7 +11,10 @@ const getMyCartProducts = uid => new Promise((resolve, reject) => {
 
 const deleteFromCart = productOrderId => axios.delete(`${baseUrl}/delete/${productOrderId}`);
 
+const editQuantityInCart = productOrderId => axios.put(`${baseUrl}/edit/${productOrderId}`);
+
 export default {
   getMyCartProducts,
-  deleteFromCart
+  deleteFromCart,
+  editQuantityInCart
 };

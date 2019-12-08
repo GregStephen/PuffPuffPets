@@ -122,16 +122,16 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public ProductOrder EditProductOrder(ProductOrder updatedProductOrder, Guid id)
+        public ProductOrder UpdateQuantity(ProductOrder updatedProductOrder, Guid id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"update ProductOrder
-                            set QuantityOrdered = @QuantityOrdered,
+                var sql = @"UPDATE ProductOrder
+                            SET QuantityOrdered = @QuantityOrdered,
                             	isShipped = @isShipped,
                             	ShippedDate = @ShippedDate
-                            output inserted.*
-                            where [id] = @id";
+                            OUTPUT INSERTED.*
+                            WHERE [id] = @id";
 
                 updatedProductOrder.Id = id;
 

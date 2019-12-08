@@ -1,5 +1,6 @@
 import React from 'react';
-import cartData from '../../Helpers/Data/CartData'
+import cartData from '../../Helpers/Data/CartData';
+
 
 import './CartCard.scss'
 
@@ -27,7 +28,9 @@ class CartCard extends React.Component {
               <button className="col btn btn-outline-danger mx-auto" onClick={this.deleteMe}>Delete</button>
             </div>
             <div className="row">
-            <p className="col">Quantity: <b>{cartProduct.quantityOrdered}</b></p>
+              Quantity: 
+              <input type="number" value={cartProduct.quantityOrdered} max="10"></input>
+            {/* <NumericInput className="col"/>Quantity: <b>{cartProduct.quantityOrdered}</b> */}
             <p className="col-9"><i>{cartProduct.description}</i></p>
             </div>
           </div>

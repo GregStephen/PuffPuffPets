@@ -52,5 +52,24 @@ namespace PuffPuffPets.Api.Controllers
         {
             _repo.DeleteProductOrder(productOrderIdToDelete);
         }
+
+        [HttpPut("update/{productOrderIdToUpdate}")]
+        public IActionResult UpdateQuantity(ProductOrder productOrder, Guid productOrderIdToUpdate)
+        {
+
+            var updatedProductOrder = new ProductOrder
+            {
+                Id = productOrder.Id,
+                OrderId = productOrder.OrderId,
+                QuantityOrdered = productOrder.QuantityOrdered,
+                isShipped = productOrder.isShipped,
+                ShippedDate = productOrder.ShippedDate
+            };
+
+            var completeUpdatedTrainer = _repo.UpdateQuantity(updatedProductOrder, productOrderIdToUpdate);
+
+            return Ok(completeUpdatedTrainer);
+        }
+
     }
 }
