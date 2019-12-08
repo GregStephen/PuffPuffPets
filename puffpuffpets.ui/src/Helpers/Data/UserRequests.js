@@ -43,7 +43,6 @@ const logInUser = (email, password) => new Promise((resolve, reject) => {
             .then(result => resolve(result.data))
             .catch(err => reject(err));
           });
-
       })
 });
 

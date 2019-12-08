@@ -2,11 +2,13 @@ import React from 'react';
 import {
   Form, ModalBody, ModalFooter, Button, FormGroup, Input, Label
 } from 'reactstrap';
+import UserRequests from '../../../Helpers/Data/UserRequests';
 
 class LoginModal extends React.Component {
   state = {
     email: '',
     password: '',
+    error: ''
   }
   toggleModal = () => {
     const { toggleLogin } = this.props;
@@ -17,8 +19,12 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const {email, password} = this.state;
     const { loggedIn } = this.props;
-    loggedIn(email,password);
-    this.toggleModal();
+    UserRequests.logInUser(email, password)
+      .then((user) => {
+        loggedIn(user);
+        this.toggleModal();
+      })
+      .catch(err => this.setState({ error: err.message}));
   }
 
   handleChange = (e) => {
@@ -51,12 +57,12 @@ class LoginModal extends React.Component {
                 value={password}
                 onChange={this.handleChange}
                 required />
-            </FormGroup>            
+            </FormGroup>
+            <p>{error}</p>            
           </ModalBody>
           <ModalFooter>
          <Button type="submit" color="primary">Login</Button>{' '}
          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-         <p>{error}</p>
        </ModalFooter>
         </Form>
       </div>
