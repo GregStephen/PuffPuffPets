@@ -33,10 +33,10 @@ class JumbotronDisplay extends React.Component {
       .catch(err => this.setState({ error: err}));
   }
 
-  createNewUser = (newUser) => {
-    UserRequests.addUser(newUser)
+  createNewUser = (newUser, password) => {
+    UserRequests.addUser(newUser, password)
     .then(() => {
-      this.loggedIn(newUser.Email, newUser.Password)
+      this.loggedIn(newUser.Email, password)
     })
     .catch(err => console.error(err));
   }
