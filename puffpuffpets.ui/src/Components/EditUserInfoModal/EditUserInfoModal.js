@@ -26,9 +26,9 @@ class EditUserInfoModal extends React.Component {
     this.setState({ updatedUser: this.props.userObj})
   };
 
-  toggleModal = () => {
+  toggleModal = (e) => {
     const { toggleEditUserInfo } = this.props;
-    toggleEditUserInfo();
+    toggleEditUserInfo(e);
   };
 
   formSubmit = (e) => {    
@@ -83,7 +83,7 @@ class EditUserInfoModal extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button type="submit" color="primary">Edit Account</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          <Button color="secondary" value="info" onClick={this.toggleModal}>Cancel</Button>
         </ModalFooter>
       </Form>
     </div>

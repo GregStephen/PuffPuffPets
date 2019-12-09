@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+
 import UserRequests from '../../../Helpers/Data/UserRequests';
 
 class LoginModal extends React.Component {
@@ -12,6 +13,7 @@ class LoginModal extends React.Component {
     password: '',
     error: ''
   }
+
   toggleModal = () => {
     const { toggleLogin } = this.props;
     toggleLogin();
@@ -21,6 +23,7 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const {email, password} = this.state;
     const { loggedIn } = this.props;
+    // attempts to log in to firebase
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(cred => {
         //get token from firebase
@@ -29,13 +32,16 @@ class LoginModal extends React.Component {
           .then(token => sessionStorage.setItem('token',token))
           .then(() => {
             const firebaseUid =  firebase.auth().currentUser.uid;
-        UserRequests.logInUser(firebaseUid)
-          .then((user) => {
-            loggedIn(user);
-            this.toggleModal();
+            // gets the user data from PPP database by firebaseUid
+            UserRequests.logInUser(firebaseUid)
+              .then((user) => {
+                // stores the user's data at APP level
+                loggedIn(user);
+                this.toggleModal();
           }) 
       })
     }).catch(err => {
+      // if anything breaks this will show up on the log in modal why it broke
       this.setState({ error: err.message});
       })
   };

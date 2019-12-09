@@ -23,9 +23,9 @@ class ChangePasswordModal extends React.Component {
     toggleChangePassword: PropTypes.func,
   };
 
-  toggleModal = () => {
+  toggleModal = (e) => {
     const { toggleChangePassword } = this.props;
-    toggleChangePassword();
+    toggleChangePassword(e);
   };
 
   reauthenticate = (currentPassword) => {
@@ -93,7 +93,7 @@ class ChangePasswordModal extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button type="submit" color="primary">Change Password</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          <Button color="secondary" value="password" onClick={this.toggleModal}>Cancel</Button>
         </ModalFooter>
       </Form>
       </div>
