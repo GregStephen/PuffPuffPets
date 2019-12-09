@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import Auth from '../Auth/Auth';
 import Home from '../Home/Home';

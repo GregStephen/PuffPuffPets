@@ -35,19 +35,6 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public User GetUserByEmailAndPassword(string email, string password)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"SELECT *
-                            FROM [User]
-                            WHERE ([Password] = @password AND [Email] = @email)";
-                var parameters = new { email, password };
-                var user = db.QueryFirst<User>(sql, parameters);
-                return user;
-            }
-        }
-
         public User GetUserByFirebaseUid(string firebaseUid)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -109,7 +96,6 @@ namespace PuffPuffPets.Api.Repositories
                                 [UserName] = @userName,
                                 [FirstName] = @firstName,
                                 [LastName] = @lastName,
-                                [Email] = @email
                             WHERE [Id] = @id";
                 return db.Execute(sql, editedUser) == 1;
             }

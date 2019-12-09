@@ -12,9 +12,9 @@ class DeleteUserModal extends React.Component {
     userDeleted: PropTypes.func,
   };
 
-  toggleModal = () => {
+  toggleModal = (e) => {
     const { toggleDeleteUser } = this.props;
-    toggleDeleteUser();
+    toggleDeleteUser(e);
   };
 
   confirmDeletion = () => {
@@ -32,7 +32,7 @@ class DeleteUserModal extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.confirmDeletion}>Yes, Delete My Account</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>No, I fucked up take me back</Button>
+          <Button color="secondary" value="delete" onClick={this.toggleModal}>No, I fucked up take me back</Button>
         </ModalFooter>
       </div>
     )

@@ -26,8 +26,7 @@ class MyNavbar extends React.Component {
   state = {
     isOpen: false,
     loginOpen: false,
-    createAccountModal: false,
-    error: '',
+    createAccountModal: false
   }
 
   static propTypes = {
@@ -103,12 +102,8 @@ class MyNavbar extends React.Component {
     });
   }
 
-  loggedIn = (email, password) => {
-    UserRequests.logInUser(email, password)
-      .then((user) => {
-        this.props.userLoggedIn(user)
-      })
-      .catch(err => this.setState({ error: err}));
+  loggedIn = (user) => {
+    this.props.userLoggedIn(user);
   }
 
   createNewUser = (newUser, password) => {
@@ -125,7 +120,6 @@ class MyNavbar extends React.Component {
   };
 
   render() {
-    const { error } = this.state;
     const buildNavbar = () => {
       const { authed, userObj } = this.props;
       const myCart = `/myCart/${userObj.id}`;
@@ -169,8 +163,7 @@ class MyNavbar extends React.Component {
               <ModalHeader toggle={this.loginOpen}>Login</ModalHeader>
               <LoginModal
               toggleLogin={this.toggleLogin} 
-              loggedIn={this.loggedIn}  
-              error={error}                    
+              loggedIn={this.loggedIn}                 
               />
           </Modal>
         </div>
@@ -180,7 +173,6 @@ class MyNavbar extends React.Component {
               <CreateAcctModal
               toggleCreateAccount={this.toggleCreateAccount}
               createNewUser={this.createNewUser}
-              error={error}
               />
           </Modal>
         </div>

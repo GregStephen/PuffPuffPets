@@ -2,12 +2,18 @@ import React from 'react';
 import {
   Form, ModalBody, ModalFooter, Button, FormGroup, Input, Label
 } from 'reactstrap';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import UserRequests from '../../../Helpers/Data/UserRequests';
 
 class LoginModal extends React.Component {
   state = {
     email: '',
     password: '',
+    error: ''
   }
+
   toggleModal = () => {
     const { toggleLogin } = this.props;
     toggleLogin();
@@ -17,9 +23,28 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const {email, password} = this.state;
     const { loggedIn } = this.props;
-    loggedIn(email,password);
-    this.toggleModal();
-  }
+    // attempts to log in to firebase
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(cred => {
+        //get token from firebase
+        cred.user.getIdToken()
+            //save the token to the session storage
+          .then(token => sessionStorage.setItem('token',token))
+          .then(() => {
+            const firebaseUid =  firebase.auth().currentUser.uid;
+            // gets the user data from PPP database by firebaseUid
+            UserRequests.logInUser(firebaseUid)
+              .then((user) => {
+                // stores the user's data at APP level
+                loggedIn(user);
+                this.toggleModal();
+          }) 
+      })
+    }).catch(err => {
+      // if anything breaks this will show up on the log in modal why it broke
+      this.setState({ error: err.message});
+      })
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -28,8 +53,7 @@ class LoginModal extends React.Component {
 };
 
   render() {
-    const { email, password } = this.state;
-    const { error } = this.props;
+    const { email, password, error } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -51,12 +75,12 @@ class LoginModal extends React.Component {
                 value={password}
                 onChange={this.handleChange}
                 required />
-            </FormGroup>            
+            </FormGroup>
+            <p className="error">{error}</p>            
           </ModalBody>
           <ModalFooter>
          <Button type="submit" color="primary">Login</Button>{' '}
          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-         <p>{error}</p>
        </ModalFooter>
         </Form>
       </div>
