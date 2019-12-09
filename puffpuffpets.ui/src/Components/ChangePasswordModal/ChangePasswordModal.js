@@ -2,7 +2,8 @@ import React from 'react';
 import {
   Button, ModalBody, ModalFooter, FormGroup, Form, Label, Input
 } from 'reactstrap';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import PropTypes from 'prop-types';
 
 import './ChangePasswordModal.scss';

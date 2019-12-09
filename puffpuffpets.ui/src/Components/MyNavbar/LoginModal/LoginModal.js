@@ -2,6 +2,8 @@ import React from 'react';
 import {
   Form, ModalBody, ModalFooter, Button, FormGroup, Input, Label
 } from 'reactstrap';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import UserRequests from '../../../Helpers/Data/UserRequests';
 
 class LoginModal extends React.Component {
@@ -19,13 +21,24 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const {email, password} = this.state;
     const { loggedIn } = this.props;
-    UserRequests.logInUser(email, password)
-      .then((user) => {
-        loggedIn(user);
-        this.toggleModal();
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(cred => {
+        //get token from firebase
+        cred.user.getIdToken()
+            //save the token to the session storage
+          .then(token => sessionStorage.setItem('token',token))
+          .then(() => {
+            const firebaseUid =  firebase.auth().currentUser.uid;
+        UserRequests.logInUser(firebaseUid)
+          .then((user) => {
+            loggedIn(user);
+            this.toggleModal();
+          }) 
       })
-      .catch(err => this.setState({ error: err.message}));
-  }
+    }).catch(err => {
+      this.setState({ error: err.message});
+      })
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -34,8 +47,7 @@ class LoginModal extends React.Component {
 };
 
   render() {
-    const { email, password } = this.state;
-    const { error } = this.props;
+    const { email, password, error } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -58,7 +70,7 @@ class LoginModal extends React.Component {
                 onChange={this.handleChange}
                 required />
             </FormGroup>
-            <p>{error}</p>            
+            <p className="error">{error}</p>            
           </ModalBody>
           <ModalFooter>
          <Button type="submit" color="primary">Login</Button>{' '}
