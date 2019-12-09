@@ -15,6 +15,10 @@ class CartCard extends React.Component {
     .catch(err => console.error(err, 'unable to delete from CartCard'));
   }
 
+  updateQuantityOrdered = (e) => {
+    e.preventDefault();
+  }
+
   render() {
     const { cartProduct } = this.props;
     return (
@@ -25,13 +29,12 @@ class CartCard extends React.Component {
               <img className="productImg" src={cartProduct.imgUrl} alt="product"></img>
               <h3 className="col card-title">{cartProduct.title}</h3>
               <h4 className="col card-price">Total: <i>${cartProduct.totalPrice}</i></h4>
-              <button className="col btn btn-outline-danger mx-auto" onClick={this.deleteMe}>Delete</button>
+              <button className="col btn btn-outline-danger mx-auto removeFromCart" onClick={this.deleteMe}><b>Remove <br></br>From Cart</b></button>
             </div>
             <div className="row">
-              Quantity: 
-              <input type="number" value={cartProduct.quantityOrdered} max="10"></input>
-            {/* <NumericInput className="col"/>Quantity: <b>{cartProduct.quantityOrdered}</b> */}
-            <p className="col-9"><i>{cartProduct.description}</i></p>
+              <p className="col quantityOrderedText">Quantity:</p> 
+              <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={cartProduct.quantityOrdered} min="1" max="10"></input>
+              <p className="col-9 cartProductDescription"><i>{cartProduct.description}</i></p>
             </div>
           </div>
         </div>

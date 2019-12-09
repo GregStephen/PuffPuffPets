@@ -66,9 +66,9 @@ namespace PuffPuffPets.Api.Controllers
                 ShippedDate = productOrder.ShippedDate
             };
 
-            var completeUpdatedTrainer = _repo.UpdateQuantity(updatedProductOrder, productOrderIdToUpdate);
+            var completeUpdatedOrder = _repo.UpdateQuantity(updatedProductOrder, productOrderIdToUpdate);
 
-            return Ok(completeUpdatedTrainer);
+            return Ok(completeUpdatedOrder);
         }
 
     }
