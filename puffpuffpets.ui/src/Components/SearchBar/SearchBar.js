@@ -1,0 +1,52 @@
+import React from 'react';
+import { Input, InputGroup, InputGroupAddon, Button, Form } from 'reactstrap';
+
+import ProductRequests from '../../Helpers/Data/ProductRequests';
+
+import './SearchBar.scss';
+class SearchBar extends React.Component {
+  state = {
+    searchTerm : ""
+  }
+
+  searchOnSubmit = (e) => {
+    e.preventDefault();
+    this.search(this.state.searchTerm);
+  }
+
+  search = (term) => {
+    if (term !== '')
+    {
+      ProductRequests.searchProducts(term)
+      .then(result => console.error(result))
+      .catch(err => console.error(err));
+    }
+  }
+
+  formFieldStringState = (e) => {
+    this.setState({ searchTerm: e.target.value });
+    this.search(e.target.value);
+  }
+
+  render() {
+    return (
+      <div className="SearchBar">
+        <Form onSubmit={this.searchOnSubmit}>
+          <InputGroup>
+            <Input 
+            type="search"
+            name="searchTerm"
+            id="searchTerm"
+            value={this.state.searchTerm}
+            onChange={this.formFieldStringState}/>
+            <InputGroupAddon addonType="append">
+              <Button type="submit" className="searchBtn">Search</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </Form>
+      </div>
+    )
+  }
+}
+
+export default SearchBar;
