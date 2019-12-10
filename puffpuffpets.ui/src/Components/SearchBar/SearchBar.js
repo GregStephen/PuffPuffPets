@@ -9,22 +9,29 @@ class SearchBar extends React.Component {
     searchTerm : ""
   }
 
-  search = (e) => {
+  searchOnSubmit = (e) => {
     e.preventDefault();
-    ProductRequests.searchProducts(this.state.searchTerm)
+    this.search(this.state.searchTerm);
+  }
+
+  search = (term) => {
+    if (term !== '')
+    {
+      ProductRequests.searchProducts(term)
       .then(result => console.error(result))
       .catch(err => console.error(err));
-    console.error(`searched ${this.state.searchTerm}`)
+    }
   }
 
   formFieldStringState = (e) => {
-    this.setState({ searchTerm: e.target.value })
+    this.setState({ searchTerm: e.target.value });
+    this.search(e.target.value);
   }
 
   render() {
     return (
       <div className="SearchBar">
-        <Form onSubmit={this.search}>
+        <Form onSubmit={this.searchOnSubmit}>
           <InputGroup>
             <Input 
             type="search"
