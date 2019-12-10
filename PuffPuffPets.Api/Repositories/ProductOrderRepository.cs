@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using PuffPuffPets.Api.Dtos;
 
 namespace PuffPuffPets.Api.Repositories
 {
@@ -122,22 +123,34 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public ProductOrder UpdateQuantity(ProductOrder updatedProductOrder, Guid id)
+        //public ProductOrder UpdateQuantity(ProductOrder updatedProductOrder, Guid id)
+        //{
+        //    using (var db = new SqlConnection(_connectionString))
+        //    {
+        //        var sql = @"UPDATE ProductOrder
+        //                    SET QuantityOrdered = @QuantityOrdered,
+        //                    OUTPUT INSERTED.*
+        //                    WHERE [id] = @id";
+
+        //        updatedProductOrder.Id = id;
+
+        //        var candy = db.QueryFirst<ProductOrder>(sql, updatedProductOrder);
+        //        return candy;
+        //    }
+        //}
+
+        public bool EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
+
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"UPDATE ProductOrder
-                            SET QuantityOrdered = @QuantityOrdered,
-                            	isShipped = @isShipped,
-                            	ShippedDate = @ShippedDate
-                            OUTPUT INSERTED.*
-                            WHERE [id] = @id";
+                            SET QuantityOrdered = @quantityOrdered
+                            WHERE [Id] = @id";
 
-                updatedProductOrder.Id = id;
-
-                var candy = db.QueryFirst<ProductOrder>(sql, updatedProductOrder);
-                return candy;
+                return db.Execute(sql, quantityOrdered) == 1;
             }
         }
+
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PuffPuffPets.Api.DataModels;
+using PuffPuffPets.Api.Dtos;
 using PuffPuffPets.Api.Repositories;
 
 namespace PuffPuffPets.Api.Controllers
@@ -53,23 +54,15 @@ namespace PuffPuffPets.Api.Controllers
             _repo.DeleteProductOrder(productOrderIdToDelete);
         }
 
-        [HttpPut("update/{productOrderIdToUpdate}")]
-        public IActionResult UpdateQuantity(ProductOrder productOrder, Guid productOrderIdToUpdate)
+        [HttpPut("edit/{productOrderIdToEdit}")]
+        public IActionResult EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
         {
 
-            var updatedProductOrder = new ProductOrder
-            {
-                Id = productOrder.Id,
-                OrderId = productOrder.OrderId,
-                QuantityOrdered = productOrder.QuantityOrdered,
-                isShipped = productOrder.isShipped,
-                ShippedDate = productOrder.ShippedDate
-            };
+            var editedQuantityOrdered = _repo.EditQuantityOrdered(quantityOrdered);
 
-            var completeUpdatedOrder = _repo.UpdateQuantity(updatedProductOrder, productOrderIdToUpdate);
-
-            return Ok(completeUpdatedOrder);
+            return Ok(editedQuantityOrdered);
         }
+
 
     }
 }

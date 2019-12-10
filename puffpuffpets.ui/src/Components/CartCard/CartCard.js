@@ -4,8 +4,14 @@ import cartData from '../../Helpers/Data/CartData';
 
 import './CartCard.scss'
 
+const defaultQuantityOrdered = {
+  quantity: ''
+};
 
 class CartCard extends React.Component {
+  state = {
+    newQuantityOrdered: defaultQuantityOrdered
+  }
 
   deleteMe = (e) => {
     e.preventDefault();
@@ -15,9 +21,29 @@ class CartCard extends React.Component {
     .catch(err => console.error(err, 'unable to delete from CartCard'));
   }
 
-  updateQuantityOrdered = (e) => {
-    e.preventDefault();
+  formFieldStringState = (name, e) => {
+    const tempTrip = { ...this.state.newRoute };
+    tempTrip[name] = e.target.value;
+    this.setState({ newRoute: tempTrip });
   }
+
+
+  updateQuantityOrdered = e => this.formFieldStringState('origin', e);
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const saveMe = { ...this.state.newRoute };
+    const routeId = this.props.match.params.id;
+    saveMe.uid = firebase.auth().currentUser.uid;
+    routesData.putRoute(saveMe, routeId)
+      .then(() => this.props.history.push('/Home'))
+      .catch(err => console.error('unable to save', err));
+  }
+
+
+  // updateQuantityOrdered = (e) => {
+  //   e.preventDefault();
+  // }
 
   render() {
     const { cartProduct } = this.props;
