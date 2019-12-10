@@ -9,8 +9,6 @@ const defaultUser = {
   userName: '',
   firstName: '',
   lastName: '',
-  email: '',
-  password: ''
 }
 
 class EditUserInfoModal extends React.Component {
@@ -28,9 +26,9 @@ class EditUserInfoModal extends React.Component {
     this.setState({ updatedUser: this.props.userObj})
   };
 
-  toggleModal = () => {
+  toggleModal = (e) => {
     const { toggleEditUserInfo } = this.props;
-    toggleEditUserInfo();
+    toggleEditUserInfo(e);
   };
 
   formSubmit = (e) => {    
@@ -82,20 +80,10 @@ class EditUserInfoModal extends React.Component {
               onChange={this.formFieldStringState}
               required />
           </FormGroup>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
-              type="input"
-              name="email"
-              id="email"
-              value={updatedUser.email}
-              onChange={this.formFieldStringState}
-              required />
-          </FormGroup>
         </ModalBody>
         <ModalFooter>
           <Button type="submit" color="primary">Edit Account</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          <Button color="secondary" value="info" onClick={this.toggleModal}>Cancel</Button>
         </ModalFooter>
       </Form>
     </div>

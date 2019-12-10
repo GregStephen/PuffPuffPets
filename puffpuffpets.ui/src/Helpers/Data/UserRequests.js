@@ -1,5 +1,6 @@
 import axios from 'axios';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const baseUrl = 'https://localhost:44332/api/user'
 
@@ -30,21 +31,10 @@ const getUserById = uid => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const logInUser = (email, password) => new Promise((resolve, reject) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(cred => {
-        //get token from firebase
-        cred.user.getIdToken()
-            //save the token to the session storage
-          .then(token => sessionStorage.setItem('token',token))
-          .then(() => {
-            const firebaseUid =  firebase.auth().currentUser.uid;
-            axios.get(`${baseUrl}/uid/${firebaseUid}`)
-            .then(result => resolve(result.data))
-            .catch(err => reject(err));
-          });
-
-      })
+const logInUser = (firebaseUid) => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/uid/${firebaseUid}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
 });
 
 const editUser = (editedUser) => new Promise((resolve, reject) => {
