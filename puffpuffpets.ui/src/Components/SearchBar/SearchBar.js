@@ -1,12 +1,17 @@
 import React from 'react';
-import { Input, InputGroup, InputGroupAddon, Button, Form } from 'reactstrap';
+import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup } from 'reactstrap';
+
+import CatCheckBox from '../CatCheckBox/CatCheckBox';
 
 import ProductRequests from '../../Helpers/Data/ProductRequests';
+import CategoryRequests from '../../Helpers/Data/CategoryRequests';
 
 import './SearchBar.scss';
+
 class SearchBar extends React.Component {
   state = {
     searchTerm : "",
+    categories: [],
     collapse: false,
     status: 'Closed'
   }
@@ -50,7 +55,24 @@ class SearchBar extends React.Component {
     this.search(e.target.value);
   }
 
+  componentDidMount() {
+    CategoryRequests.getAllCategories()
+      .then((results) => {
+        this.setState( {categories: results })
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
+    const { categories } = this.state;
+    const makeCheckboxes = categories.map(category => (
+      
+      <CatCheckBox
+      key={ category.id }
+      category={ category.name}
+      />
+    ));
+  
     return (
       <div className="SearchBar">
         <Form onSubmit={this.searchOnSubmit}>
@@ -74,10 +96,7 @@ class SearchBar extends React.Component {
           onExited={this.onExited}
           >
             <FormGroup check>
-              <Label check>
-                <Input type="checkbox" />{' '}
-                Check me out
-              </Label>
+              {makeCheckboxes}
             </FormGroup>
           </Collapse>
         </Form>
