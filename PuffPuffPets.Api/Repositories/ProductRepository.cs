@@ -22,6 +22,28 @@ namespace PuffPuffPets.Api.Repositories
 
         }
 
+        public IEnumerable<Product> SearchThruProducts(string term)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var regex = "%";
+                char[] charArr = term.ToCharArray();
+                foreach (char ch in charArr)
+                {
+                    regex += "[" + ch + "]";
+                }
+                regex += "%";
+                var sql = @"SELECT p.*
+                            FROM [Product] p
+                            JOIN [User] u
+                            ON p.SellerId = u.Id
+                            WHERE [Title] LIKE @regex OR [BusinessName] LIKE @regex";
+                var parameters = new { regex };
+                var productsSearched = db.Query<Product>(sql, parameters);
+                return productsSearched;
+            }
+        }
+
         public Product GetProductById(Guid productId)
         {
             using (var db = new SqlConnection(_connectionString))

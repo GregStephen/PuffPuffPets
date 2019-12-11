@@ -15,6 +15,11 @@ const getProductById = uid => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
+const searchProducts = term => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/search/q=${term}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+})
 const addProduct = userObj => axios.post(`${baseUrl}`, userObj);
 
 const editProduct = (editedProduct) => new Promise((resolve, reject) => {
@@ -32,6 +37,7 @@ const deleteProduct = uid => new Promise((resolve, reject) => {
 export default {
     getAllProducts,
     getProductById,
+    searchProducts,
     addProduct,
     editProduct,
     deleteProduct,
