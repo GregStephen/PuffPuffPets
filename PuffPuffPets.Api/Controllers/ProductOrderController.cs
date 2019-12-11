@@ -58,11 +58,15 @@ namespace PuffPuffPets.Api.Controllers
         public IActionResult EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
         {
 
-            var editedQuantityOrdered = _repo.EditQuantityOrdered(quantityOrdered);
-
-            return Ok(editedQuantityOrdered);
+            if (_repo.EditQuantityOrdered(quantityOrdered))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
-
 
     }
 }
