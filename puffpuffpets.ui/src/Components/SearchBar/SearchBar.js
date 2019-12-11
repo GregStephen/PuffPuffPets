@@ -1,8 +1,7 @@
 import React from 'react';
-import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup } from 'reactstrap';
+import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup, Label } from 'reactstrap';
 
 import CatCheckBox from '../CatCheckBox/CatCheckBox';
-
 import ProductRequests from '../../Helpers/Data/ProductRequests';
 import CategoryRequests from '../../Helpers/Data/CategoryRequests';
 
@@ -13,7 +12,14 @@ class SearchBar extends React.Component {
     searchTerm : "",
     categories: [],
     collapse: false,
-    status: 'Closed'
+    status: 'Closed',
+    checkedCategories: {
+      Cats: false,
+      Dogs: false,
+      Birds: false,
+      Snakes: false,
+      'Guinea Pigs': false
+    }
   }
 
   onEntering = () => {
@@ -55,6 +61,16 @@ class SearchBar extends React.Component {
     this.search(e.target.value);
   }
 
+  handleChange = (categoryName, isChecked) => {
+    console.error(categoryName, 'name');
+    console.error(isChecked, 'ischecked');
+    const tempCats = { ...this.state.checkedCategories }
+    tempCats[categoryName] = isChecked;
+    this.setState({
+      checkedCategories: tempCats
+    })
+  }
+
   componentDidMount() {
     CategoryRequests.getAllCategories()
       .then((results) => {
@@ -66,12 +82,13 @@ class SearchBar extends React.Component {
   render() {
     const { categories } = this.state;
     const makeCheckboxes = categories.map(category => (
-      
-      <CatCheckBox
-      key={ category.id }
-      category={ category.name}
-      />
-    ));
+      <Label key={category.id}> {category.name}
+        <CatCheckBox
+        category={ category.name }
+        onChange={ this.handleChange }
+        />
+      </Label>
+    ))
   
     return (
       <div className="SearchBar">
@@ -96,7 +113,7 @@ class SearchBar extends React.Component {
           onExited={this.onExited}
           >
             <FormGroup check>
-              {makeCheckboxes}
+                {makeCheckboxes}
             </FormGroup>
           </Collapse>
         </Form>
