@@ -8,8 +8,8 @@ class MyCart extends React.Component {
     cartProducts: []
   }
 
-  getMyCartProducts = uid => {
-    CartData.getMyCartProducts(uid)
+  getMyCartProducts = () => {
+    CartData.getMyCartProducts(this.props.userObj.id)
       .then(cartProducts => this.setState({ cartProducts }))
       .catch(err => console.error(err, 'could not get user cart products'));
   }
@@ -27,8 +27,9 @@ class MyCart extends React.Component {
   render() {
     const makeCartCardsNewest = this.sortDates().map(cartProduct => (
       <CartCard
-      key={cartProduct.id}
+      key={cartProduct.productOrderId}
       cartProduct={cartProduct}
+      getMyCartProducts={this.getMyCartProducts}
       />
     ));
     return (
