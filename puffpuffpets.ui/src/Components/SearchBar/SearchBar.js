@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup, Label } from 'reactstrap';
+import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup } from 'reactstrap';
 
 import CatCheckBox from '../CatCheckBox/CatCheckBox';
 import ProductRequests from '../../Helpers/Data/ProductRequests';
@@ -13,13 +13,7 @@ class SearchBar extends React.Component {
     categories: [],
     collapse: false,
     status: 'Closed',
-    checkedCategories: {
-      Cats: false,
-      Dogs: false,
-      Birds: false,
-      Snakes: false,
-      'Guinea Pigs': false
-    }
+    checkedCategories: {}
   }
 
   onEntering = () => {
@@ -61,11 +55,9 @@ class SearchBar extends React.Component {
     this.search(e.target.value);
   }
 
-  handleChange = (categoryName, isChecked) => {
-    console.error(categoryName, 'name');
-    console.error(isChecked, 'ischecked');
+  handleChange = (categoryId, isChecked) => {
     const tempCats = { ...this.state.checkedCategories }
-    tempCats[categoryName] = isChecked;
+    tempCats[categoryId] = isChecked;
     this.setState({
       checkedCategories: tempCats
     })
@@ -74,7 +66,12 @@ class SearchBar extends React.Component {
   componentDidMount() {
     CategoryRequests.getAllCategories()
       .then((results) => {
-        this.setState( {categories: results })
+        this.setState({ categories: results });
+        let checkboxes = {};
+        results.forEach((result => {
+          checkboxes[result.id] = false
+        })) 
+        this.setState({ checkedCategories: checkboxes})
       })
       .catch(err => console.error(err));
   }
@@ -82,12 +79,11 @@ class SearchBar extends React.Component {
   render() {
     const { categories } = this.state;
     const makeCheckboxes = categories.map(category => (
-      <Label key={category.id}> {category.name}
         <CatCheckBox
-        category={ category.name }
+        key={ category.id }
+        category={ category }
         onChange={ this.handleChange }
         />
-      </Label>
     ))
   
     return (
@@ -112,7 +108,7 @@ class SearchBar extends React.Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
           >
-            <FormGroup check>
+            <FormGroup check className="row">
                 {makeCheckboxes}
             </FormGroup>
           </Collapse>
