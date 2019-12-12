@@ -41,8 +41,16 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpGet("search/q={term}")]
-        public IEnumerable<Product> GetAllSearchedProducts(string term)
+        public IEnumerable<Product> GetAllSearchedProducts(string term, Dictionary<Guid, bool> searchCategories)
         {
+            var categoriesTrue = new List<Guid>();
+            foreach(var (categoryId, value) in searchCategories)
+            {
+                if(value)
+                {
+                    categoriesTrue.Add(categoryId);
+                }
+            }
             return _repo.SearchThruProducts(term);
         }
 
