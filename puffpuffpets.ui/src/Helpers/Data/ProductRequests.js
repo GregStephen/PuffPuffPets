@@ -15,8 +15,8 @@ const getProductById = uid => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-const searchProducts = term => new Promise((resolve, reject) => {
-    axios.get(`${baseUrl}/search/q=${term}`)
+const searchProducts = (term, categories) => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/search/q=${term}`, categories)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
 })
