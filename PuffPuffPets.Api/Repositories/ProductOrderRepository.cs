@@ -97,7 +97,9 @@ namespace PuffPuffPets.Api.Repositories
                                                                   JOIN ProductOrder PO
                                                                   ON PO.OrderId = O.Id
                                                                   WHERE O.UserId = @UserId
+
                                                                   SELECT *
+                                                                  INTO #tempP_POO
                                                                   FROM (
                                                                   SELECT [Title]
                                                                       ,[SellerId]
@@ -113,31 +115,21 @@ namespace PuffPuffPets.Api.Repositories
                                                                   JOIN #tempPOO AS t
                                                                   ON t.productId = P.Id
                                                                   WHERE t.isCompleted = 0
-                                                                  ) a
+                                                                  ) abc
                                                                   WHERE rn = 1
 
-                                                                  DROP TABLE #tempPOO",
+                                                                  SELECT *
+                                                                  FROM #tempP_POO, Category C
+                                                                  WHERE #tempP_POO.CategoryId = C.Id
+
+                                                                  DROP TABLE #tempPOO
+                                                                  DROP TABLE #tempP_POO",
                                                                 new { userId });
 
                 return productOrders.ToList();
             }
         }
 
-        //public ProductOrder UpdateQuantity(ProductOrder updatedProductOrder, Guid id)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var sql = @"UPDATE ProductOrder
-        //                    SET QuantityOrdered = @QuantityOrdered,
-        //                    OUTPUT INSERTED.*
-        //                    WHERE [id] = @id";
-
-        //        updatedProductOrder.Id = id;
-
-        //        var candy = db.QueryFirst<ProductOrder>(sql, updatedProductOrder);
-        //        return candy;
-        //    }
-        //}
 
         public bool EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
 

@@ -51,7 +51,8 @@ class CartCard extends React.Component {
             <div className="row">
               <p className="col quantityOrderedText">Quantity:</p> 
               <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={cartProduct.quantityOrdered} min="1" max="10"></input>
-              <p className="col-9 cartProductDescription"><i>{cartProduct.description}</i></p>
+              <p className="col-4 cartProductDescription"><i>{cartProduct.description}</i></p>
+              <p className="col-4 cartProductDescription"><u>Category</u><br></br><i>{cartProduct.name}</i></p>
             </div>
           </div>
         </div>
