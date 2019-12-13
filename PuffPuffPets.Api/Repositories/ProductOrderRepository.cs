@@ -92,12 +92,14 @@ namespace PuffPuffPets.Api.Repositories
                                                                       ,O.[TotalPrice]
                                                                       ,O.[IsCompleted]
                                                                       ,O.[PurchaseDate]
-                                                                  INTO #tempPOO
+                                                                  INTO #tempPO_O
                                                                   FROM [Order] O
                                                                   JOIN ProductOrder PO
                                                                   ON PO.OrderId = O.Id
                                                                   WHERE O.UserId = @UserId
+
                                                                   SELECT *
+                                                                  INTO #tempP_PO_O
                                                                   FROM (
                                                                   SELECT [Title]
                                                                       ,[SellerId]
@@ -110,34 +112,24 @@ namespace PuffPuffPets.Api.Repositories
                                                                 	  ,t.*
                                                                       ,ROW_NUMBER() OVER(PARTITION BY P.Id ORDER BY P.Id DESC) rn
                                                                   FROM Product P
-                                                                  JOIN #tempPOO AS t
+                                                                  JOIN #tempPO_O AS t
                                                                   ON t.productId = P.Id
                                                                   WHERE t.isCompleted = 0
-                                                                  ) a
+                                                                  ) abc
                                                                   WHERE rn = 1
 
-                                                                  DROP TABLE #tempPOO",
+                                                                  SELECT *
+                                                                  FROM #tempP_PO_O, Category C
+                                                                  WHERE #tempP_PO_O.CategoryId = C.Id
+
+                                                                  DROP TABLE #tempPO_O
+                                                                  DROP TABLE #tempP_PO_O",
                                                                 new { userId });
 
                 return productOrders.ToList();
             }
         }
 
-        //public ProductOrder UpdateQuantity(ProductOrder updatedProductOrder, Guid id)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var sql = @"UPDATE ProductOrder
-        //                    SET QuantityOrdered = @QuantityOrdered,
-        //                    OUTPUT INSERTED.*
-        //                    WHERE [id] = @id";
-
-        //        updatedProductOrder.Id = id;
-
-        //        var candy = db.QueryFirst<ProductOrder>(sql, updatedProductOrder);
-        //        return candy;
-        //    }
-        //}
 
         public bool EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
 
