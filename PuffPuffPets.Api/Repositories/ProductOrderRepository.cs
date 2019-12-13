@@ -92,14 +92,14 @@ namespace PuffPuffPets.Api.Repositories
                                                                       ,O.[TotalPrice]
                                                                       ,O.[IsCompleted]
                                                                       ,O.[PurchaseDate]
-                                                                  INTO #tempPOO
+                                                                  INTO #tempPO_O
                                                                   FROM [Order] O
                                                                   JOIN ProductOrder PO
                                                                   ON PO.OrderId = O.Id
                                                                   WHERE O.UserId = @UserId
 
                                                                   SELECT *
-                                                                  INTO #tempP_POO
+                                                                  INTO #tempP_PO_O
                                                                   FROM (
                                                                   SELECT [Title]
                                                                       ,[SellerId]
@@ -112,18 +112,18 @@ namespace PuffPuffPets.Api.Repositories
                                                                 	  ,t.*
                                                                       ,ROW_NUMBER() OVER(PARTITION BY P.Id ORDER BY P.Id DESC) rn
                                                                   FROM Product P
-                                                                  JOIN #tempPOO AS t
+                                                                  JOIN #tempPO_O AS t
                                                                   ON t.productId = P.Id
                                                                   WHERE t.isCompleted = 0
                                                                   ) abc
                                                                   WHERE rn = 1
 
                                                                   SELECT *
-                                                                  FROM #tempP_POO, Category C
-                                                                  WHERE #tempP_POO.CategoryId = C.Id
+                                                                  FROM #tempP_PO_O, Category C
+                                                                  WHERE #tempP_PO_O.CategoryId = C.Id
 
-                                                                  DROP TABLE #tempPOO
-                                                                  DROP TABLE #tempP_POO",
+                                                                  DROP TABLE #tempPO_O
+                                                                  DROP TABLE #tempP_PO_O",
                                                                 new { userId });
 
                 return productOrders.ToList();

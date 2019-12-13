@@ -15,7 +15,9 @@ class CartCard extends React.Component {
   }
 
   deleteMe = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const { cartProduct } = this.props;
     cartData.deleteFromCart(cartProduct.productOrderId)
     .then(() => this.props.getMyCartProducts())
@@ -36,6 +38,12 @@ class CartCard extends React.Component {
     cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
   }
 
+  componentDidMount() {
+    if (this.props.cartProduct.quantityInStock === 0) {
+      this.deleteMe();
+    }
+  }
+
   render() {
     const { cartProduct } = this.props;
     return (
@@ -50,7 +58,7 @@ class CartCard extends React.Component {
             </div>
             <div className="row">
               <p className="col quantityOrderedText">Quantity:</p> 
-              <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={cartProduct.quantityOrdered} min="1" max="10"></input>
+              <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue="1" min="0" max={cartProduct.quantityInStock}></input>
               <p className="col-4 cartProductDescription"><i>{cartProduct.description}</i></p>
               <p className="col-4 cartProductDescription"><u>Category</u><br></br><i>{cartProduct.name}</i></p>
             </div>
