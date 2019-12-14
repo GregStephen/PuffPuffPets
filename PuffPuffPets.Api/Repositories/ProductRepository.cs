@@ -22,7 +22,7 @@ namespace PuffPuffPets.Api.Repositories
 
         }
 
-        public IEnumerable<Product> SearchThruProducts(string term)
+        public IEnumerable<Product> SearchThruProducts(string term, string[] searchCategories)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -37,8 +37,9 @@ namespace PuffPuffPets.Api.Repositories
                             FROM [Product] p
                             JOIN [User] u
                             ON p.SellerId = u.Id
-                            WHERE [Title] LIKE @regex OR [BusinessName] LIKE @regex";
-                var parameters = new { regex };
+                            WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
+                                  AND p.categoryId in @searchCategories";
+                var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);
                 return productsSearched;
             }
