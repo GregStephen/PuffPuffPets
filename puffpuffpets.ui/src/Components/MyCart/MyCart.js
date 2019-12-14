@@ -2,6 +2,7 @@ import React from 'react';
 import CartData from '../../Helpers/Data/CartData';
 import CartCard from '../CartCard/CartCard';
 
+import './MyCart.scss';
 
 class MyCart extends React.Component {
   state = {
@@ -36,6 +37,7 @@ class MyCart extends React.Component {
       <div className="MyCart container">
         <h1>CART</h1>
         { makeCartCardsNewest }
+        <button id="btnProceedToCheckout" className="btn btn-success">Proceed to Checkout</button>
       </div>
     );
   }
