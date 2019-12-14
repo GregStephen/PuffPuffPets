@@ -12,7 +12,7 @@ const defaultQuantityOrdered = {
 class CartCard extends React.Component {
   state = {
     newQuantityOrdered: defaultQuantityOrdered,
-    price: this.props.cartProduct.price * this.props.cartProduct.quantityOrdered
+    price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2)
   }
 
   deleteMe = (e) => {
@@ -37,7 +37,7 @@ class CartCard extends React.Component {
     tempQuantityOrdered.id = this.props.cartProduct.productOrderId;
     this.setState({ 
     newQuantityOrdered: tempQuantityOrdered,
-    price: (cartProduct.price * tempQuantityOrdered.quantityOrdered)
+    price: ((cartProduct.price * tempQuantityOrdered.quantityOrdered) / 100).toFixed(2)
     });
   }
 
@@ -64,7 +64,7 @@ class CartCard extends React.Component {
   render() {
     const { cartProduct } = this.props;
     return (
-      <div className="Cart col-8">
+      <div className="Cart col">
         <div className="cart-card card container">
           <div className="card-body">
             <div className="row">
