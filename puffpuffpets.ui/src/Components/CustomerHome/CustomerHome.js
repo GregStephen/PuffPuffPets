@@ -10,6 +10,15 @@ class CustomerHome extends React.Component {
     userObj: PropTypes.object.isRequired,
   };
 
+  componentDidMount(){
+    // this is where we will set state of the original products to be displayed
+  }
+
+  displaySearchedProducts = (arrayOfProducts) => {
+    // this is where you would set the state of the products to the searched results
+    console.error('results from the search', arrayOfProducts);
+  }
+
   render () {
     const {userObj} = this.props;
     return (
@@ -18,7 +27,8 @@ class CustomerHome extends React.Component {
           <h1>WELCOME {userObj.firstName}</h1>
           <div className="row justify-content-center">
             <div className="col-8">
-              <SearchBar/>
+              <SearchBar
+              displaySearchedProducts= { this.displaySearchedProducts}/>
             </div>
           </div> 
       </div>

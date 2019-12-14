@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, InputGroup, InputGroupAddon, Button, Form, Collapse, FormGroup } from 'reactstrap';
 
 import CatCheckBox from '../CatCheckBox/CatCheckBox';
@@ -8,6 +9,10 @@ import CategoryRequests from '../../Helpers/Data/CategoryRequests';
 import './SearchBar.scss';
 
 class SearchBar extends React.Component {
+  static propTypes = {
+    displaySearchedProducts: PropTypes.func.isRequired,
+  };
+
   state = {
     searchTerm : "",
     categories: [],
@@ -49,11 +54,12 @@ class SearchBar extends React.Component {
   }
 
   search = (term) => {
+    const {displaySearchedProducts} = this.props;
     const {checkedCategories} = this.state;
     if (term !== '')
     {
       ProductRequests.searchProducts(term, checkedCategories)
-      .then(result => console.error(result))
+      .then(result => displaySearchedProducts(result))
       .catch(err => console.error(err));
     }
     // if term does === '' then just do the regular products call
