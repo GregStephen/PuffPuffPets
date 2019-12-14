@@ -36,6 +36,11 @@ class SearchBar extends React.Component {
     this.setState(state => ({ collapse: !state.collapse }));
   }
 
+  removeFilter = () => {
+    this.toggle();
+    this.resetCheckboxes();
+  }
+
   searchOnSubmit = (e) => {
     e.preventDefault();
     this.search(this.state.searchTerm);
@@ -64,7 +69,7 @@ class SearchBar extends React.Component {
     })
   }
 
-  componentDidMount() {
+  resetCheckboxes = () => {
     CategoryRequests.getAllCategories()
       .then((results) => {
         this.setState({ categories: results });
@@ -75,6 +80,10 @@ class SearchBar extends React.Component {
         this.setState({ checkedCategories: checkboxes})
       })
       .catch(err => console.error(err));
+  }
+
+  componentDidMount() {
+    this.resetCheckboxes();
   }
 
   render() {
@@ -101,7 +110,9 @@ class SearchBar extends React.Component {
               <Button type="submit" className="searchBtn">Search</Button>
             </InputGroupAddon>
           </InputGroup>
-          <Button className="btn btn-info" onClick={this.toggle}>Filter by Category</Button>
+          {this.state.collapse 
+          ? <Button className="btn btn-info" onClick={this.removeFilter}>Remove Category Filter</Button>
+          : <Button className="btn btn-info" onClick={this.toggle}>Filter by Category</Button>}
           <Collapse
           isOpen={this.state.collapse}
           onEntering={this.onEntering}
