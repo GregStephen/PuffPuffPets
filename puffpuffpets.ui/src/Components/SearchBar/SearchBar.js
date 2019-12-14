@@ -56,6 +56,7 @@ class SearchBar extends React.Component {
       .then(result => console.error(result))
       .catch(err => console.error(err));
     }
+    // if term does === '' then just do the regular products call
   }
 
   formFieldStringState = (e) => {
