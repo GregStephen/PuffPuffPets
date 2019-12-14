@@ -34,7 +34,8 @@ const searchProducts = (term, searchCategories) => new Promise((resolve, reject)
     axios.get(`${baseUrl}/search/q=${term}/categories${stringedCategories}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
-})
+});
+
 const addProduct = userObj => axios.post(`${baseUrl}`, userObj);
 
 const editProduct = (editedProduct) => new Promise((resolve, reject) => {
