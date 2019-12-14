@@ -36,7 +36,9 @@ class SearchBar extends React.Component {
     this.setState(state => ({ collapse: !state.collapse }));
   }
 
-  removeFilter = () => {
+  removeFilter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     this.toggle();
     this.resetCheckboxes();
   }
@@ -70,6 +72,7 @@ class SearchBar extends React.Component {
   }
 
   resetCheckboxes = () => {
+    this.setState({categories: []})
     CategoryRequests.getAllCategories()
       .then((results) => {
         this.setState({ categories: results });
