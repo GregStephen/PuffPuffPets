@@ -7,6 +7,6 @@ namespace PuffPuffPets.Api.DataModels
 {
     public class SearchCategories
     {
-        
+        public Dictionary<Guid, bool> Categories {get;set;}
     }
 }

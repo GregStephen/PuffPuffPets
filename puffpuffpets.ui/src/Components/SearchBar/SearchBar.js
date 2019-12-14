@@ -43,6 +43,7 @@ class SearchBar extends React.Component {
 
   search = (term) => {
     const {checkedCategories} = this.state;
+    console.error(checkedCategories);
     if (term !== '')
     {
       ProductRequests.searchProducts(term, checkedCategories)
