@@ -1,9 +1,19 @@
 import React from 'react';
-import './Auth.scss';
+import PropTypes from 'prop-types';
+
 import JumbotronDisplay from '../JumbotronDisplay/JumbotronDisplay';
 import SearchBar from '../SearchBar/SearchBar';
 
+import './Auth.scss';
 class Auth extends React.Component {
+  static propTypes = {
+    userLoggedIn: PropTypes.func.isRequired,
+  }
+
+  componentDidMount(){
+    // this is where we will set state of the original products to be displayed
+  }
+
   thisIsTheUserLoggingIn = (user) => {
     const {userLoggedIn} = this.props;
     userLoggedIn(user);

@@ -1,10 +1,16 @@
 import React from 'react';
 import { Input, Label } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 class CatCheckBox extends React.Component{
+  static propTypes = {
+    category: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
+
   state = {
     isChecked: false
-  }
+  };
 
   onClick = (e) => {
     const { category, onChange } = this.props;
