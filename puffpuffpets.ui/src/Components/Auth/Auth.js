@@ -16,12 +16,9 @@ class Auth extends React.Component {
           />
           <div className="row justify-content-center">
             <div className="col-8">
-            <SearchBar
-          />
+              <SearchBar/>
             </div>
-          
-          </div>
-          
+          </div>     
       </div>
     );
   }
