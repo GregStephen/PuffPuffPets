@@ -62,12 +62,12 @@ INSERT INTO ProductOrder
 VALUES
 (@ProductId1,
  @OrderId1,
- 2,
+ 1,
  0,
  NULL),
  (@ProductId4,
  @OrderId1,
- 5,
+ 1,
  0,
  NULL),
 (@ProductId2,
@@ -77,7 +77,7 @@ VALUES
  '20191111 04:20:10 AM'),
 (@ProductId3,
  @OrderId2,
- 2,
+ 1,
  1,
  '20191111 04:20:10 AM')
 

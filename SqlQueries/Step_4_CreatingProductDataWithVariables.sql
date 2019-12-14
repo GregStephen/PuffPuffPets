@@ -97,44 +97,59 @@ SellerId,
 ImgUrl,
 TypeId,
 [Description],
-CategoryId
+CategoryId,
+Price,
+QuantityInStock
 )
 VALUES
 ('The Chewy Feel Good',
 @sellerId,
 'https://img.chewy.com/is/image/catalog/134875_MAIN._AC_SL1500_V1503518536_.jpg',
 @mediumId,
-'For all pets -a favorite for dogs',
-@dogCatId
+'CBD specifically made for the one pet everyone should have. Buy these chewables to keep Rover hungry all the time.',
+@dogCatId,
+739,
+31
 ),
 
 ('Rabbit Reefer',
 @sellerId,
 'https://i1.wp.com/loweringthebar.net/wp-content/uploads/2015/05/eating-rabbit.jpg?w=777&ssl=1',
 @vlightId,
-'For snakes',
-@snakeCatId),
+'CBD made for swallowing whole. Looks and feels like a real rabbit! Your slithering companion will truly appreciate this delicacy.',
+@snakeCatId,
+420,
+22
+),
 
 ('Peanut Pills',
 @sellerId,
 'https://static1.bigstockphoto.com/2/8/1/large2/182163679.jpg',
 @lightId,
-'For birds',
-@birdCatId),
+'CBD crunchy and also swallowable. Polly doesn''t want a cracker, Polly wants Peanut Pills.',
+@birdCatId,
+200,
+7
+),
 
 ('Miracle Mice',
 @sellerId,
 'http://www.clker.com/cliparts/m/D/K/t/s/A/green-mouse-hi.png',
 @allFuckedOutId,
-'For cats',
-@catCatId),
+'CBD that looks and squirms like real mice. Delightful treats for your selfish, self-centered guardian of the underworld.',
+@catCatId,
+399,
+5
+),
 
 ('Light it up Lettuce',
 @sellerId,
 'https://www.opposingviews.com/.image/c_fit%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_620/MTUzOTk1NzI4MTI5NzYyMzg2/agents-find-2-tons-of-weed-disguised-as-lettuce-photos-promo-image.jpg',
 @heavyId,
-'For gerbils and guinea pigs',
-@guineaPigCatId)
+'CBD treats that immitate lettuce look, taste, and texture. But has a variety of more interesting effects than lettuce.',
+@guineaPigCatId,
+550,
+28
+)
 
 SELECT * FROM Product
-
