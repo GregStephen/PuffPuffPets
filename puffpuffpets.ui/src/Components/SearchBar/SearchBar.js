@@ -59,7 +59,7 @@ class SearchBar extends React.Component {
     if (term !== '')
     {
       ProductRequests.searchProducts(term, checkedCategories)
-      .then(result => displaySearchedProducts(result))
+      .then(result => displaySearchedProducts(result, term))
       .catch(err => console.error(err));
     }
     // if term does === '' then just do the regular products call

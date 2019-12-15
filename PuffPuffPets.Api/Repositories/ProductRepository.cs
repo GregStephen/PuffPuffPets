@@ -22,10 +22,11 @@ namespace PuffPuffPets.Api.Repositories
 
         }
 
-        public IEnumerable<Product> SearchThruProducts(string term, string[] searchCategories)
+        public SearchReturn SearchThruProducts(string term, string[] searchCategories)
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var searchResults = new SearchReturn();
                 var regex = "%";
                 char[] charArr = term.ToCharArray();
                 foreach (char ch in charArr)
@@ -33,6 +34,10 @@ namespace PuffPuffPets.Api.Repositories
                     regex += "[" + ch + "]";
                 }
                 regex += "%";
+                var sql = @"SELECT p.*
+                            FROM [Product] p
+                            JOIN [User] u
+                            ON p.SellerId = u.Id";
                 var whereStatement = "";
                 if (searchCategories.Length == 0 )
                 {
@@ -43,14 +48,12 @@ namespace PuffPuffPets.Api.Repositories
                     whereStatement = @" WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
                                         AND p.categoryId in @searchCategories";
                 }
-                var sql = @"SELECT p.*
-                            FROM [Product] p
-                            JOIN [User] u
-                            ON p.SellerId = u.Id";
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);
-                return productsSearched;
+                searchResults.Products = productsSearched;
+                searchResults.TotalProducts = productsSearched.Count();
+                return searchResults;
             }
         }
 
