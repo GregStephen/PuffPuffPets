@@ -5,8 +5,6 @@ import {
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import UserRequests from '../../../Helpers/Data/UserRequests';
-
 class LoginModal extends React.Component {
   state = {
     email: '',
@@ -31,14 +29,8 @@ class LoginModal extends React.Component {
             //save the token to the session storage
           .then(token => sessionStorage.setItem('token',token))
           .then(() => {
-            const firebaseUid =  firebase.auth().currentUser.uid;
-            // gets the user data from PPP database by firebaseUid
-            UserRequests.logInUser(firebaseUid)
-              .then((user) => {
-                // stores the user's data at APP level
-                loggedIn();
-                this.toggleModal();
-          }) 
+            loggedIn();
+            this.toggleModal();
       })
     }).catch(err => {
       // if anything breaks this will show up on the log in modal why it broke
