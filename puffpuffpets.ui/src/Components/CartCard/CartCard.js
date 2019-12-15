@@ -51,7 +51,9 @@ class CartCard extends React.Component {
 
   componentDidUpdate() {
     const { newQuantityOrdered } = this.state;
-    cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
+    if (newQuantityOrdered.quantityInStock > 0) {
+      cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
+    }
   }
 
   componentDidMount() {

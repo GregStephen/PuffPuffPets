@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CartData from '../../Helpers/Data/CartData';
 import CartCard from '../CartCard/CartCard';
 
@@ -26,6 +27,7 @@ class MyCart extends React.Component {
   }
 
   render() {
+    const uid = `${this.props.userObj.id}`
     const makeCartCardsNewest = this.sortDates().map(cartProduct => (
       <CartCard
       key={cartProduct.productOrderId}
@@ -37,7 +39,7 @@ class MyCart extends React.Component {
       <div className="MyCart container">
         <h1>CART</h1>
         { makeCartCardsNewest }
-        <button id="btnProceedToCheckout" className="btn btn-success">Proceed to Checkout</button>
+        <Link to={{ pathname: `/checkout/${uid}` }} id="btnProceedToCheckout" className="btn btn-success">Proceed to Checkout</Link>
       </div>
     );
   }
