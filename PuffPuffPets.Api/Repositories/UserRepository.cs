@@ -68,25 +68,6 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public bool UserEmailCheck(string newUserEmailCheck)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"SELECT *
-                            FROM [User]
-                            WHERE [Email] = @newUserEmailCheck";
-                var parameters = new { newUserEmailCheck };
-                var userEmailComesBack = db.Query<User>(sql, parameters);
-                if (userEmailComesBack.Count() != 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
         public bool EditUser(EditUserDto editedUser)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -105,9 +86,7 @@ namespace PuffPuffPets.Api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var userNameExists = UserNameCheck(newUser.UserName);
-                var userEmailExists = UserEmailCheck(newUser.Email);
-                // if either of these are true then STOP 
-                if (userNameExists || userEmailExists)
+                if (userNameExists)
                 {
                     return false;
                 }
@@ -125,7 +104,6 @@ namespace PuffPuffPets.Api.Repositories
                                  [UserName],
                                  [FirstName],
                                  [LastName],
-                                 [Email],
                                  [DateCreated],
                                  [FirebaseUid],
                                  [BusinessName])
@@ -135,7 +113,6 @@ namespace PuffPuffPets.Api.Repositories
                                  @userName,
                                  @firstName,
                                  @lastName,
-                                 @email,
                                  @dateCreated,
                                  @firebaseUid,
                                  @businessName)";
@@ -165,8 +142,6 @@ namespace PuffPuffPets.Api.Repositories
                 var sql = @"UPDATE [User]
                             SET [FirstName] = 'DELETED',
                                 [LastName] = 'DELETED',
-                                [Email] = 'DELETED',
-                                [Password] = 'DELETED'
                             WHERE Id = @userId";
                 var parameters = new { userId };
                 return db.Execute(sql, parameters) == 1;

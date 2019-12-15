@@ -9,7 +9,6 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'User')
 		[UserName] NVARCHAR(255) not null,
 		[FirstName] NVARCHAR(255) not null,
 		[LastName] NVARCHAR(255) not null,
-		[Email] NVARCHAR(255) not null,
 		[IsSeller] Bit not null,
 		[DateCreated] DateTime not null,
 		[FirebaseUid] NVARCHAR (255) not null,
