@@ -1,22 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import JumbotronDisplay from '../JumbotronDisplay/JumbotronDisplay';
 import SearchBar from '../SearchBar/SearchBar';
 
 import './Auth.scss';
 class Auth extends React.Component {
-  static propTypes = {
-    userLoggedIn: PropTypes.func.isRequired,
-  }
 
   componentDidMount(){
     // this is where we will set state of the original products to be displayed
-  }
-
-  thisIsTheUserLoggingIn = (user) => {
-    const {userLoggedIn} = this.props;
-    userLoggedIn(user);
   }
 
   displaySearchedProducts = (arrayOfProducts) => {
@@ -24,12 +15,15 @@ class Auth extends React.Component {
     console.error('results from the search', arrayOfProducts);
   }
 
+  createUser = (newUser, password) => {
+    this.props.createThisUser(newUser, password);
+  }
+
   render() {
     return ( 
         <div className="Auth container">
           <JumbotronDisplay
-          thisIsTheUserLoggingIn = {this.thisIsTheUserLoggingIn}
-          />
+          createUser= { this.createUser }/>
           <div className="row justify-content-center">
             <div className="col-8">
               <SearchBar

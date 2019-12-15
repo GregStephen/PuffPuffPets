@@ -36,7 +36,7 @@ class LoginModal extends React.Component {
             UserRequests.logInUser(firebaseUid)
               .then((user) => {
                 // stores the user's data at APP level
-                loggedIn(user);
+                loggedIn();
                 this.toggleModal();
           }) 
       })
