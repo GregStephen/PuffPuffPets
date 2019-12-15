@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import CreateAcctModal from '../MyNavbar/CreateAcctModal/CreateAcctModal';
 
-import UserRequests from '../../Helpers/Data/UserRequests';
-
 import './JumbotronDisplay.scss';
 
 
@@ -25,20 +23,8 @@ class JumbotronDisplay extends React.Component {
     }));
   }
 
-  loggedIn = (email, password) => {
-    UserRequests.logInUser(email, password)
-      .then((user) => {
-        this.props.thisIsTheUserLoggingIn(user)
-      })
-      .catch(err => this.setState({ error: err}));
-  }
-
   createNewUser = (newUser, password) => {
-    UserRequests.addUser(newUser, password)
-    .then(() => {
-      this.loggedIn(newUser.Email, password)
-    })
-    .catch(err => console.error(err));
+    this.props.createUser(newUser, password);
   }
   render() {
     

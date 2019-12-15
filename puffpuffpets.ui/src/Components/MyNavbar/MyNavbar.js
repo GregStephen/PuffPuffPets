@@ -18,7 +18,6 @@ import PropTypes from 'prop-types';
 
 import LoginModal from './LoginModal/LoginModal';
 import CreateAcctModal from './CreateAcctModal/CreateAcctModal';
-import UserRequests from '../../Helpers/Data/UserRequests';
 
 import './MyNavbar.scss';
 
@@ -32,7 +31,7 @@ class MyNavbar extends React.Component {
   static propTypes = {
     authed: PropTypes.bool.isRequired,
     userObj: PropTypes.object.isRequired,
-    userLoggedIn: PropTypes.func,
+    userLogIn: PropTypes.func,
     userLoggedOut: PropTypes.func,
   }
 
@@ -102,16 +101,12 @@ class MyNavbar extends React.Component {
     });
   }
 
-  loggedIn = (user) => {
-    this.props.userLoggedIn(user);
+  loggedIn = () => {
+    this.props.userLogIn();
   }
 
   createNewUser = (newUser, password) => {
-    UserRequests.addUser(newUser, password)
-    .then(() => {
-      this.loggedIn(newUser.Email, password)
-    })
-    .catch(err => console.error(err));
+    this.props.createThisUser(newUser, password);
   }
 
   logMeOut = (e) => {
