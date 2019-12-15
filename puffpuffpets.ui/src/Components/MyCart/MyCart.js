@@ -39,7 +39,7 @@ class MyCart extends React.Component {
       <div className="MyCart container">
         <h1>CART</h1>
         { makeCartCardsNewest }
-        <Link to={{ pathname: `/checkout/${uid}` }} id="btnProceedToCheckout" className="btn btn-success">Proceed to Checkout</Link>
+        <Link to={{ pathname: `/checkout/${uid}` }} id="btnProceedToCheckout" className="btn-lg btn-success">Proceed to Checkout</Link>
       </div>
     );
   }

@@ -51,7 +51,8 @@ class CartCard extends React.Component {
 
   componentDidUpdate() {
     const { newQuantityOrdered } = this.state;
-    if (newQuantityOrdered.quantityInStock > 0) {
+    //Without this conditional an invalid put request would occur if no updates were made and the user logged out while on the cart page.
+    if (newQuantityOrdered.quantityOrdered > 0) {
       cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
     }
   }
@@ -76,8 +77,8 @@ class CartCard extends React.Component {
               <button className="col btn btn-outline-danger mx-auto removeFromCart" onClick={this.deleteMe}><b>Remove <br></br>From Cart</b></button>
             </div>
             <div className="row">
-              <p className="col quantityOrderedText">Quantity:</p> 
-              <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="0" max={cartProduct.quantityInStock}></input>
+              <p className="col-1 quantityOrderedText">Quantity:</p> 
+              <input className="col-1 quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="0" max={cartProduct.quantityInStock}></input>
               <p className="col-4 cartProductDescription"><i>{cartProduct.description}</i></p>
               <p className="col cartProductCategory"><u>Category</u><br></br><i>{cartProduct.name}</i></p>
             </div>
