@@ -117,13 +117,14 @@ class SearchBar extends React.Component {
             value={this.state.searchTerm}
             onChange={this.formFieldStringState}/>
             <InputGroupAddon addonType="append">
-              <Button type="submit" className="searchBtn">Search</Button>
+              <Button type="submit" className="searchBtn btn btn-success">Search</Button>
             </InputGroupAddon>
           </InputGroup>
           {this.state.collapse 
-          ? <Button className="btn btn-info" onClick={this.removeFilter}>Remove Category Filter</Button>
+          ? <Button className="btn btn-warning" onClick={this.removeFilter}>Remove Category Filter</Button>
           : <Button className="btn btn-info" onClick={this.toggle}>Filter by Category</Button>}
           <Collapse
+          className="no-transition"
           isOpen={this.state.collapse}
           onEntering={this.onEntering}
           onEntered={this.onEntered}
