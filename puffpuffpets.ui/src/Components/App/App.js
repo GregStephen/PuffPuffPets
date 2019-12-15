@@ -35,8 +35,6 @@ const defaultUser = {
   FirstName: '',
   LastName: '',
   IsSeller: false,
-  Password: '',
-  Email: '',
   BusinessName: null,
   AddressLine1: '',
   AddressLine2: '',
@@ -61,12 +59,11 @@ class App extends React.Component {
         this.setState({ authed: false, userObj: defaultUser });
       }
     });
-  }
+  };
 
   componentWillUnmount () {
     this.removeListener();
-  }
-
+  };
 
   userLogIn = () => {
     const firebaseUid =  firebase.auth().currentUser.uid;
