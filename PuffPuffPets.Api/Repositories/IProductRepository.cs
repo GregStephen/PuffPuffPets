@@ -19,7 +19,7 @@ namespace PuffPuffPets.Api.Repositories
 
         public bool DeleteProduct(Guid ProductId);
 
-        IEnumerable<Product> SearchThruProducts(string term);
+        IEnumerable<Product> SearchThruProducts(string term, string[] searchCategories);
     }
 
 
