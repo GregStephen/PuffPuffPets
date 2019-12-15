@@ -56,13 +56,13 @@ class SearchBar extends React.Component {
   search = (term) => {
     const {displaySearchedProducts} = this.props;
     const {checkedCategories} = this.state;
-    if (term !== '')
-    {
+    if (term !== '') {
+      this.updateCheckboxTally();
       ProductRequests.searchProducts(term, checkedCategories)
       .then(result => displaySearchedProducts(result, term))
       .catch(err => console.error(err));
     }
-    // if term does === '' then just do the regular products call
+    // if term does === '' then just do the regular products call and regular checkbox tally
   }
 
   formFieldStringState = (e) => {
@@ -78,10 +78,31 @@ class SearchBar extends React.Component {
     })
   }
 
+  updateCheckboxTally = () => {
+    CategoryRequests.getAllCategories()
+      .then((results) => {
+        results.forEach((category) => {
+          const categorySearched = {}
+          categorySearched[category.id] = true;
+          ProductRequests.searchProducts(this.state.searchTerm, categorySearched)
+            .then((result) => {
+              category.totalResult = result.totalProducts;
+            })
+        })
+        this.setState({ categories: results });
+      })
+  };
+
   resetCheckboxes = () => {
     this.setState({categories: []})
     CategoryRequests.getAllCategories()
       .then((results) => {
+        results.forEach((category) => {
+          ProductRequests.getAllProductsInCategoryById(category.id)
+            .then((result) => {
+              category.totalResult = result.length;
+            })
+        }) 
         this.setState({ categories: results });
         let checkboxes = {};
         results.forEach((result => {

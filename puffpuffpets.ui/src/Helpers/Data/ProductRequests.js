@@ -36,6 +36,12 @@ const searchProducts = (term, searchCategories) => new Promise((resolve, reject)
         .catch(err => reject(err));
 });
 
+const getAllProductsInCategoryById = categoryId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/category/${categoryId}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+});
+
 const addProduct = userObj => axios.post(`${baseUrl}`, userObj);
 
 const editProduct = (editedProduct) => new Promise((resolve, reject) => {
@@ -54,6 +60,7 @@ export default {
     getAllProducts,
     getProductById,
     searchProducts,
+    getAllProductsInCategoryById,
     addProduct,
     editProduct,
     deleteProduct,

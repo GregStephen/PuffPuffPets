@@ -29,7 +29,7 @@ class CatCheckBox extends React.Component{
         onChange= { this.onClick }
         checked= {this.state.isChecked}
         />
-        {category.name}
+        {category.name} ({category.totalResult})
       </Label>
     )
   }

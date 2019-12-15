@@ -57,6 +57,18 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public IEnumerable<Product> GetAllProductsByCategory(Guid categoryId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Product]
+                            WHERE [CategoryId] = @categoryId";
+                var parameters = new { categoryId };
+                var products = db.Query<Product>(sql, parameters);
+                return products;
+            }
+        }
         public Product GetProductById(Guid productId)
         {
             using (var db = new SqlConnection(_connectionString))

@@ -46,6 +46,12 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.SearchThruProducts(term, searchCategories);
         }
 
+        [HttpGet("category/{categoryId}")]
+        public IEnumerable<Product> GetAllProductsInCategory(Guid categoryId)
+        {
+            return _repo.GetAllProductsByCategory(categoryId);
+        }
+
         // POST api/<controller>
         [HttpPost]
         public IActionResult AddProduct(AddProductDto newProduct)

@@ -20,6 +20,8 @@ namespace PuffPuffPets.Api.Repositories
         public bool DeleteProduct(Guid ProductId);
 
         public SearchReturn SearchThruProducts(string term, string[] searchCategories);
+
+        public IEnumerable<Product> GetAllProductsByCategory(Guid categoryId);
     }
 
 
