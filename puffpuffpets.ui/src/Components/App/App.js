@@ -18,6 +18,7 @@ import UserRequests from '../../Helpers/Data/UserRequests';
 import './App.scss';
 
 fbConnect();
+
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
   const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
