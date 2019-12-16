@@ -9,7 +9,7 @@ class CatCheckBox extends React.Component{
   };
 
   state = {
-    isChecked: false
+    isChecked: false,
   };
 
   onClick = (e) => {
@@ -17,7 +17,6 @@ class CatCheckBox extends React.Component{
     this.setState({ isChecked: e.target.checked })
     onChange(category.id, e.target.checked);
   }
-
 
   render() {
     const { category } = this.props;
