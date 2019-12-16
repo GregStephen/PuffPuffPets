@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount () {
-    this.removeListener();
+   this.removeListener();
   }
 
   userLoggedIn = (user) => {
