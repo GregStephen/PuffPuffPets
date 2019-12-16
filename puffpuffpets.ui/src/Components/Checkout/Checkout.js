@@ -1,7 +1,9 @@
 import React from 'react';
+
 import CheckoutData from '../../Helpers/Data/CheckoutData';
 import CheckoutAddressCard from '../CheckoutAddressCard/CheckoutAddressCard';
 import CheckoutPaymentTypeCard from '../CheckoutPaymentTypeCard/CheckoutPaymentTypeCard';
+
 
 class Checkout extends React.Component {
   state = {
@@ -58,7 +60,9 @@ class Checkout extends React.Component {
     return (
       <div className="Checkout container">
         <h1>CHECKOUT</h1>
+        <h3>Shipping Address</h3>
         { makeAddressCards }
+        <h3>Payment Method</h3>
         { makePaymentTypeCards }
         Total: ${ totalPrice.reduce((a,b) => a + b, 0).toFixed(2) }
       </div>

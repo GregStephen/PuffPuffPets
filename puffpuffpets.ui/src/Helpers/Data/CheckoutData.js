@@ -15,16 +15,7 @@ const getMyPaymentTypes = uid => new Promise((resolve, reject) => {
       .catch(err => reject(err));
 });
 
-// const deleteFromCart = productOrderId => axios.delete(`${baseUrl}/delete/${productOrderId}`);
-
-const editQuantityInCart = (quantityOrdered, id) => new Promise((resolve, reject) => {
-axios.put(`${baseUrl}/edit/${id}`, quantityOrdered)
-  .then(result => resolve(result.data))
-  .catch(err => reject(console.error(err), err));
-})
-
 export default {
   getMyAddresses,
-  getMyPaymentTypes,
-  editQuantityInCart
+  getMyPaymentTypes
 };
