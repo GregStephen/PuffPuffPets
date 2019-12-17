@@ -4,6 +4,7 @@ DECLARE @userId2 UNIQUEIDENTIFIER
 DECLARE @ProductId1 UNIQUEIDENTIFIER
 DECLARE @ProductId2 UNIQUEIDENTIFIER
 DECLARE @ProductId3 UNIQUEIDENTIFIER
+DECLARE @ProductId4 UNIQUEIDENTIFIER
 
 DECLARE @OrderId1 UNIQUEIDENTIFIER
 DECLARE @OrderId2 UNIQUEIDENTIFIER
@@ -36,6 +37,10 @@ SELECT @ProductId3 = [Id]
 FROM #tempProduct results
 WHERE Title = 'The Chewy Feel Good'
 
+SELECT @ProductId4 = [Id]
+FROM #tempProduct results
+WHERE Title = 'Peanut Pills'
+
 SELECT *
 INTO #tempOrder
 FROM [Order]
@@ -57,7 +62,12 @@ INSERT INTO ProductOrder
 VALUES
 (@ProductId1,
  @OrderId1,
- 2,
+ 1,
+ 0,
+ NULL),
+ (@ProductId4,
+ @OrderId1,
+ 1,
  0,
  NULL),
 (@ProductId2,
@@ -67,7 +77,7 @@ VALUES
  '20191111 04:20:10 AM'),
 (@ProductId3,
  @OrderId2,
- 2,
+ 1,
  1,
  '20191111 04:20:10 AM')
 

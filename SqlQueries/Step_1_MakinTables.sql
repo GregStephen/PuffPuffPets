@@ -1,4 +1,4 @@
-/*CREATE DATABASE [PuffPuffPets]*/
+--CREATE DATABASE [PuffPuffPets]
 
 
 IF not exists (SELECT * FROM sys.tables WHERE [name] = 'User')

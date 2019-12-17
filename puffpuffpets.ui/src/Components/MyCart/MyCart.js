@@ -2,14 +2,15 @@ import React from 'react';
 import CartData from '../../Helpers/Data/CartData';
 import CartCard from '../CartCard/CartCard';
 
+import './MyCart.scss';
 
 class MyCart extends React.Component {
   state = {
     cartProducts: []
   }
 
-  getMyCartProducts = uid => {
-    CartData.getMyCartProducts(uid)
+  getMyCartProducts = () => {
+    CartData.getMyCartProducts(this.props.userObj.id)
       .then(cartProducts => this.setState({ cartProducts }))
       .catch(err => console.error(err, 'could not get user cart products'));
   }
@@ -27,14 +28,16 @@ class MyCart extends React.Component {
   render() {
     const makeCartCardsNewest = this.sortDates().map(cartProduct => (
       <CartCard
-      key={cartProduct.id}
+      key={cartProduct.productOrderId}
       cartProduct={cartProduct}
+      getMyCartProducts={this.getMyCartProducts}
       />
     ));
     return (
       <div className="MyCart container">
         <h1>CART</h1>
         { makeCartCardsNewest }
+        <button id="btnProceedToCheckout" className="btn btn-success">Proceed to Checkout</button>
       </div>
     );
   }

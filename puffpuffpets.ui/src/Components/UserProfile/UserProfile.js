@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import EditUserInfoModal from '../EditUserInfoModal/EditUserInfoModal';
 import DeleteUserModal from '../DeleteUserModal/DeleteUserModal';
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
+import ChangeEmailModal from '../ChangeEmailModal/ChangeEmailModal';
 
 import AddressRequests from '../../Helpers/Data/AddressRequests';
 
@@ -78,10 +79,15 @@ class UserProfile extends React.Component {
         <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
         <button className='btn btn-info' onClick={() => this.toggleModalOpen('info')}>Change Personal Info</button>
         <button className='btn btn-info' onClick={() => this.toggleModalOpen('password')}>Change Password</button>
+        <button className='btn btn-info' onClick={() => this.toggleModalOpen('email')}>Change Email</button>
         <button className='btn btn-danger' onClick={() => this.toggleModalOpen('delete')}>DELETE PROFILE</button>
         <Modal isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
-        <ModalHeader toggle={this.userPageModalIsOpen}>{modalOpen === 'info' ? 'Edit Account' : 
-        modalOpen === 'password' ? 'Change Password' : 'Delete Account'}</ModalHeader>
+        <ModalHeader toggle={this.userPageModalIsOpen}>
+          {modalOpen === 'info' ? 'Edit Account' : 
+          modalOpen === 'password' ? 'Change Password' : 
+          modalOpen === 'email' ? 'Change Email' : 
+          'Delete Account'}
+        </ModalHeader>
         { modalOpen === 'info' ? 
           <EditUserInfoModal
           toggleEditUserInfo = { this.toggleModalOpen } 
@@ -93,8 +99,12 @@ class UserProfile extends React.Component {
           toggleChangePassword = { this.toggleModalOpen } 
           userObj = { userObj }               
           />
-          :              
-          <DeleteUserModal
+          : modalOpen === 'email' ?
+          <ChangeEmailModal
+          toggleChangeEmail = { this.toggleModalOpen }
+          userObj = { userObj }
+          />
+          : <DeleteUserModal
           toggleDeleteUser = { this.toggleModalOpen } 
           userObj = { userObj }
           userDeleted = { this.userDeleted } 

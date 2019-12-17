@@ -40,6 +40,12 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetProductById(ProductId);
         }
 
+        [HttpGet("search/q={term}/categories")]
+        public IEnumerable<Product> GetAllSearchedProducts(string term, [FromQuery(Name="cat")]string[] searchCategories)
+        {
+            return _repo.SearchThruProducts(term, searchCategories);
+        }
+
         // POST api/<controller>
         [HttpPost]
         public IActionResult AddProduct(AddProductDto newProduct)

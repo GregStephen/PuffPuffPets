@@ -1,0 +1,13 @@
+.SearchBar {
+  .searchBtn {
+    width: 100%;
+    height: 100%;
+  }
+  .no-transition {
+    -webkit-transition: height 0.01s;
+    -moz-transition: height 0.01s;
+    -ms-transition: height 0.01s;
+    -o-transition: height 0.01s;
+    transition: height 0.01s;
+  }
+}

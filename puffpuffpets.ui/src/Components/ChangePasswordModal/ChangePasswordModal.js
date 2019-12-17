@@ -41,7 +41,7 @@ class ChangePasswordModal extends React.Component {
       user.updatePassword(newPassword)
         .then(() => {
           this.toggleModal();
-          console.log("Password updated!");
+          // maybe alert them somehow that their password change was successful
         }).catch((error) => { this.setState({error: error.message}) });
       }).catch((error) => { 
         if (error.code === "auth/wrong-password")

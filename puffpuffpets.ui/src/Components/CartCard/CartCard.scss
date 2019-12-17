@@ -5,7 +5,22 @@ img {
   border-radius: 50%;
 }
 
-button {
-  width: 50%;
-  height: 50%;
+.quantityOrderedText {
+  margin: 5px 0px;
+  padding-right: 5px;
+}
+
+.quantityOrderedInput {
+  height: 25px;
+  margin: 5px 30px 5px 0px;
+  padding-right: 5px;
+}
+
+.removeFromCart {
+  margin: 8% 0 8%;
+  padding: 0px;
+}
+
+.cartProductDescription {
+  // padding-left: 10%;
 }
