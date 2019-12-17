@@ -62,13 +62,8 @@ class App extends React.Component {
   };
 
   componentWillUnmount () {
-<<<<<<< HEAD
-   this.removeListener();
-  }
-=======
     this.removeListener();
   };
->>>>>>> master
 
   userLogIn = () => {
     const firebaseUid =  firebase.auth().currentUser.uid;
