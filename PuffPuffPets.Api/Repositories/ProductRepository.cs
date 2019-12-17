@@ -23,31 +23,37 @@ namespace PuffPuffPets.Api.Repositories
         }
 
         public SearchReturn SearchThruProducts(string term, string[] searchCategories)
-        {
+       {
             using (var db = new SqlConnection(_connectionString))
             {
                 var searchResults = new SearchReturn();
-                var regex = "%";
-                char[] charArr = term.ToCharArray();
-                foreach (char ch in charArr)
-                {
-                    regex += "[" + ch + "]";
-                }
-                regex += "%";
+            
                 var sql = @"SELECT p.*
                             FROM [Product] p
                             JOIN [User] u
                             ON p.SellerId = u.Id";
                 var whereStatement = "";
-                if (searchCategories.Length == 0 )
+                var regex = "%";
+                if (term != null)
                 {
-                    whereStatement = " WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)";
-                }
-                else
-                {
-                    whereStatement = @" WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
+      
+                    char[] charArr = term.ToCharArray();
+                    foreach (char ch in charArr)
+                    {
+                        regex += "[" + ch + "]";
+                    }
+                    regex += "%";
+                    if (searchCategories.Length == 0)
+                    {
+                        whereStatement = " WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)";
+                    }
+                    else
+                    {
+                        whereStatement = @" WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
                                         AND p.categoryId in @searchCategories";
+                    }
                 }
+
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);

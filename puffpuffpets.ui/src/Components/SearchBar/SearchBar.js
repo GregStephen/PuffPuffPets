@@ -57,18 +57,17 @@ class SearchBar extends React.Component {
 
   // this is the actual search function
   search = (term) => {
+    console.error('term', term)
     const {displaySearchedProducts} = this.props;
     const {checkedCategories} = this.state;
-    if (term !== '') {
       // takes the searched term and the object of category checkboxes (checked AND unchecked)
       ProductRequests.searchProducts(term, checkedCategories)
       .then((result) => {
-        this.updateCheckboxTally();
+        this.updateCheckboxTally(term);
         displaySearchedProducts(result, term)
       })
-      .catch(err => console.error(err));
-    }
-    else if (term === '') {
+      .catch(err => console.error(err));  
+if (term === '') {
       // if the search bar is empty when searched, mainly for deleted to nothing
       // then the category checkboxes will show the amount of all products
       // should also do the regular product call here
@@ -102,7 +101,7 @@ class SearchBar extends React.Component {
 
   // THEORETICALLY this should update the checkboxes number of products in each category
   // dependant on the search term
-  updateCheckboxTally = () => {
+  updateCheckboxTally = (term) => {
     CategoryRequests.getAllCategories()
       .then((results) => {
         console.error('results of get all categories', results)
@@ -110,7 +109,7 @@ class SearchBar extends React.Component {
           const categorySearched = {}
           categorySearched[category.id] = true;
           console.error(categorySearched, 'categorySearched')
-          ProductRequests.searchProducts(this.state.searchTerm, categorySearched)
+          ProductRequests.searchProducts(term, categorySearched)
             .then((result) => {
               category.totalResult = result.totalProducts;
               console.error(result, 'result from searchProducts')

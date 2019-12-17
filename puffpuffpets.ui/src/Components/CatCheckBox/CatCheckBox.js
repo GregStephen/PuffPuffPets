@@ -13,6 +13,7 @@ class CatCheckBox extends React.Component{
   };
 
   onClick = (e) => {
+    e.preventDefault();
     const { category, onChange } = this.props;
     this.setState({ isChecked: e.target.checked })
     onChange(category.id, e.target.checked);

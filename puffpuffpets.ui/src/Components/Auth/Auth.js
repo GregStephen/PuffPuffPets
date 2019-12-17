@@ -32,8 +32,11 @@ class Auth extends React.Component {
           createUser= { this.createUser }/>
           
           <div className="row justify-content-center">
-            {searchTerm !== '' ? <p>{totalResults} results for '{searchTerm}'</p>
-            : ''}
+            {searchTerm !== '' ? 
+            totalResults === 1 
+            ? <p>{totalResults} result for '{searchTerm}'</p>
+            : <p>{totalResults} results for '{searchTerm}'</p>
+            : <p>{totalResults} results</p>}
             <div className="col-8">
               <SearchBar
               displaySearchedProducts= { this.displaySearchedProducts }/>

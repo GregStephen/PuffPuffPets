@@ -16,6 +16,9 @@ const getProductById = uid => new Promise((resolve, reject) => {
 });
 
 const searchProducts = (term, searchCategories) => new Promise((resolve, reject) => {
+    if (term === '') {
+        term = " "
+    }
     const categoryIds = Object.keys(searchCategories);
     const selectedCategories = categoryIds.filter(function(id) {
         return searchCategories[id]
