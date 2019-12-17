@@ -34,6 +34,10 @@ namespace PuffPuffPets.Api.Repositories
                             ON p.SellerId = u.Id";
                 var whereStatement = "";
                 var regex = "%";
+                if (searchCategories.Length != 0)
+                {
+                    whereStatement = @" WHERE p.categoryId in @searchCategories";
+                }
                 if (term != null)
                 {
       
@@ -53,7 +57,8 @@ namespace PuffPuffPets.Api.Repositories
                                         AND p.categoryId in @searchCategories";
                     }
                 }
-
+              
+                
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);

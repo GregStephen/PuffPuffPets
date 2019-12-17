@@ -57,7 +57,6 @@ class SearchBar extends React.Component {
 
   // this is the actual search function
   search = (term) => {
-    console.error('term', term)
     const {displaySearchedProducts} = this.props;
     const {checkedCategories} = this.state;
       // takes the searched term and the object of category checkboxes (checked AND unchecked)
@@ -91,9 +90,9 @@ if (term === '') {
   }
 
   // this is for the checkboxes
-  handleChange = (categoryId, isChecked) => {
+  handleChange = (e) => {
     const tempCats = { ...this.state.checkedCategories }
-    tempCats[categoryId] = isChecked;
+    tempCats[e.target.id] = e.target.checked;
     this.setState({
       checkedCategories: tempCats
     })
@@ -104,18 +103,14 @@ if (term === '') {
   updateCheckboxTally = (term) => {
     CategoryRequests.getAllCategories()
       .then((results) => {
-        console.error('results of get all categories', results)
         results.forEach((category) => {
           const categorySearched = {}
           categorySearched[category.id] = true;
-          console.error(categorySearched, 'categorySearched')
           ProductRequests.searchProducts(term, categorySearched)
             .then((result) => {
               category.totalResult = result.totalProducts;
-              console.error(result, 'result from searchProducts')
             })
         })
-        console.error(results, 'final results after for each loop')
         this.setState({ categories: results });
       })
   };
@@ -172,6 +167,7 @@ if (term === '') {
         key={ category.id }
         category={ category }
         onChange={ this.handleChange }
+        isChecked={ this.state.checkedCategories[category.id] }
         />
     ))
   

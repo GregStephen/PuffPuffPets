@@ -20,5 +20,23 @@ namespace PuffPuffPets.Api.Repositories
                 return categories;
             }
         }
+
+        public IEnumerable<CategoryProducts> GetProductsInCategories(string regexTerm)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT c.Id, c.Name, count(*) as TotalProducts
+                            FROM Category c
+                            LEFT JOIN Product p
+                            ON c.Id = p.CategoryId
+                            JOIN [User] u
+                            ON p.SellerId = u.Id
+                             WHERE (p.[Title] LIKE @regexTerm OR u.[BusinessName] LIKE @regexTerm)
+                            GROUP BY c.Id, c.Name";
+                var parameters = new { regexTerm };
+                var categories = db.Query<CategoryProducts>(sql, parameters);
+                return categories;
+            }
+        }
     }
 }

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace PuffPuffPets.Api.DataModels
 {
-    public class SearchReturn
+    public class CategoryProducts
     {
-        public IEnumerable<Product> Products { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
         public int TotalProducts { get; set; }
-        public IEnumerable<CategoryProducts> TotalForEachCategory { get; set; }
     }
 }
