@@ -10,6 +10,7 @@ import Home from '../Home/Home';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyCart from '../MyCart/MyCart';
 import UserProfile from '../UserProfile/UserProfile';
+import SellerProducts from '../SellerProducts/SellerProducts';
 
 import fbConnect from '../../Helpers/Data/fbConnection';
 import UserRequests from '../../Helpers/Data/UserRequests';
@@ -124,8 +125,9 @@ class App extends React.Component {
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed } createThisUser={ this.createThisUser }/>
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
-              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser} deleteThisUser={this.deleteThisUser}/>
-              <PrivateRoute path='/myCart/:userId' component={MyCart} authed={authed} userObj={userObj}/>
+              <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
+              <PrivateRoute path='/myCart/:userId' component={ MyCart } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
