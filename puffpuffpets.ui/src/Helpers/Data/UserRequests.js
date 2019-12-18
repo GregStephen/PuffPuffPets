@@ -43,8 +43,8 @@ const editUser = (editedUser) => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const addUser = (userObj, password) => {
-    return firebase.auth().createUserWithEmailAndPassword(userObj.Email, password)
+const addUser = (userObj, firebaseInfo) => {
+    return firebase.auth().createUserWithEmailAndPassword(firebaseInfo.email, firebaseInfo.password)
     .then(cred => {
         cred.user.getIdToken()
         .then(token => sessionStorage.setItem('token', token))

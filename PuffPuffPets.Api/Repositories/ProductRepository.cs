@@ -22,38 +22,67 @@ namespace PuffPuffPets.Api.Repositories
 
         }
 
-        public IEnumerable<Product> SearchThruProducts(string term, string[] searchCategories)
-        {
+        public SearchReturn SearchThruProducts(string term, string[] searchCategories)
+       {
             using (var db = new SqlConnection(_connectionString))
             {
-                var regex = "%";
-                char[] charArr = term.ToCharArray();
-                foreach (char ch in charArr)
-                {
-                    regex += "[" + ch + "]";
-                }
-                regex += "%";
-                var whereStatement = "";
-                if (searchCategories.Length == 0 )
-                {
-                    whereStatement = " WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)";
-                }
-                else
-                {
-                    whereStatement = @" WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
-                                        AND p.categoryId in @searchCategories";
-                }
+                var catRepo = new CategoryRepository();
+                var searchResults = new SearchReturn();
+            
                 var sql = @"SELECT p.*
                             FROM [Product] p
                             JOIN [User] u
                             ON p.SellerId = u.Id";
+                var whereStatement = "";
+                var regex = "%";
+                if (searchCategories.Length != 0)
+                {
+                    whereStatement = @" WHERE p.categoryId in @searchCategories";
+                }
+                if (term != null)
+                {
+      
+                    char[] charArr = term.ToCharArray();
+                    foreach (char ch in charArr)
+                    {
+                        regex += "[" + ch + "]";
+                    }
+                    regex += "%";
+                    if (searchCategories.Length == 0)
+                    {
+                        whereStatement = " WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)";
+                    }
+                    else
+                    {
+                        whereStatement = @" WHERE ([Title] LIKE @regex OR [BusinessName] LIKE @regex)
+                                        AND p.categoryId in @searchCategories";
+                    }
+                }
+              
+                
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);
-                return productsSearched;
+                var categoryTotalResults = catRepo.GetProductsInCategories(regex);
+                searchResults.Products = productsSearched;
+                searchResults.TotalProducts = productsSearched.Count();
+                searchResults.TotalForEachCategory = categoryTotalResults;
+                return searchResults;
             }
         }
 
+        public IEnumerable<Product> GetAllProductsByCategory(Guid categoryId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Product]
+                            WHERE [CategoryId] = @categoryId";
+                var parameters = new { categoryId };
+                var products = db.Query<Product>(sql, parameters);
+                return products;
+            }
+        }
         public Product GetProductById(Guid productId)
         {
             using (var db = new SqlConnection(_connectionString))

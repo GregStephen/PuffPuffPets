@@ -81,8 +81,8 @@ class App extends React.Component {
     })
   }
   
-  createThisUser = (userToCreate, password) => {
-    UserRequests.addUser(userToCreate, password)
+  createThisUser = (userToCreate, firebaseInfo) => {
+    UserRequests.addUser(userToCreate, firebaseInfo)
       .then(() => {
         this.userLogIn();
       })

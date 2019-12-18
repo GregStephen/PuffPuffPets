@@ -8,7 +8,6 @@ const defaultUser = {
   FirstName: '',
   LastName: '',
   IsSeller: false,
-  Email: '',
   BusinessName: '',
   AddressLine1: '',
   AddressLine2: '',
@@ -19,10 +18,15 @@ const defaultUser = {
   FirebaseUid: ''
 };
 
+const defaultInfo = {
+  email: '',
+  password: ''
+}
+
 class CreateAcctModal extends React.Component {
   state = {
     newUser: defaultUser,
-    password: '',
+    firebaseInfo: defaultInfo,
     collapse: false,
     status: 'Closed',
   }
@@ -54,9 +58,9 @@ class CreateAcctModal extends React.Component {
 
   formSubmit = (e) => {
     e.preventDefault();
-    const { newUser, password } = this.state;
+    const { newUser, firebaseInfo } = this.state;
     newUser.DateCreated = new Date();
-    this.props.createNewUser(newUser, password);
+    this.props.createNewUser(newUser, firebaseInfo);
     this.toggleModal();
   }
 
@@ -66,10 +70,10 @@ class CreateAcctModal extends React.Component {
     this.setState({ newUser: tempUser });
   }
 
-  changePasswordField = (e) => {
-    let tempPassword = this.state.password;
-    tempPassword = e.target.value;
-    this.setState({ password: tempPassword});
+  changeFirebaseField = (e) => {
+    let tempFirebase = this.state.firebaseInfo;
+    tempFirebase[e.target.id] = e.target.value;
+    this.setState({ firebaseInfo: tempFirebase});
   }
 
   formFieldSwitchState = (e) => {
@@ -80,7 +84,7 @@ class CreateAcctModal extends React.Component {
   }
 
   render() {
-    const { newUser } = this.state;
+    const { newUser, firebaseInfo } = this.state;
     const { error } = this.props;
     return (
       <div className="CreateAcctModal container">
@@ -115,21 +119,21 @@ class CreateAcctModal extends React.Component {
                 required />
             </FormGroup>
             <FormGroup>
-              <Label for="Email">Email</Label>
+              <Label for="email">Email</Label>
               <Input
                 type="input"
-                name="Email"
-                id="Email"
-                value={newUser.Email}
-                onChange={this.formFieldStringState}
+                name="email"
+                id="email"
+                value={firebaseInfo.email}
+                onChange={this.changeFirebaseField}
                 required />
               <Label for="password">Password</Label>
               <Input
                 type="password"
                 name="password"
                 id="password"
-                value={this.state.password}
-                onChange={this.changePasswordField}
+                value={firebaseInfo.password}
+                onChange={this.changeFirebaseField}
                 required />
             </FormGroup>
             <FormGroup>

@@ -16,6 +16,9 @@ const getProductById = uid => new Promise((resolve, reject) => {
 });
 
 const searchProducts = (term, searchCategories) => new Promise((resolve, reject) => {
+    if (term === '') {
+        term = " "
+    }
     const categoryIds = Object.keys(searchCategories);
     const selectedCategories = categoryIds.filter(function(id) {
         return searchCategories[id]
@@ -32,6 +35,12 @@ const searchProducts = (term, searchCategories) => new Promise((resolve, reject)
         stringedCategories += toAdd;
     }) 
     axios.get(`${baseUrl}/search/q=${term}/categories${stringedCategories}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+});
+
+const getAllProductsInCategoryById = categoryId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/category/${categoryId}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
 });
@@ -54,6 +63,7 @@ export default {
     getAllProducts,
     getProductById,
     searchProducts,
+    getAllProductsInCategoryById,
     addProduct,
     editProduct,
     deleteProduct,
