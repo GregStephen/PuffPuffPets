@@ -9,5 +9,6 @@ namespace PuffPuffPets.Api.Repositories
     public interface ICategoryRepository
     {
         IEnumerable<Category> GetAllCategories();
+        IEnumerable<CategoryProducts> GetProductsInCategories(string term);
     }
 }

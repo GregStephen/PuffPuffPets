@@ -105,8 +105,8 @@ class MyNavbar extends React.Component {
     this.props.userLogIn();
   }
 
-  createNewUser = (newUser, password) => {
-    this.props.createThisUser(newUser, password);
+  createNewUser = (newUser, firebaseInfo) => {
+    this.props.createThisUser(newUser, firebaseInfo);
   }
 
   logMeOut = (e) => {
