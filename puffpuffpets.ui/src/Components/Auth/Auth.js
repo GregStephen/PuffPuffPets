@@ -3,6 +3,7 @@ import React from 'react';
 import JumbotronDisplay from '../JumbotronDisplay/JumbotronDisplay';
 import SearchBar from '../SearchBar/SearchBar';
 
+
 import './Auth.scss';
 class Auth extends React.Component {
   state = {
@@ -12,6 +13,7 @@ class Auth extends React.Component {
 
   componentDidMount(){
     // this is where we will set state of the original products to be displayed
+    
   }
 
   displaySearchedProducts = (searchResults, searchTerm) => {

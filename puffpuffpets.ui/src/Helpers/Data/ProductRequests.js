@@ -10,7 +10,7 @@ const getAllProducts = () => new Promise ((resolve, reject) => {
 });
 
 const getProductById = uid => new Promise((resolve, reject) => {
-    axios.get(`${baseUrl}`)
+    axios.get(`${baseUrl}/user/${uid}`)
     .then(result => resolve(result.data))
     .catch(err => reject(err));
 });
