@@ -45,7 +45,7 @@ const getAllProductsInCategoryById = categoryId => new Promise((resolve, reject)
         .catch(err => reject(err));
 });
 
-const addProduct = userObj => axios.post(`${baseUrl}`, userObj);
+const addProduct = productObj => axios.post(`${baseUrl}`, productObj);
 
 const editProduct = (editedProduct) => new Promise((resolve, reject) => {
     axios.put(`${baseUrl}`, editedProduct)

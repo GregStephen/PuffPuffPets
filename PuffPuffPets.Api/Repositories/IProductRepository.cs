@@ -22,6 +22,7 @@ namespace PuffPuffPets.Api.Repositories
         public SearchReturn SearchThruProducts(string term, string[] searchCategories);
 
         public IEnumerable<Product> GetAllProductsByCategory(Guid categoryId);
+        IEnumerable<Product> GetProductsByUid(Guid Uid);
     }
 
 

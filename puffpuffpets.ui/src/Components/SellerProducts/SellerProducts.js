@@ -3,15 +3,31 @@ import { Button, Modal, ModalHeader } from 'reactstrap';
 
 import NewProductModal from '../NewProductModal/NewProductModal';
 
+import ProductRequests from '../../Helpers/Data/ProductRequests';
+
 import './SellerProducts.scss'
 class SellerProducts extends React.Component {
   state = {
-    newProductModal: false
+    newProductModal: false,
+    sellersProducts: []
+  }
+
+  getSellersProducts = () => {
+    const uid = this.props.userObj.id
+    ProductRequests.getProductById(uid)
+      .then((results) => {
+        this.setState({ sellersProducts: results });
+      })
+      .catch(err => console.error(err))
   }
 
   addNewProduct = (product) => {
-    console.error(product)
-    // call to add product to database
+    console.error(product);
+    ProductRequests.addProduct(product)
+      .then(() => {
+        this.getSellersProducts();
+      })
+      .catch(err => console.error(err));
   }
 
   toggleNewProductModal = () => {
@@ -20,6 +36,10 @@ class SellerProducts extends React.Component {
     }));
   };
 
+
+  componentDidMount() {
+    this.getSellersProducts();
+  }
   render() {
     return (
       <div className="SellerProducts">
