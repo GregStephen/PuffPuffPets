@@ -8,10 +8,4 @@ const getAllCategories = () => new Promise ((resolve, reject) => {
   .catch(err => reject(err));
 });
 
-const getAllProductsPerCategories = (term) => new Promise ((resolve, reject) => {
-  axios.get(`${baseUrl}/search/${term}`)
-    .then(result => resolve(result.data))
-    .catch(err => reject(err));
-});
-
-export default { getAllCategories, getAllProductsPerCategories };
+export default { getAllCategories };

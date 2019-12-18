@@ -26,6 +26,7 @@ namespace PuffPuffPets.Api.Repositories
        {
             using (var db = new SqlConnection(_connectionString))
             {
+                var catRepo = new CategoryRepository();
                 var searchResults = new SearchReturn();
             
                 var sql = @"SELECT p.*
@@ -62,8 +63,10 @@ namespace PuffPuffPets.Api.Repositories
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);
+                var categoryTotalResults = catRepo.GetProductsInCategories(regex);
                 searchResults.Products = productsSearched;
                 searchResults.TotalProducts = productsSearched.Count();
+                searchResults.TotalForEachCategory = categoryTotalResults;
                 return searchResults;
             }
         }

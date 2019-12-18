@@ -8,6 +8,18 @@ import CategoryRequests from '../../Helpers/Data/CategoryRequests';
 
 import './SearchBar.scss';
 
+const defaultCategories = [
+  {
+    id: '',
+    name: '',
+    totalProducts: 0
+  }
+];
+
+const defaultCheckedCategories = {
+ id: false
+}
+
 class SearchBar extends React.Component {
   static propTypes = {
     displaySearchedProducts: PropTypes.func.isRequired,
@@ -15,10 +27,10 @@ class SearchBar extends React.Component {
 
   state = {
     searchTerm : "",
-    categories: [],
+    categories: defaultCategories,
     collapse: false,
     status: 'Closed',
-    checkedCategories: {}
+    checkedCategories: defaultCheckedCategories
   }
 
   onEntering = () => {
@@ -62,25 +74,10 @@ class SearchBar extends React.Component {
       // takes the searched term and the object of category checkboxes (checked AND unchecked)
       ProductRequests.searchProducts(term, checkedCategories)
       .then((result) => {
-        this.updateCheckboxTally(term);
         displaySearchedProducts(result, term)
+        this.setState({ categories : result.totalForEachCategory })
       })
       .catch(err => console.error(err));  
-if (term === '') {
-      // if the search bar is empty when searched, mainly for deleted to nothing
-      // then the category checkboxes will show the amount of all products
-      // should also do the regular product call here
-      CategoryRequests.getAllCategories()
-      .then((results) => {
-        results.forEach((category) => {
-          ProductRequests.getAllProductsInCategoryById(category.id)
-            .then((result) => {
-              category.totalResult = result.length;
-            })
-        }) 
-        this.setState({ categories: results });
-      })
-    }
   }
 
   // When the user types on the search bar it changes state and searches
@@ -98,22 +95,6 @@ if (term === '') {
     })
   }
 
-  // THEORETICALLY this should update the checkboxes number of products in each category
-  // dependant on the search term
-  updateCheckboxTally = (term) => {
-    CategoryRequests.getAllCategories()
-      .then((results) => {
-        results.forEach((category) => {
-          const categorySearched = {}
-          categorySearched[category.id] = true;
-          ProductRequests.searchProducts(term, categorySearched)
-            .then((result) => {
-              category.totalResult = result.totalProducts;
-            })
-        })
-        this.setState({ categories: results });
-      })
-  };
 
   // this should reset the checkboxes when the button is clicked so they are no longer checked
   resetCheckboxes = () => {
@@ -125,7 +106,7 @@ if (term === '') {
         categorySearched[category.id] = true;
         ProductRequests.searchProducts(this.state.searchTerm, categorySearched)
           .then((result) => {
-            category.totalResult = result.totalProducts;
+            category.totalProducts = result.totalProducts;
           })
       })
       this.setState({ categories: results });
@@ -147,7 +128,7 @@ if (term === '') {
         results.forEach((category) => {
           ProductRequests.getAllProductsInCategoryById(category.id)
             .then((result) => {
-              category.totalResult = result.length;
+              category.totalProducts = result.length;
             })
         }) 
         this.setState({ categories: results });

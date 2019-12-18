@@ -10,18 +10,20 @@ class CatCheckBox extends React.Component{
   };
 
   render() {
-    const { category } = this.props;
+    const { category, isChecked, onChange } = this.props;
     return(
-      <Label check className="col-4"> 
-        <Input
-        type="checkbox"
-        id = {category.id}
-        name= { category.name }
-        onChange= { this.props.onChange }
-        checked= {this.props.isChecked}
-        />
-        {category.name} ({category.totalResult})
-      </Label>
+      <div className="col-4">
+        <Label check> 
+          <Input
+          type="checkbox"
+          id = { category.id }
+          name= { category.name }
+          onChange= { onChange }
+          checked= { isChecked }
+          />
+          { category.name } ({ category.totalProducts })
+        </Label>
+      </div>
     )
   }
 }
