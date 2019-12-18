@@ -14,6 +14,7 @@ namespace PuffPuffPets.Api.DataModels
         public Guid TypeId { get; set; }
         public string Description { get; set; }
         public Guid CategoryId { get; set; }
+        public int Price { get; set; }
 
     }
 }
