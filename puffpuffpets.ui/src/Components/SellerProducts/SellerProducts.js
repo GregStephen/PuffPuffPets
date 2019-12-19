@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalHeader } from 'reactstrap';
 
 import NewProductModal from '../NewProductModal/NewProductModal';
-
+import ProductCard from '../ProductCard/ProductCard';
 import ProductRequests from '../../Helpers/Data/ProductRequests';
 
 import './SellerProducts.scss'
@@ -22,7 +22,6 @@ class SellerProducts extends React.Component {
   }
 
   addNewProduct = (product) => {
-    console.error(product);
     ProductRequests.addProduct(product)
       .then(() => {
         this.getSellersProducts();
@@ -40,11 +39,23 @@ class SellerProducts extends React.Component {
   componentDidMount() {
     this.getSellersProducts();
   }
+
   render() {
+    const {sellersProducts} = this.state;
+    const showProducts = sellersProducts.map(product => (
+      <ProductCard 
+      key={product.id}
+      product={product}
+      userObj={this.props.userObj}
+      />
+    ))
     return (
-      <div className="SellerProducts">
+      <div className="SellerProducts container">
         <h1>SELLER PRODUCTS</h1>
         <Button className="btn btn-success" onClick={this.toggleNewProductModal}>Add A Product</Button>
+        <div className="row">
+          {showProducts}
+        </div>
         <div>
           <Modal isOpen={this.state.newProductModal} toggle={this.toggleModal}>
               <ModalHeader toggle={this.toggleNewProductModal}>Add a new product</ModalHeader>

@@ -7,14 +7,14 @@ import CategoryRequests from '../../Helpers/Data/CategoryRequests';
 import ProductTypeRequests from '../../Helpers/Data/ProductTypeRequests';
 
 const defaultProduct = {
-  title: '',
-  sellerId: '',
-  imgUrl: '',
-  typeId: '',
-  description: '',
-  categoryId: '',
-  price: 1.99,
-  quantityInStock: 1
+  Title: '',
+  SellerId: '',
+  ImgUrl: '',
+  TypeId: '',
+  Description: '',
+  CategoryId: '',
+  Price: 1.99,
+  QuantityInStock: 1
 };
 
 
@@ -42,9 +42,9 @@ class NewProductModal extends React.Component {
   formSubmit = (e) => {
     e.preventDefault();
     const { newProduct } = this.state;
-    const priceInPennies = (newProduct.price * 100)
-    newProduct.price = priceInPennies;
-    newProduct.sellerId = this.props.userObj.id;
+    const priceInPennies = (newProduct.Price * 100)
+    newProduct.Price = priceInPennies;
+    newProduct.SellerId = this.props.userObj.id;
     this.props.addNewProduct(newProduct);
     this.toggleModal();
   }
@@ -63,22 +63,22 @@ class NewProductModal extends React.Component {
         <Form className="row justify-content-center" onSubmit={this.formSubmit}>
           <ModalBody>
             <FormGroup>
-              <Label for="title">Product Title:</Label>
+              <Label for="Title">Product Title:</Label>
               <Input
                 type="input"
-                name="title"
-                id="title"
-                value={newProduct.title}
+                name="Title"
+                id="Title"
+                value={newProduct.Title}
                 onChange={this.formFieldStringState}
                 required />
             </FormGroup>
             <FormGroup>
-              <Label for="categoryId">What animal is it for?</Label>
+              <Label for="CategoryId">What animal is it for?</Label>
               <Input
                 type="select"
-                name="categoryId"
-                id="categoryId"
-                value={newProduct.categoryId}
+                name="CategoryId"
+                id="CategoryId"
+                value={newProduct.CategoryId}
                 onChange={this.formFieldStringState}
                 required>
                 <option value="">Select a category</option>
@@ -88,12 +88,12 @@ class NewProductModal extends React.Component {
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="typeId">How intense is this shit?</Label>
+              <Label for="TypeId">How intense is this shit?</Label>
               <Input
                 type="select"
-                name="typeId"
-                id="typeId"
-                value={newProduct.typeId}
+                name="TypeId"
+                id="TypeId"
+                value={newProduct.TypeId}
                 onChange={this.formFieldStringState}
                 required>
                 <option value="">Select an intensity</option>
@@ -103,48 +103,48 @@ class NewProductModal extends React.Component {
               </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="description">Description:</Label>
+              <Label for="Description">Description:</Label>
               <Input
                 type="textarea"
-                name="description"
-                id="description"
-                value={newProduct.description}
+                name="Description"
+                id="Description"
+                value={newProduct.Description}
                 onChange={this.formFieldStringState}
                 required />
             </FormGroup>
             <FormGroup>
-              <Label for="imgUrl">Image URL:</Label>
+              <Label for="ImgUrl">Image URL:</Label>
               <Input
                 type="url"
-                name="imgUrl"
-                id="imgUrl"
-                value={newProduct.imgUrl}
+                name="ImgUrl"
+                id="ImgUrl"
+                value={newProduct.ImgUrl}
                 onChange={this.formFieldStringState}
                 required />
             </FormGroup>
             <FormGroup>
-              <Label for="price">Price:</Label>
+              <Label for="Price">Price:</Label>
               <Input
                 type="number"
                 min="1"
                 step="0.01"
                 data-number-to-fixed="2" 
                 data-number-stepfactor="100"
-                name="price"
-                id="price"
-                value={newProduct.price}
+                name="Price"
+                id="Price"
+                value={newProduct.Price}
                 onChange={this.formFieldStringState}
                 required/>
             </FormGroup>
             <FormGroup>
-              <Label for="quantityInStock">Quantity:</Label>
+              <Label for="QuantityInStock">Quantity:</Label>
               <Input
                 type="number"
                 min="1"
                 step="1"
-                name="quantityInStock"
-                id="quantityInStock"
-                value={newProduct.quantityInStock}
+                name="QuantityInStock"
+                id="QuantityInStock"
+                value={newProduct.QuantityInStock}
                 onChange={this.formFieldStringState}
                 required/>
             </FormGroup>
