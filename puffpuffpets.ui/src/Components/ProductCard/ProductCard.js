@@ -11,29 +11,29 @@ import productShape from '../../Helpers/Props/productShape';
 import './ProductCard.scss'
 
 class ProductCard extends React.Component {
-    static propTypes = {
-       product: productShape.productShape,
-    };
+static propTypes = {
+    product: productShape.productShape,
+};
 
-    state = {
-      modalOpen: '',
-      productPageModalIsOpen: false
-    }
-    productDeleted = () => {
+state = {
+  modalOpen: '',
+  productPageModalIsOpen: false
+}
 
-    }
+productDeleted = (productId) => {
+  const {deleteThisProduct} = this.props;
+  deleteThisProduct(productId);
+}
 
-    toggleModalOpen = (value) => {
-      this.setState({ modalOpen: value })
-      this.setState(prevState => ({
-        productPageModalIsOpen: !prevState.productPageModalIsOpen,
-      }));
-    };
+toggleModalOpen = (value) => {
+  this.setState({ modalOpen: value })
+  this.setState(prevState => ({
+    productPageModalIsOpen: !prevState.productPageModalIsOpen,
+  }));
+};
 
 render() {
     const {product, userObj} = this.props;
-
- 
 return (
   <div className="ProductCard col-3">
     <div className="card-body">

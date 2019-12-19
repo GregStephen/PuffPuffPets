@@ -35,6 +35,13 @@ class SellerProducts extends React.Component {
     }));
   };
 
+  deleteThisProduct = (productId) => {
+    console.error(productId, 'prod id seller');
+    ProductRequests.deleteProduct(productId)
+      .then(() => {
+        this.getSellersProducts();
+      }).catch(err => console.error(err));
+  };
 
   componentDidMount() {
     this.getSellersProducts();
@@ -46,6 +53,7 @@ class SellerProducts extends React.Component {
       <ProductCard 
       key={product.id}
       product={product}
+      deleteThisProduct={this.deleteThisProduct}
       userObj={this.props.userObj}
       />
     ))

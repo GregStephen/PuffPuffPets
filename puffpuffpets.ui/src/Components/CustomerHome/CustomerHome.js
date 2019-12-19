@@ -41,6 +41,7 @@ class CustomerHome extends React.Component {
       <ProductCard 
       key={product.id}
       product={product}
+      userObj={this.props.userObj}
       />
   ));
 

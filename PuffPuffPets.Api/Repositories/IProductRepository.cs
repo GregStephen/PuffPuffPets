@@ -17,7 +17,7 @@ namespace PuffPuffPets.Api.Repositories
 
         bool EditProduct(EditProductDto updatedProduct, Guid id);
 
-        public bool DeleteProduct(Guid ProductId);
+        public bool DeleteProduct(Guid productId);
 
         public SearchReturn SearchThruProducts(string term, string[] searchCategories);
 

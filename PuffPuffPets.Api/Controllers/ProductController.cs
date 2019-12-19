@@ -83,9 +83,9 @@ namespace PuffPuffPets.Api.Controllers
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(Guid ProductId)
+        public IActionResult DeleteProduct(Guid productId)
         {
-            _repo.DeleteProduct(ProductId);
+            _repo.DeleteProduct(productId);
             return Ok();
         }
     }

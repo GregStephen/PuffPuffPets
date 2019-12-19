@@ -18,9 +18,9 @@ class DeleteProductModal extends React.Component {
   };
 
   confirmDeletion = () => {
-    const {productDeleted} = this.props;
+    const {productDeleted, product} = this.props;
     this.toggleModal();
-    productDeleted();
+    productDeleted(product.id);
   };
 
   render() {

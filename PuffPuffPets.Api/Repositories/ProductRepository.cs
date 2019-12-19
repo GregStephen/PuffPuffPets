@@ -155,15 +155,15 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public bool DeleteProduct(Guid ProductId )
+        public bool DeleteProduct(Guid productId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete
-                            from Members
-                            where [Product] = @candyIdToDelete";
+                var sql = @"DELETE
+                            FROM [Product]
+                            WHERE Id = @productId";
 
-                return db.Execute(sql, new { ProductId }) == 1;
+                return db.Execute(sql, new { productId }) == 1;
             }
         }
     }
