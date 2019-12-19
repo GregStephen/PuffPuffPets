@@ -32,17 +32,18 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 };
 
 const defaultUser = {
-  UserName: '',
-  FirstName: '',
-  LastName: '',
-  IsSeller: false,
-  BusinessName: null,
-  AddressLine1: '',
-  AddressLine2: '',
-  City: '',
-  State: '',
-  ZipCode: '',
-  FirebaseUid: ''
+  id: 0,
+  userName: '',
+  firstName: '',
+  lastName: '',
+  isSeller: false,
+  businessName: null,
+  addressLine1: '',
+  addressLine2: '',
+  city: '',
+  state: '',
+  zipCode: '',
+  firebaseUid: ''
 };
 
 class App extends React.Component {
@@ -52,6 +53,7 @@ class App extends React.Component {
   };
 
   componentDidMount () {
+    const { authed, userObj } = this.state;
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({authed: true});
@@ -60,6 +62,10 @@ class App extends React.Component {
         this.setState({ authed: false, userObj: defaultUser });
       }
     });
+    if (authed && userObj.id === 0)
+    {
+      this.userLogIn();
+    }
   };
 
   componentWillUnmount () {

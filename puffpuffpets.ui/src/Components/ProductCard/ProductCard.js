@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  Modal,
+  ModalHeader,
+} from 'reactstrap';
+
+import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
 
 import productShape from '../../Helpers/Props/productShape';
 
@@ -9,6 +15,20 @@ class ProductCard extends React.Component {
        product: productShape.productShape,
     };
 
+    state = {
+      modalOpen: '',
+      productPageModalIsOpen: false
+    }
+    productDeleted = () => {
+
+    }
+
+    toggleModalOpen = (value) => {
+      this.setState({ modalOpen: value })
+      this.setState(prevState => ({
+        productPageModalIsOpen: !prevState.productPageModalIsOpen,
+      }));
+    };
 
 render() {
     const {product, userObj} = this.props;
@@ -23,9 +43,17 @@ return (
       <p className="card-text">Price: {product.price}</p>
       <button className="btn btn-primary">View</button>
       {userObj.id === product.sellerId 
-        ? <button className="btn btn-danger" onClick={this.deleteProduct}>Delete</button>
+        ? <button className="btn btn-danger" onClick={this.toggleModalOpen}>Delete</button>
         : <button className="btn btn-primary">Add To Cart</button>}
       <p className="card-text">{}</p>
+      <Modal isOpen={this.state.productPageModalIsOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.productPageModalIsOpen}>Delete Product</ModalHeader>
+        <DeleteProductModal
+        product= { product }
+        toggleDeleteProduct= { this.toggleModalOpen }
+        productDeleted= { this.productDeleted }
+        />
+      </Modal>
     </div>
   </div>
 );
