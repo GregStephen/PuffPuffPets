@@ -36,9 +36,11 @@ class SellerProducts extends React.Component {
   };
 
   deleteThisProduct = (productId) => {
-    console.error(productId, 'prod id seller');
     ProductRequests.deleteProduct(productId)
       .then(() => {
+        // should maybe return an array of customer id's that have a pending shipment of the product
+        // then runs a function that sends out an apology and tells them a refund will occur
+        // so need to build a message table in the db for that...
         this.getSellersProducts();
       }).catch(err => console.error(err));
   };

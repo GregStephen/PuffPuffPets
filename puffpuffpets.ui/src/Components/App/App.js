@@ -129,7 +129,7 @@ class App extends React.Component {
         <Router>
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } createThisUser={ this.createThisUser } userLogIn={ this.userLogIn }/>
             <Switch>
-              <PublicRoute path='/auth' component={ Auth } authed={ authed } createThisUser={ this.createThisUser }/>
+              <PublicRoute path='/auth' component={ Auth } authed={ authed } userObj={ userObj } createThisUser={ this.createThisUser }/>
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
               <PrivateRoute path='/myCart/:userId' component={ MyCart } authed={ authed } userObj={ userObj }/>
