@@ -12,7 +12,8 @@ const defaultQuantityOrdered = {
 class CartCard extends React.Component {
   state = {
     newQuantityOrdered: defaultQuantityOrdered,
-    price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2)
+    price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2),
+    mounted: false
   }
 
   deleteMe = (e) => {
@@ -49,13 +50,15 @@ class CartCard extends React.Component {
     return (quantityOrdered > 1 ? quantityOrdered : 1);
   }
 
+  // shouldComponentUpdate() {
+    
+  // }
+
   componentDidUpdate() {
     const { newQuantityOrdered } = this.state;
     //Without this conditional an invalid put request would occur if no updates were made and the user logged out while on the cart page.
-    //getMyCartProducts() is called here to update state in MyCart which is used to calculate price in Checkout
     if (newQuantityOrdered.quantityOrdered > 0) {
       cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
-      this.props.getMyCartProducts();
     }
   }
 
@@ -64,6 +67,10 @@ class CartCard extends React.Component {
     if (this.props.cartProduct.quantityInStock === 0) {
       this.deleteMe();
     }
+  }
+
+  componentWillUnmount() {
+    this.setState.mounted = false;
   }
 
   render() {
@@ -80,7 +87,7 @@ class CartCard extends React.Component {
             </div>
             <div className="row">
               <p className="col-md-auto quantityOrderedText">Quantity:</p> 
-              <input className="col-md-auto quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="0" max={cartProduct.quantityInStock}></input>
+              <input className="col-md-auto quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="1" max={cartProduct.quantityInStock}></input>
               <p className="col-4 cartProductDescription"><i>{cartProduct.description}</i></p>
               <p className="col cartProductCategory"><u>Category</u><br></br><i>{cartProduct.name}</i></p>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CartData from '../../Helpers/Data/CartData';
 import CheckoutData from '../../Helpers/Data/CheckoutData';
 import CheckoutAddressCard from '../CheckoutAddressCard/CheckoutAddressCard';
 import CheckoutPaymentTypeCard from '../CheckoutPaymentTypeCard/CheckoutPaymentTypeCard';
@@ -7,6 +8,7 @@ import CheckoutPaymentTypeCard from '../CheckoutPaymentTypeCard/CheckoutPaymentT
 
 class Checkout extends React.Component {
   state = {
+    cartProducts: [],
     addresses: [],
     paymentTypes: [],
     totalPrice: []
@@ -26,17 +28,24 @@ class Checkout extends React.Component {
 
   calculateTotalPrice = () => {
     const totalPriceArray = [];
-    this.props.location.state.cartProducts.forEach(cartProduct => (
+    this.state.cartProducts.forEach(cartProduct => (
       totalPriceArray.push((cartProduct.price * cartProduct.quantityOrdered) / 100)
      ))
      
       this.setState({ totalPrice: totalPriceArray })
     }
 
+    getMyCartProducts = () => {
+      CartData.getMyCartProducts(this.props.userObj.id)
+        .then(cartProducts => this.setState({ cartProducts }))
+        .then(() => this.calculateTotalPrice())
+        .catch(err => console.error(err, 'could not get user cart products'));
+    }  
+
   componentDidMount= () => {
+    this.getMyCartProducts();
     this.getMyAddresses();
     this.getMyPaymentTypes();
-    this.calculateTotalPrice();
   }
 
   render() {

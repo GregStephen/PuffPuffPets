@@ -9,7 +9,7 @@ class CheckoutAddressCard extends React.Component {
       <div>
       <Label check className="col-4"> 
         <Input
-          type="checkbox"
+          type="radio"
           name= { checkoutAddress.addressLine1 }
         />
         {checkoutAddress.addressLine1}

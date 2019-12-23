@@ -35,12 +35,18 @@ class MyCart extends React.Component {
       getMyCartProducts={this.getMyCartProducts}
       />
     ));
+
+    const proceedToCheckout = 
+    this.state.cartProducts.length > 0 ?
+    <Link to={{ pathname: `/checkout/${uid}`, state: {cartProducts: this.state.cartProducts} }} id="btnProceedToCheckout" className="btn-lg btn-success">Proceed to Checkout</Link>
+    : null;
+
     return (
       <div className="MyCart container">
         <h1>CART</h1>
         { makeCartCardsNewest }
-        <Link to={{ pathname: `/checkout/${uid}`, state: {cartProducts: this.state.cartProducts} }} id="btnProceedToCheckout" className="btn-lg btn-success">Proceed to Checkout</Link>
-      </div>
+        { proceedToCheckout }
+        </div>
     );
   }
 }

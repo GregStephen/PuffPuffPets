@@ -83,5 +83,21 @@ namespace PuffPuffPets.Api.Repositories
                 return orders.ToList();
             }
         }
+
+        public bool EditOrder(Order editedOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Order]
+                            SET IsCompleted = 0,
+                            TotalPrice = @totalPrice,
+                            PaymentTypeId = @paymentTypeId,
+                            PurchaseDate = @purchaseDate
+                            WHERE [Id] = @id";
+
+                return db.Execute(sql, editedOrder) == 1;
+            }
+
+        }
     }
 }

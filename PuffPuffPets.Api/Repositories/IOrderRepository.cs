@@ -14,6 +14,7 @@ namespace PuffPuffPets.Api.Repositories
         Order GetOrderById(Guid orderId);
         bool AddNewOrder(Order newOrder);
         bool DeleteOrder(Guid orderId);
+        bool EditOrder(Order editedOrder);
 
     }
 }

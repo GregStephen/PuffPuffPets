@@ -9,7 +9,7 @@ class checkoutPaymentTypeCard extends React.Component {
       <div>
       <Label check className="col-4"> 
         <Input
-          type="checkbox"
+          type="radio"
           name= { checkoutPaymentType.type }
         />
         {checkoutPaymentType.type}
