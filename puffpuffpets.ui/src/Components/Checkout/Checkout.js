@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import CartData from '../../Helpers/Data/CartData';
 import CheckoutData from '../../Helpers/Data/CheckoutData';
@@ -11,7 +12,9 @@ class Checkout extends React.Component {
     cartProducts: [],
     addresses: [],
     paymentTypes: [],
-    totalPrice: []
+    totalPrice: [],
+    addressSelected: '',
+    paymentTypeSelected: ''
   }
 
   getMyAddresses = () => {
@@ -42,19 +45,34 @@ class Checkout extends React.Component {
         .catch(err => console.error(err, 'could not get user cart products'));
     }  
 
-  componentDidMount= () => {
+  componentDidMount = () => {
     this.getMyCartProducts();
     this.getMyAddresses();
     this.getMyPaymentTypes();
   }
 
+  console = () => console.error('123');
+
+  handleAddressChange = (e) => {
+    this.setState({ addressSelected: e.target.name });
+  }
+
+  handlePaymentTypeChange = (e) => {
+    this.setState({ paymentTypeSelected: e.target.name });
+  }
+
   render() {
     const { totalPrice } = this.state;
+    const { addressSelected } = this.state;
+    const { paymentTypeSelected } = this.state;
+
     const makeAddressCards = this.state.addresses.map(checkoutAddress => (
       <CheckoutAddressCard
       key={checkoutAddress.id}
       checkoutAddress={checkoutAddress}
       getMyAddresses={this.getMyAddresses}
+      addressSelected={addressSelected}
+      handleAddressChange={this.handleAddressChange}
       />
     ));
 
@@ -63,17 +81,29 @@ class Checkout extends React.Component {
       key={checkoutPaymentType.id}
       checkoutPaymentType={checkoutPaymentType}
       getMyPaymentTypes={this.checkoutPaymentType}
+      paymentTypeSelected={paymentTypeSelected}
+      handlePaymentTypeChange={this.handlePaymentTypeChange}
       />
     ));
+
+    const makePlaceYourOrderButton = () => {
+      if (this.state.cartProducts.length > 0) {
+      const orderId = this.state.cartProducts[0].orderId;
+      return <Link to={{ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }} onClick={this.console} id="btnPlaceYourOrder" className="btn-lg btn-success">Place your order</Link>
+      }
+    }
 
     return (
       <div className="Checkout container">
         <h1>CHECKOUT</h1>
         <h3>Shipping Address</h3>
+        <form>
         { makeAddressCards }
         <h3>Payment Method</h3>
         { makePaymentTypeCards }
-        Total: ${ totalPrice.reduce((a,b) => a + b, 0).toFixed(2) }
+        <div>Total: ${ totalPrice.reduce((a,b) => a + b, 0).toFixed(2) }</div><br></br>
+        <div>{ makePlaceYourOrderButton() }</div>
+        </form>
       </div>
     );
   }
