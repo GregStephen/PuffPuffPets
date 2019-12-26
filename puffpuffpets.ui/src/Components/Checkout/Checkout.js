@@ -5,6 +5,7 @@ import CartData from '../../Helpers/Data/CartData';
 import CheckoutData from '../../Helpers/Data/CheckoutData';
 import CheckoutAddressCard from '../CheckoutAddressCard/CheckoutAddressCard';
 import CheckoutPaymentTypeCard from '../CheckoutPaymentTypeCard/CheckoutPaymentTypeCard';
+import moment from 'moment';
 
 
 class Checkout extends React.Component {
@@ -14,7 +15,8 @@ class Checkout extends React.Component {
     paymentTypes: [],
     totalPrice: [],
     addressSelected: '',
-    paymentTypeSelected: ''
+    paymentTypeSelected: '',
+    updatedOrder: ''
   }
 
   getMyAddresses = () => {
@@ -39,11 +41,31 @@ class Checkout extends React.Component {
     }
 
     getMyCartProducts = () => {
-      CartData.getMyCartProducts(this.props.userObj.id)
+     CartData.getMyCartProducts(this.props.userObj.id)
         .then(cartProducts => this.setState({ cartProducts }))
         .then(() => this.calculateTotalPrice())
         .catch(err => console.error(err, 'could not get user cart products'));
-    }  
+    }
+
+    updateOrder = () => {
+      const { cartProducts } = this.state;
+      const { totalPrice } = this.state;
+      const { paymentTypeSelected } = this.state;
+      const tempUpdatedOrder = { ...this.state.updatedOrder };
+      const orderId = this.state.cartProducts[0].orderId;
+
+      if(cartProducts.length > 0 && totalPrice.length > 0 && paymentTypeSelected !== '' && this.state.addressSelected !== '') {
+        tempUpdatedOrder.id = cartProducts[0].orderId;
+        tempUpdatedOrder.totalPrice = totalPrice.reduce((a,b) => a + b, 0) * 100;
+        tempUpdatedOrder.paymentTypeId = paymentTypeSelected;
+        tempUpdatedOrder.purchaseDate = moment().format();
+  
+      this.setState({ updatedOrder: tempUpdatedOrder }
+        ,() => CheckoutData.editOrderCompleted(this.state.updatedOrder, this.state.updatedOrder.id)
+        .then(() => this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
+        )
+      }
+    }
 
   componentDidMount = () => {
     this.getMyCartProducts();
@@ -51,14 +73,14 @@ class Checkout extends React.Component {
     this.getMyPaymentTypes();
   }
 
-  console = () => console.error('123');
-
   handleAddressChange = (e) => {
-    this.setState({ addressSelected: e.target.name });
+   if(e.target) this.setState({ addressSelected: e.target.name })
+   else this.setState({ addressSelected: e });
   }
 
   handlePaymentTypeChange = (e) => {
-    this.setState({ paymentTypeSelected: e.target.name });
+    if(e.target) this.setState({ paymentTypeSelected: e.target.name })
+    else this.setState({ paymentTypeSelected: e });
   }
 
   render() {
@@ -87,9 +109,9 @@ class Checkout extends React.Component {
     ));
 
     const makePlaceYourOrderButton = () => {
-      if (this.state.cartProducts.length > 0) {
-      const orderId = this.state.cartProducts[0].orderId;
-      return <Link to={{ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }} onClick={this.console} id="btnPlaceYourOrder" className="btn-lg btn-success">Place your order</Link>
+      if (this.state.cartProducts.length > 0 && addressSelected !== '' && paymentTypeSelected !== '') {
+      // const orderId = this.state.cartProducts[0].orderId;
+      return <Link to={{ state: {cartProducts: this.state.cartProducts} }} onClick={this.updateOrder} id="btnPlaceYourOrder" className="btn-lg btn-success">Place your order</Link>
       }
     }
 

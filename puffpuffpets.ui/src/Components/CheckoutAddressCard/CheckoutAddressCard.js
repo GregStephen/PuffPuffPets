@@ -13,8 +13,18 @@ class CheckoutAddressCard extends React.Component {
     if (checkoutAddress.addressLine1 === addressSelected){
        return true
     } else if (addressSelected === '' && checkoutAddress.isPreferred === true) {
+      // this.props.handleAddressChange(checkoutAddress.addressLine1);
       return true
     } else return false;
+  }
+
+  componentDidMount = () => {
+    const { checkoutAddress } = this.props;
+    const { addressSelected } = this.props;
+
+    if (addressSelected === '' && checkoutAddress.isPreferred === true) {
+      this.props.handleAddressChange(checkoutAddress.addressLine1);
+    }
   }
 
   render() {

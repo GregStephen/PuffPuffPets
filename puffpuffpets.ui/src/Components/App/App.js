@@ -129,7 +129,7 @@ class App extends React.Component {
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={this.editThisUser} deleteThisUser={this.deleteThisUser}/>
               <PrivateRoute path='/myCart/:userId' component={MyCart} authed={authed} userObj={userObj}/>
               <PrivateRoute path='/checkout/:userId' component={Checkout} authed={authed} userObj={userObj}/>
-              <PrivateRoute path='/orderComplete/:userId' component={OrderComplete} authed={authed}/>
+              <PrivateRoute path='/orderComplete/:orderId' component={OrderComplete} authed={authed}/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>
