@@ -96,27 +96,41 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public IEnumerable<Product> GetProductsByUid(Guid Uid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Product]
+                            WHERE [SellerId] = @Uid";
+                var parameters = new { Uid };
+                var products = db.Query<Product>(sql, parameters);
+                return products;
+            }
+        }
         public bool AddNewProduct(AddProductDto newProduct)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"
                             INSERT INTO [Product]
-                            (,[Title]
+                            ([Title]
                             ,[SellerId]
                             ,[ImgUrl]
                             ,[TypeId]
                             ,[Description]
-                            ,[CategoryId])
-                            
-                            output inserted.*
+                            ,[CategoryId]
+                            ,[Price]
+                            ,[QuantityInStock])
                            VALUES
-                            (@Title,
-                             @SellerId,
-                             @ImgUrl,
-                             @TypeId,
-                             @Description,
-                             @CategoryId,
+                            (@title,
+                             @sellerId,
+                             @imgUrl,
+                             @typeId,
+                             @description,
+                             @categoryId,
+                             @price,
+                             @quantityInStock
                                         )";
 
                 return db.Execute(sql, newProduct) == 1;
@@ -141,15 +155,15 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public bool DeleteProduct(Guid ProductId )
+        public bool DeleteProduct(Guid productId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete
-                            from Members
-                            where [Product] = @candyIdToDelete";
+                var sql = @"DELETE
+                            FROM [Product]
+                            WHERE Id = @productId";
 
-                return db.Execute(sql, new { ProductId }) == 1;
+                return db.Execute(sql, new { productId }) == 1;
             }
         }
     }

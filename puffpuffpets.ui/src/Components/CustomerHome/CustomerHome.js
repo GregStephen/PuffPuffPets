@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SearchBar from '../SearchBar/SearchBar';
 
-import ProductRequest from '../../Helpers/Data/ProductRequests';
+import ProductRequests from '../../Helpers/Data/ProductRequests';
 import ProductCard from '../ProductCard/ProductCard';
 
 import './CustomerHome.scss';
@@ -14,35 +14,35 @@ class CustomerHome extends React.Component {
   };
   
   state= {
-    products: [],
+    totalResults: 0,
+    searchTerm: '',
+    productsToShow: []
   }
 
-  getAllProducts =() => {
-    ProductRequest.getAllProducts()
-    .then(products => this.setState({ products }))
-    .catch(err => console.error(err, 'could not get products fam.'))
-  }
 
   componentDidMount(){
-    // this is where we will set state of the original products to be displayed
-    // const userId = this.props.userObj.id;
-    this.getAllProducts();
+    ProductRequests.getAllProducts()
+      .then((results) => {
+        this.setState({ productsToShow: results, totalResults: results.totalProducts });
+      })
+      .catch(err => console.error(err));
     
   }
 
-  displaySearchedProducts = (arrayOfProducts) => {
+  displaySearchedProducts = (searchResults, searchTerm) => {
+    this.setState({ totalResults: searchResults.totalProducts, searchTerm: searchTerm, productsToShow: searchResults.products})
     // this is where you would set the state of the products to the searched results
-    console.error('results from the search', arrayOfProducts);
   }
 
   render () {
-
-    const createProducts = this.state.products.map(product => (
-      <ProductCard 
-      key={product.id}
-      product={product}
+    const {productsToShow, totalResults, searchTerm } = this.state;
+    const showProducts = productsToShow.map(product => (
+      <ProductCard
+      key={ product.id }
+      product={ product }
+      userObj={ this.props.userObj }
       />
-  ));
+  ))
 
     const {userObj} = this.props;
     return (
@@ -50,11 +50,18 @@ class CustomerHome extends React.Component {
           <h1>Customer HOMEPAGE</h1>
           <h1>WELCOME {userObj.firstName}</h1>
           <div className="row justify-content-center">
+          {searchTerm !== '' ? 
+            totalResults === 1 
+            ? <p>{totalResults} result for '{searchTerm}'</p>
+            : <p>{totalResults} results for '{searchTerm}'</p>
+            : <p>{totalResults} results</p>}
             <div className="col-8">
               <SearchBar
               displaySearchedProducts= { this.displaySearchedProducts}/>
             </div>
-              {createProducts}
+            <div className="row col-12 justify-content-start">
+            {showProducts}
+            </div>
           </div> 
       </div>
     );
