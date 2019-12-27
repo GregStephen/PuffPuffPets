@@ -9,7 +9,7 @@ namespace PuffPuffPets.Api.Repositories
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> GetAllProducts();
+        AllProductsReturn GetAllProducts();
 
         Product GetProductById(Guid productId);
 

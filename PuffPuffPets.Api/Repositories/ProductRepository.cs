@@ -12,12 +12,15 @@ namespace PuffPuffPets.Api.Repositories
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 
-        public IEnumerable<Product> GetAllProducts()
+        public AllProductsReturn GetAllProducts()
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var productResults = new AllProductsReturn();
                 var products = db.Query<Product>(@"SELECT * FROM [Product]");
-                return products;
+                productResults.Products = products;
+                productResults.TotalProducts = products.Count();
+                return productResults;
             }
 
         }
