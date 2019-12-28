@@ -105,8 +105,8 @@ class MyNavbar extends React.Component {
     this.props.userLogIn();
   }
 
-  createNewUser = (newUser, password) => {
-    this.props.createThisUser(newUser, password);
+  createNewUser = (newUser, firebaseInfo) => {
+    this.props.createThisUser(newUser, firebaseInfo);
   }
 
   logMeOut = (e) => {
@@ -118,6 +118,7 @@ class MyNavbar extends React.Component {
     const buildNavbar = () => {
       const { authed, userObj } = this.props;
       const myCart = `/myCart/${userObj.id}`;
+      const productsPage = `/products/${userObj.id}`;
       if (!authed)
       {
         return (
@@ -138,6 +139,7 @@ class MyNavbar extends React.Component {
       {
         return (
           <Nav className="ml-auto" navbar>
+            <NavLink tag={RRNavLink} to={productsPage}>Products Page</NavLink>
             {this.displaySellerNav()}
           </Nav>
         );

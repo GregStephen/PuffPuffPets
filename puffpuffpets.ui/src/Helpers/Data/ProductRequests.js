@@ -10,12 +10,15 @@ const getAllProducts = () => new Promise ((resolve, reject) => {
 });
 
 const getProductById = uid => new Promise((resolve, reject) => {
-    axios.get(`${baseUrl}`)
+    axios.get(`${baseUrl}/user/${uid}`)
     .then(result => resolve(result.data))
     .catch(err => reject(err));
 });
 
 const searchProducts = (term, searchCategories) => new Promise((resolve, reject) => {
+    if (term === '') {
+        term = " "
+    }
     const categoryIds = Object.keys(searchCategories);
     const selectedCategories = categoryIds.filter(function(id) {
         return searchCategories[id]
@@ -36,7 +39,17 @@ const searchProducts = (term, searchCategories) => new Promise((resolve, reject)
         .catch(err => reject(err));
 });
 
-const addProduct = userObj => axios.post(`${baseUrl}`, userObj);
+const getAllProductsInCategoryById = categoryId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/category/${categoryId}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err));
+});
+
+const addProduct = productObj => new Promise((resolve, reject) => {
+    axios.post(`${baseUrl}`, productObj)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err))
+});
 
 const editProduct = (editedProduct) => new Promise((resolve, reject) => {
     axios.put(`${baseUrl}`, editedProduct)
@@ -44,8 +57,8 @@ const editProduct = (editedProduct) => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const deleteProduct = uid => new Promise((resolve, reject) => {
-    axios.delete(`${baseUrl}/${uid}`)
+const deleteProduct = id => new Promise((resolve, reject) => {
+    axios.delete(`${baseUrl}/${id}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
 });
@@ -54,6 +67,7 @@ export default {
     getAllProducts,
     getProductById,
     searchProducts,
+    getAllProductsInCategoryById,
     addProduct,
     editProduct,
     deleteProduct,

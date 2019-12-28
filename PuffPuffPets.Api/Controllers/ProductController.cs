@@ -13,6 +13,7 @@ using PuffPuffPets.Api.Repositories;
 namespace PuffPuffPets.Api.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductController : Controller
 
     {
@@ -40,10 +41,22 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetProductById(ProductId);
         }
 
+        [HttpGet("user/{Uid}")]
+        public IEnumerable<Product> GetProductByUid(Guid Uid)
+        {
+            return _repo.GetProductsByUid(Uid);
+        }
+
         [HttpGet("search/q={term}/categories")]
-        public IEnumerable<Product> GetAllSearchedProducts(string term, [FromQuery(Name="cat")]string[] searchCategories)
+        public SearchReturn GetAllSearchedProducts(string term, [FromQuery(Name="cat")]string[] searchCategories)
         {
             return _repo.SearchThruProducts(term, searchCategories);
+        }
+
+        [HttpGet("category/{categoryId}")]
+        public IEnumerable<Product> GetAllProductsInCategory(Guid categoryId)
+        {
+            return _repo.GetAllProductsByCategory(categoryId);
         }
 
         // POST api/<controller>
@@ -69,10 +82,10 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(Guid ProductId)
+        [HttpDelete("{productId}")]
+        public IActionResult DeleteProduct(Guid productId)
         {
-            _repo.DeleteProduct(ProductId);
+            _repo.DeleteProduct(productId);
             return Ok();
         }
     }

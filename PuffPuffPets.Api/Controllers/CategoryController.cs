@@ -28,5 +28,6 @@ namespace PuffPuffPets.Api.Controllers
         {
             return _repo.GetAllCategories();
         }
+
     }
 }
