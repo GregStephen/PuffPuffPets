@@ -35,7 +35,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 
 const defaultUser = {
   id: 0,
-  userName: '',
+  userName: 'unauthorized',
   firstName: '',
   lastName: '',
   isSeller: false,

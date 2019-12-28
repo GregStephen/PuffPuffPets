@@ -29,7 +29,7 @@ namespace PuffPuffPets.Api.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Product> GetAll()
+        public AllProductsReturn GetAll()
         {
             return _repo.GetAllProducts();
         }
