@@ -64,15 +64,21 @@ class Checkout extends React.Component {
         tempUpdatedOrder.purchaseDate = moment().format();
 
         tempNewOrder.userId = this.props.userObj.id;
-        tempNewOrder.paymentTypeId = this.state.paymentTypeId;
+        tempNewOrder.paymentTypeId = this.state.paymentTypes[0].id;
   
-        //creates the updated/existing order, posts a newOrder (for future use),
-        //then reroutes to "order complete page"
-      this.setState({ updatedOrder: tempUpdatedOrder }
-        ,() => CheckoutData.editOrderCompleted(this.state.updatedOrder, this.state.updatedOrder.id)
-        .then(() => this.setState({ newOrder: tempNewOrder }), CheckoutData.addNewOrder(this.state.newOrder))
-        .then(() => this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
-        )
+        //Creates the updated/existing order
+        const updateOrder = this.setState({ updatedOrder: tempUpdatedOrder }, () => {
+          CheckoutData.editOrderCompleted(this.state.updatedOrder, this.state.updatedOrder.id);
+          });
+
+        //Posts a newOrder (for future use)
+        const postNewOrder = this.setState({ newOrder: tempNewOrder }, () => {
+          CheckoutData.addNewOrder(this.state.newOrder);
+        });
+
+        //Reroutes to "order complete page" after completion of updateOrder and postNewOrder
+        Promise.all([updateOrder, postNewOrder]).then(() =>
+        this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
       }
     }
 
