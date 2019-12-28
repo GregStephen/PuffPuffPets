@@ -23,7 +23,7 @@ class CustomerHome extends React.Component {
   componentDidMount(){
     ProductRequests.getAllProducts()
       .then((results) => {
-        this.setState({ productsToShow: results, totalResults: results.totalProducts });
+        this.setState({ productsToShow: results.products, totalResults: results.totalProducts });
       })
       .catch(err => console.error(err));
     
