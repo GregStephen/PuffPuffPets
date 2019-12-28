@@ -26,11 +26,11 @@ namespace PuffPuffPets.Api.Repositories
                                     PurchaseDate)
                                OUTPUT INSERTED.*
                                VALUES
-                                    (@UserId,
-                                    @isCompleted,
-                                    @TotalPrice,
-                                    @PaymentTypeId,
-                                    @PurchaseDate)";
+                                    (@userId,
+                                    0,
+                                    0,
+                                    @paymentTypeId,
+                                    '1753-01-01T00:00:00')";
 
                 return db.Execute(sql, newOrder) == 1;
             }
@@ -89,7 +89,7 @@ namespace PuffPuffPets.Api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"UPDATE [Order]
-                            SET IsCompleted = 0,
+                            SET IsCompleted = 1,
                             TotalPrice = @totalPrice,
                             PaymentTypeId = @paymentTypeId,
                             PurchaseDate = @purchaseDate

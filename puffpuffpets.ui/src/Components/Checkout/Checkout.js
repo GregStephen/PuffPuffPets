@@ -16,7 +16,8 @@ class Checkout extends React.Component {
     totalPrice: [],
     addressSelected: '',
     paymentTypeSelected: '',
-    updatedOrder: ''
+    updatedOrder: '',
+    newOrder: ''
   }
 
   getMyAddresses = () => {
@@ -52,16 +53,24 @@ class Checkout extends React.Component {
       const { totalPrice } = this.state;
       const { paymentTypeSelected } = this.state;
       const tempUpdatedOrder = { ...this.state.updatedOrder };
+      const tempNewOrder = { ...this.state.newOrder };
       const orderId = this.state.cartProducts[0].orderId;
 
       if(cartProducts.length > 0 && totalPrice.length > 0 && paymentTypeSelected !== '' && this.state.addressSelected !== '') {
+        const decimalPrice = totalPrice.reduce((a,b) => a + b, 0);
         tempUpdatedOrder.id = cartProducts[0].orderId;
-        tempUpdatedOrder.totalPrice = totalPrice.reduce((a,b) => a + b, 0) * 100;
+        tempUpdatedOrder.totalPrice = parseInt(decimalPrice) * 100;
         tempUpdatedOrder.paymentTypeId = paymentTypeSelected;
         tempUpdatedOrder.purchaseDate = moment().format();
+
+        tempNewOrder.userId = this.props.userObj.id;
+        tempNewOrder.paymentTypeId = this.state.paymentTypeId;
   
+        //creates the updated/existing order, posts a newOrder (for future use),
+        //then reroutes to "order complete page"
       this.setState({ updatedOrder: tempUpdatedOrder }
         ,() => CheckoutData.editOrderCompleted(this.state.updatedOrder, this.state.updatedOrder.id)
+        .then(() => this.setState({ newOrder: tempNewOrder }), CheckoutData.addNewOrder(this.state.newOrder))
         .then(() => this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
         )
       }
