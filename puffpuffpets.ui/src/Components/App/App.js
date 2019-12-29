@@ -6,7 +6,9 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import Auth from '../Auth/Auth';
+import Checkout from '../Checkout/Checkout';
 import Home from '../Home/Home';
+import OrderComplete from '../OrderComplete/OrderComplete';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyCart from '../MyCart/MyCart';
 import UserProfile from '../UserProfile/UserProfile';
@@ -133,6 +135,8 @@ class App extends React.Component {
               <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
               <PrivateRoute path='/myCart/:userId' component={ MyCart } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/checkout/:userId' component={Checkout} authed={authed} userObj={userObj}/>
+              <PrivateRoute path='/orderComplete/:orderId' component={OrderComplete} authed={authed}/>
               <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>

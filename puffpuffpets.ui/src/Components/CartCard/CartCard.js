@@ -12,7 +12,8 @@ const defaultQuantityOrdered = {
 class CartCard extends React.Component {
   state = {
     newQuantityOrdered: defaultQuantityOrdered,
-    price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2)
+    price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2),
+    mounted: false
   }
 
   deleteMe = (e) => {
@@ -49,9 +50,16 @@ class CartCard extends React.Component {
     return (quantityOrdered > 1 ? quantityOrdered : 1);
   }
 
+  // shouldComponentUpdate() {
+    
+  // }
+
   componentDidUpdate() {
     const { newQuantityOrdered } = this.state;
-    cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
+    //Without this conditional an invalid put request would occur if no updates were made and the user logged out while on the cart page.
+    if (newQuantityOrdered.quantityOrdered > 0) {
+      cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
+    }
   }
 
   componentDidMount() {
@@ -61,21 +69,25 @@ class CartCard extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState.mounted = false;
+  }
+
   render() {
     const { cartProduct } = this.props;
     return (
-      <div className="Cart col">
+      <div className="Cart col-10">
         <div className="cart-card card container">
           <div className="card-body">
             <div className="row">
               <img className="productImg" src={cartProduct.imgUrl} alt="product"></img>
-              <h3 className="col card-title">{cartProduct.title}</h3>
-              <h4 className="col card-price">Total: <i>${this.state.price}</i></h4>
-              <button className="col btn btn-outline-danger mx-auto removeFromCart" onClick={this.deleteMe}><b>Remove <br></br>From Cart</b></button>
+              <h3 className="col-3 card-title">{cartProduct.title}</h3>
+              <h4 className="col-2 card-price">Total: <i>${this.state.price}</i></h4>
+              <button className="col-2 btn btn-outline-danger mx-auto removeFromCart" onClick={this.deleteMe}><b>Remove <br></br>From Cart</b></button>
             </div>
             <div className="row">
-              <p className="col quantityOrderedText">Quantity:</p> 
-              <input className="col quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="0" max={cartProduct.quantityInStock}></input>
+              <p className="col-md-auto quantityOrderedText">Quantity:</p> 
+              <input className="col-md-auto quantityOrderedInput" type="number" onChange={this.updateQuantityOrdered} defaultValue={this.checkQuantityInCart()} min="1" max={cartProduct.quantityInStock}></input>
               <p className="col-4 cartProductDescription"><i>{cartProduct.description}</i></p>
               <p className="col cartProductCategory"><u>Category</u><br></br><i>{cartProduct.name}</i></p>
             </div>

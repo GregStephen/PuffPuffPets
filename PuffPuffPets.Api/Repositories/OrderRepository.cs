@@ -26,11 +26,11 @@ namespace PuffPuffPets.Api.Repositories
                                     PurchaseDate)
                                OUTPUT INSERTED.*
                                VALUES
-                                    (@UserId,
-                                    @isCompleted,
-                                    @TotalPrice,
-                                    @PaymentTypeId,
-                                    @PurchaseDate)";
+                                    (@userId,
+                                    0,
+                                    0,
+                                    @paymentTypeId,
+                                    '1753-01-01T00:00:00')";
 
                 return db.Execute(sql, newOrder) == 1;
             }
@@ -82,6 +82,22 @@ namespace PuffPuffPets.Api.Repositories
 
                 return orders.ToList();
             }
+        }
+
+        public bool EditOrder(Order editedOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Order]
+                            SET IsCompleted = 1,
+                            TotalPrice = @totalPrice,
+                            PaymentTypeId = @paymentTypeId,
+                            PurchaseDate = @purchaseDate
+                            WHERE [Id] = @id";
+
+                return db.Execute(sql, editedOrder) == 1;
+            }
+
         }
     }
 }
