@@ -24,14 +24,14 @@ fbConnect();
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
-  return <Route render={props => routeChecker(props)} />;
+  const routeChecker = props => (authed === false ? <Component authed={authed}{...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
+  return <Route {...rest} render={props => routeChecker(props)} />; 
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
-  return <Route render={props => routeChecker(props)} />;
+  const routeChecker = props => (authed === true ? <Component authed={authed} {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
+  return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 const defaultUser = {
