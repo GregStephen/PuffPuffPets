@@ -22,6 +22,7 @@ state = {
   productPageModalIsOpen: false
 }
 
+// this is for the seller
 productDeleted = (productId) => {
   const {deleteThisProduct} = this.props;
   deleteThisProduct(productId);
