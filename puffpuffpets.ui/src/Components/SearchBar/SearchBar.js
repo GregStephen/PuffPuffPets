@@ -10,14 +10,14 @@ import './SearchBar.scss';
 
 const defaultCategories = [
   {
-    id: '',
+    id: '0',
     name: '',
     totalProducts: 0
   }
 ];
 
 const defaultCheckedCategories = {
- id: false
+ 0: false
 }
 
 class SearchBar extends React.Component {
