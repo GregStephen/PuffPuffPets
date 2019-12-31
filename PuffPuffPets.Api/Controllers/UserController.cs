@@ -36,6 +36,7 @@ namespace PuffPuffPets.Api.Controllers
         {
             return _repo.GetUserById(userId);
         }
+
         [HttpGet("uid/{firebaseUid}")]
         public User Get(string firebaseUid)
         {

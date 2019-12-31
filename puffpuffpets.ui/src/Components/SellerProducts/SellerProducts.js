@@ -14,7 +14,7 @@ class SellerProducts extends React.Component {
 
   getSellersProducts = () => {
     const uid = this.props.userObj.id
-    ProductRequests.getProductById(uid)
+    ProductRequests.getProductsByUserId(uid)
       .then((results) => {
         this.setState({ sellersProducts: results });
       })

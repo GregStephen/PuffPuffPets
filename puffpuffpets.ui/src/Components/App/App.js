@@ -13,6 +13,7 @@ import MyNavbar from '../MyNavbar/MyNavbar';
 import MyCart from '../MyCart/MyCart';
 import UserProfile from '../UserProfile/UserProfile';
 import SellerProducts from '../SellerProducts/SellerProducts';
+import SellerStorePage from '../SellerStorePage/SellerStorePage';
 
 import fbConnect from '../../Helpers/Data/fbConnection';
 import UserRequests from '../../Helpers/Data/UserRequests';
@@ -23,14 +24,14 @@ fbConnect();
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
-  return <Route render={props => routeChecker(props)} />;
+  const routeChecker = props => (authed === false ? <Component authed={authed}{...props} {...rest}/> : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />);
+  return <Route {...rest} render={props => routeChecker(props)} />; 
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
-  const routeChecker = props => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
-  return <Route render={props => routeChecker(props)} />;
+  const routeChecker = props => (authed === true ? <Component authed={authed} {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
+  return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 const defaultUser = {
@@ -55,7 +56,11 @@ class App extends React.Component {
   };
 
   componentDidMount () {
-    const { authed, userObj } = this.state;
+    const { userObj } = this.state;
+    if (userObj.id === 0)
+    {
+      firebase.auth().signOut();
+    }
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({authed: true});
@@ -64,10 +69,6 @@ class App extends React.Component {
         this.setState({ authed: false, userObj: defaultUser });
       }
     });
-    if (authed && userObj.id === 0)
-    {
-      this.userLogIn();
-    }
   };
 
   componentWillUnmount () {
@@ -138,6 +139,7 @@ class App extends React.Component {
               <PrivateRoute path='/checkout/:userId' component={Checkout} authed={authed} userObj={userObj}/>
               <PrivateRoute path='/orderComplete/:orderId' component={OrderComplete} authed={authed}/>
               <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/store/:sellerId' component={ SellerStorePage } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>

@@ -15,11 +15,11 @@ class CatCheckBox extends React.Component{
       <div className="col-4">
         <Label check> 
           <Input
-          type="checkbox"
-          id = { category.id }
+          type= "checkbox"
+          id= { category.id }
           name= { category.name }
           onChange= { onChange }
-          checked= { isChecked }
+          checked= { !!isChecked }
           />
           { category.name } ({ category.totalProducts })
         </Label>
