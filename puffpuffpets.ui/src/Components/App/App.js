@@ -56,7 +56,11 @@ class App extends React.Component {
   };
 
   componentDidMount () {
-    const { authed, userObj } = this.state;
+    const { userObj } = this.state;
+    if (userObj.id === 0)
+    {
+      firebase.auth().signOut();
+    }
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({authed: true});
@@ -65,10 +69,6 @@ class App extends React.Component {
         this.setState({ authed: false, userObj: defaultUser });
       }
     });
-    if (authed && userObj.id === 0)
-    {
-      this.userLogIn();
-    }
   };
 
   componentWillUnmount () {
