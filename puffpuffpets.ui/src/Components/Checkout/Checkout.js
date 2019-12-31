@@ -69,7 +69,7 @@ class Checkout extends React.Component {
         //Creates the updated/existing order
         const updateOrder = this.setState({ updatedOrder: tempUpdatedOrder }, () => {
           CheckoutData.editOrderCompleted(this.state.updatedOrder, this.state.updatedOrder.id);
-          });
+        });
 
         //Posts a newOrder (for future use)
         const postNewOrder = this.setState({ newOrder: tempNewOrder }, () => {
@@ -77,8 +77,9 @@ class Checkout extends React.Component {
         });
 
         //Reroutes to "order complete page" after completion of updateOrder and postNewOrder
-        Promise.all([updateOrder, postNewOrder]).then(() =>
-        this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
+        Promise.all([updateOrder, postNewOrder])
+        .then(() =>this.props.history.push({ pathname: `/orderComplete/${orderId}`, state: {cartProducts: this.state.cartProducts} }))
+        .catch((err) => console.error('error in updateOrder Checkout.js', err))
       }
     }
 
@@ -125,7 +126,6 @@ class Checkout extends React.Component {
 
     const makePlaceYourOrderButton = () => {
       if (this.state.cartProducts.length > 0 && addressSelected !== '' && paymentTypeSelected !== '') {
-      // const orderId = this.state.cartProducts[0].orderId;
       return <Link to={{ state: {cartProducts: this.state.cartProducts} }} onClick={this.updateOrder} id="btnPlaceYourOrder" className="btn-lg btn-success">Place your order</Link>
       }
     }
