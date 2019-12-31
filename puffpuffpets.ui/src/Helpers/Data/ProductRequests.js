@@ -9,7 +9,7 @@ const getAllProducts = () => new Promise ((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const getProductById = uid => new Promise((resolve, reject) => {
+const getProductsByUserId = uid => new Promise((resolve, reject) => {
     axios.get(`${baseUrl}/user/${uid}`)
     .then(result => resolve(result.data))
     .catch(err => reject(err));
@@ -65,7 +65,7 @@ const deleteProduct = id => new Promise((resolve, reject) => {
 
 export default {
     getAllProducts,
-    getProductById,
+    getProductsByUserId,
     searchProducts,
     getAllProductsInCategoryById,
     addProduct,

@@ -3,6 +3,7 @@ import {
   Modal,
   ModalHeader,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
 import UnauthorizedModal from '../UnauthorizedModal/UnauthorizedModal';
@@ -21,6 +22,7 @@ state = {
   productPageModalIsOpen: false
 }
 
+// this is for the seller
 productDeleted = (productId) => {
   const {deleteThisProduct} = this.props;
   deleteThisProduct(productId);
@@ -36,6 +38,7 @@ toggleModalOpen = (value) => {
 render() {
   const {modalOpen} = this.state;
   const {product, userObj} = this.props;
+  const sellerStorePage = `/store/${product.sellerId}`
 return (
   <div className="ProductCard col-3">
     <div className="card-body">
@@ -43,6 +46,7 @@ return (
       <img className="card-img-top" src={product.imgUrl} alt="Card cap" />
       <p className="card-text">Description: {product.description}</p>
       <p className="card-text">Price: {product.price}</p>
+      <Link to={{ pathname: sellerStorePage }}>{product.sellerId}</Link>
       
       {userObj.id === product.sellerId 
         ? 
