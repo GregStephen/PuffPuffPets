@@ -40,13 +40,16 @@ render() {
   const {product, userObj} = this.props;
   const sellerStorePage = `/store/${product.sellerId}`
 return (
-  <div className="ProductCard col-3">
+  <div className="ProductCard col-6">
     <div className="card-body">
       <h5 className="card-title">{product.title}</h5>
+      <Link to={{ pathname: sellerStorePage }}>{product.businessName}</Link>
       <img className="card-img-top" src={product.imgUrl} alt="Card cap" />
-      <p className="card-text">Description: {product.description}</p>
-      <p className="card-text">Price: {product.price}</p>
-      <Link to={{ pathname: sellerStorePage }}>{product.sellerId}</Link>
+      <p className="card-text">{product.description}</p>
+      <p className="card-text">{product.moneyPrice}</p>
+      <p className="card-text">{product.categoryName}</p>
+      <p className="card-text">{product.typeName}</p>
+
       
       {userObj.id === product.sellerId 
         ? 
