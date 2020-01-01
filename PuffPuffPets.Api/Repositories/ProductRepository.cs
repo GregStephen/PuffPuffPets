@@ -174,7 +174,7 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT P.Id as ProductId
+                var sql = @"SELECT P.Id AS ProductId
                             ,P.SellerId
                             ,P.Title
                             ,P.ImgUrl
@@ -183,6 +183,7 @@ namespace PuffPuffPets.Api.Repositories
                             ,P.Price
                             ,P.CategoryId
                             ,P.QuantityInStock
+                            ,PO.Id AS ProductOrderId
                             ,PO.QuantityOrdered
                             ,PO.OrderId
                             INTO #tempP_PO
@@ -201,6 +202,7 @@ namespace PuffPuffPets.Api.Repositories
                             ,CategoryId
                             ,QuantityInStock
                             ,QuantityOrdered
+                            ,ProductOrderId
                             ,O.PurchaseDate
                             ,O.Id as OrderId
                             FROM #tempP_PO

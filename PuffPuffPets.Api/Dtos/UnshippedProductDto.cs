@@ -19,5 +19,6 @@ namespace PuffPuffPets.Api.Dtos
         public int QuantityInStock { get; set; }
         public int QuantityOrdered { get; set; }
         public DateTime PurchaseDate { get; set; }
+        public Guid ProductOrderId { get; set; }
     }
 }

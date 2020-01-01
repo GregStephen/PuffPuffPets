@@ -14,6 +14,7 @@ namespace PuffPuffPets.Api.Repositories
         ProductOrder GetProductOrderById(Guid productOrderId);
         bool AddNewProductOrder(ProductOrder newProductOrder);
         bool DeleteProductOrder(Guid productOrderId);
-        bool EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered);
+        bool EditQuantityOrdered(EditProductOrderDto quantityOrdered);
+        bool EditShippedDate(EditProductOrderDto shippedDate);
     }
 }

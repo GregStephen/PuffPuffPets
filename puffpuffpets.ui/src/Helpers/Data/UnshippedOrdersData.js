@@ -15,15 +15,14 @@ const updateQuantityInStock = (newQuantityInStockProduct, id) => new Promise((re
     .catch(err => reject(console.error(err), err));
   })
 
-// const addNewOrder = (newOrder) => new Promise((resolve, reject) => {
-//   axios.post(`${baseUrl}/order`, newOrder)
-//     .then(result => resolve(result.data))
-//     .catch(err => reject(console.error(err), err));
-//   })
-
+  const updateShippedDate = (shippedDate, id) => new Promise((resolve, reject) => {
+    axios.put(`${baseUrl}/productOrder/shippedDate/${id}`, shippedDate)
+      .then(result => resolve(result.data))
+      .catch(err => reject(console.error(err), err));
+    })
+    
 export default {
   getMyUnshippedOrders,
   updateQuantityInStock,
-  // editOrderCompleted,
-  // addNewOrder
+  updateShippedDate,
 };

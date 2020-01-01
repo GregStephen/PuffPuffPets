@@ -12,7 +12,7 @@ const getMyCartProducts = uid => new Promise((resolve, reject) => {
 const deleteFromCart = productOrderId => axios.delete(`${baseUrl}/delete/${productOrderId}`);
 
 const editQuantityInCart = (quantityOrdered, id) => new Promise((resolve, reject) => {
-axios.put(`${baseUrl}/edit/${id}`, quantityOrdered)
+axios.put(`${baseUrl}/quantityOrdered/${id}`, quantityOrdered)
   .then(result => resolve(result.data))
   .catch(err => reject(console.error(err), err));
 })

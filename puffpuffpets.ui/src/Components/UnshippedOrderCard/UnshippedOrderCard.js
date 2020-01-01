@@ -5,44 +5,32 @@ import unshippedOrdersData from '../../Helpers/Data/UnshippedOrdersData';
 
 class UnshippedOrderCard extends React.Component {
   state = {
-    updatedProduct: {}
+    updatedProduct: {},
+    newShippedDate: {}
   }
 
   updateQuantityInStock = (e) =>{
     e.preventDefault();
     const { unshippedOrder } = this.props;
     const { updatedProduct } = this.state;
+    const { newShippedDate } = this.state;
 
-      updatedProduct.title = unshippedOrder.title;
-      updatedProduct.imgUrl = unshippedOrder.imgUrl;
-      updatedProduct.typeId = unshippedOrder.typeId;
-      updatedProduct.quantityInStock = (unshippedOrder.quantityInStock - unshippedOrder.quantityOrdered);
-      updatedProduct.description = unshippedOrder.description;
-      updatedProduct.price = unshippedOrder.price;
-      updatedProduct.categoryId = unshippedOrder.categoryId;
+    newShippedDate.shippedDate = moment().format();
+    newShippedDate.id = unshippedOrder.productOrderId;
 
-    unshippedOrdersData.updateQuantityInStock(updatedProduct, unshippedOrder.productId)
-    .then(() => this.props.getMyUnshippedOrders());
+    updatedProduct.title = unshippedOrder.title;
+    updatedProduct.imgUrl = unshippedOrder.imgUrl;
+    updatedProduct.typeId = unshippedOrder.typeId;
+    updatedProduct.quantityInStock = (unshippedOrder.quantityInStock - unshippedOrder.quantityOrdered);
+    updatedProduct.description = unshippedOrder.description;
+    updatedProduct.price = unshippedOrder.price;
+    updatedProduct.categoryId = unshippedOrder.categoryId;
+
+    const updateQtyInStock = unshippedOrdersData.updateQuantityInStock(updatedProduct, unshippedOrder.productId);
+    const updateShippingDate = unshippedOrdersData.updateShippedDate(newShippedDate, unshippedOrder.productOrderId);
+
+    Promise.all([updateQtyInStock, updateShippingDate]).then(() => this.props.getMyUnshippedOrders());
   }
-
-  // componentDidUpdate() {
-  //   const { newQuantityOrdered } = this.state;
-  //   //Without this conditional an invalid put request would occur if no updates were made and the user logged out while on the cart page.
-  //   if (newQuantityOrdered.quantityOrdered > 0) {
-  //     cartData.editQuantityInCart(newQuantityOrdered, newQuantityOrdered.id);
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   //Deletes product from cart if the seller no longer has any in stock.
-  //   if (this.props.cartProduct.quantityInStock === 0) {
-  //     this.deleteMe();
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   this.setState.mounted = false;
-  // }
 
   render() {
     const { unshippedOrder } = this.props;
@@ -53,7 +41,7 @@ class UnshippedOrderCard extends React.Component {
             <div className="row">
               <img className="productImg" src={unshippedOrder.imgUrl} alt="product"></img>
               <h3 className="col-3 card-title">{unshippedOrder.title}</h3>
-              <button className="col-2 btn btn-success mx-auto" onClick={this.updateQuantityInStock}><b>Ship Order</b></button>
+              <button className="col-2 btn btn-success mx-auto removeFromCart" onClick={this.updateQuantityInStock}><b>Ship Order</b></button>
             </div>
             <div className="row">
               {/* <p className="col-md-auto quantityOrderedText">Quantity:</p>  */}

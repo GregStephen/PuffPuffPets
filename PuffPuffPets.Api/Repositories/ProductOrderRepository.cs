@@ -131,7 +131,7 @@ namespace PuffPuffPets.Api.Repositories
         }
 
 
-        public bool EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
+        public bool EditQuantityOrdered(EditProductOrderDto quantityOrdered)
 
         {
             using (var db = new SqlConnection(_connectionString))
@@ -141,6 +141,20 @@ namespace PuffPuffPets.Api.Repositories
                             WHERE [Id] = @id";
 
                 return db.Execute(sql, quantityOrdered) == 1;
+            }
+        }
+
+        public bool EditShippedDate(EditProductOrderDto shippedDate)
+
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE ProductOrder
+                            SET ShippedDate = @shippedDate
+                                ,IsShipped = 1
+                            WHERE [Id] = @id";
+
+                return db.Execute(sql, shippedDate) == 1;
             }
         }
 
