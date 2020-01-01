@@ -46,7 +46,7 @@ return (
       <img className="card-img-top" src={product.imgUrl} alt="Card cap" />
       <p className="card-text">Description: {product.description}</p>
       <p className="card-text">Price: {product.price}</p>
-      <Link to={{ pathname: sellerStorePage }}>{product.sellerId}</Link>
+      <Link to={{ pathname: sellerStorePage }}>{product.businessName}</Link>
       
       {userObj.id === product.sellerId 
         ? 

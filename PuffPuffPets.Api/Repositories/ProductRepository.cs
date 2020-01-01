@@ -16,8 +16,12 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var sql = @"SELECT p.*, u.BusinessName
+                            FROM [Product] p
+                            JOIN [User] u
+                            on p.SellerId = u.Id";
                 var productResults = new AllProductsReturn();
-                var products = db.Query<Product>(@"SELECT * FROM [Product]");
+                var products = db.Query<Product>(sql);
                 productResults.Products = products;
                 productResults.TotalProducts = products.Count();
                 return productResults;
@@ -32,7 +36,7 @@ namespace PuffPuffPets.Api.Repositories
                 var catRepo = new CategoryRepository();
                 var searchResults = new SearchReturn();
             
-                var sql = @"SELECT p.*
+                var sql = @"SELECT p.*, u.BusinessName 
                             FROM [Product] p
                             JOIN [User] u
                             ON p.SellerId = u.Id";

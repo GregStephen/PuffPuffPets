@@ -10,6 +10,7 @@ namespace PuffPuffPets.Api.DataModels
         public Guid Id { get; set; }
         public string Title { get; set; }
         public Guid SellerId { get; set; }
+        public string BusinessName { get; set; }
         public string ImgUrl { get; set; }
         public Guid TypeId { get; set; }
         public string Description { get; set; }
