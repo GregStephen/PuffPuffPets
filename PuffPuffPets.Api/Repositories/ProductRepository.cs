@@ -16,8 +16,16 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
+                            FROM [Product] p
+                            JOIN [User] u
+                            on p.SellerId = u.Id
+                            JOIN [Category] c
+                            on p.CategoryId = c.Id
+                            JOIN [ProductType] t
+                            on p.TypeId = t.Id";
                 var productResults = new AllProductsReturn();
-                var products = db.Query<Product>(@"SELECT * FROM [Product]");
+                var products = db.Query<Product>(sql);
                 productResults.Products = products;
                 productResults.TotalProducts = products.Count();
                 return productResults;
@@ -32,10 +40,14 @@ namespace PuffPuffPets.Api.Repositories
                 var catRepo = new CategoryRepository();
                 var searchResults = new SearchReturn();
             
-                var sql = @"SELECT p.*
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
                             FROM [Product] p
                             JOIN [User] u
-                            ON p.SellerId = u.Id";
+                            on p.SellerId = u.Id
+                            JOIN [Category] c
+                            on p.CategoryId = c.Id
+                            JOIN [ProductType] t
+                            on p.TypeId = t.Id";
                 var whereStatement = "";
                 var regex = "%";
                 if (searchCategories.Length != 0)
@@ -78,8 +90,14 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT *
-                            FROM [Product]
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
+                            FROM [Product] p
+                            JOIN [User] u
+                            on p.SellerId = u.Id
+                            JOIN [Category] c
+                            on p.CategoryId = c.Id
+                            JOIN [ProductType] t
+                            on p.TypeId = t.Id
                             WHERE [CategoryId] = @categoryId";
                 var parameters = new { categoryId };
                 var products = db.Query<Product>(sql, parameters);
@@ -90,8 +108,14 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT *
-                            FROM [Product]
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
+                            FROM [Product] p
+                            JOIN [User] u
+                            on p.SellerId = u.Id
+                            JOIN [Category] c
+                            on p.CategoryId = c.Id
+                            JOIN [ProductType] t
+                            on p.TypeId = t.Id
                             WHERE [Id] = @productId";
                 var parameters = new { productId };
                 var product = db.QueryFirst<Product>(sql, parameters);
@@ -103,8 +127,14 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT *
-                            FROM [Product]
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
+                            FROM [Product] p
+                            JOIN [User] u
+                            on p.SellerId = u.Id
+                            JOIN [Category] c
+                            on p.CategoryId = c.Id
+                            JOIN [ProductType] t
+                            on p.TypeId = t.Id
                             WHERE [SellerId] = @Uid";
                 var parameters = new { Uid };
                 var products = db.Query<Product>(sql, parameters);
