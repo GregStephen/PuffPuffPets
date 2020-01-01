@@ -54,11 +54,25 @@ namespace PuffPuffPets.Api.Controllers
             _repo.DeleteProductOrder(productOrderIdToDelete);
         }
 
-        [HttpPut("edit/{productOrderIdToEdit}")]
-        public IActionResult EditQuantityOrdered(EditQuantityOrderedDto quantityOrdered)
+        [HttpPut("quantityOrdered/{productOrderIdToEdit}")]
+        public IActionResult EditQuantityOrdered(EditProductOrderDto quantityOrdered)
         {
 
             if (_repo.EditQuantityOrdered(quantityOrdered))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("shippedDate/{productOrderIdToEdit}")]
+        public IActionResult EditShippedDate(EditProductOrderDto shippedDate)
+        {
+
+            if (_repo.EditShippedDate(shippedDate))
             {
                 return Ok();
             }
