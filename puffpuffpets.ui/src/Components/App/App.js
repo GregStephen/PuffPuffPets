@@ -14,6 +14,7 @@ import MyCart from '../MyCart/MyCart';
 import UserProfile from '../UserProfile/UserProfile';
 import SellerProducts from '../SellerProducts/SellerProducts';
 import SellerStorePage from '../SellerStorePage/SellerStorePage';
+import UnshippedOrders from '../UnshippedOrders/UnshippedOrders';
 
 import fbConnect from '../../Helpers/Data/fbConnection';
 import UserRequests from '../../Helpers/Data/UserRequests';
@@ -140,6 +141,7 @@ class App extends React.Component {
               <PrivateRoute path='/orderComplete/:orderId' component={OrderComplete} authed={authed}/>
               <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/store/:sellerId' component={ SellerStorePage } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/unshippedOrders/:sellerId' component={ UnshippedOrders } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>

@@ -30,7 +30,7 @@ namespace PuffPuffPets.Api.Repositories
                                     0,
                                     0,
                                     @paymentTypeId,
-                                    '1753-01-01T00:00:00')";
+                                    null)";
 
                 return db.Execute(sql, newOrder) == 1;
             }

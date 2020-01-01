@@ -13,7 +13,6 @@ class CartCard extends React.Component {
   state = {
     newQuantityOrdered: defaultQuantityOrdered,
     price: ((this.props.cartProduct.price * this.props.cartProduct.quantityOrdered) / 100).toFixed(2),
-    mounted: false
   }
 
   deleteMe = (e) => {
@@ -67,10 +66,6 @@ class CartCard extends React.Component {
     if (this.props.cartProduct.quantityInStock === 0) {
       this.deleteMe();
     }
-  }
-
-  componentWillUnmount() {
-    this.setState.mounted = false;
   }
 
   render() {
