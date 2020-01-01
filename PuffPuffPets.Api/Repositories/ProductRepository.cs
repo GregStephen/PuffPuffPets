@@ -170,7 +170,7 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid sellerId)
+        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid sellerId, int booleanValue)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -190,7 +190,7 @@ namespace PuffPuffPets.Api.Repositories
                             FROM [Product] P
                             JOIN [ProductOrder] PO
                             ON PO.ProductId = P.Id
-                            WHERE P.SellerId = @sellerId AND PO.isShipped = 0
+                            WHERE P.SellerId = @sellerId AND PO.isShipped = @booleanValue
 
                             SELECT ProductId
                             ,SellerId
@@ -209,7 +209,7 @@ namespace PuffPuffPets.Api.Repositories
                             JOIN [Order] O
                             ON #tempP_PO.OrderId = O.Id
                             WHERE O.IsCompleted = 1";
-                var parameters = new { sellerId };
+                var parameters = new { sellerId, booleanValue };
                 var products = db.Query<UnshippedProductDto>(sql, parameters);
                 return products;
             }

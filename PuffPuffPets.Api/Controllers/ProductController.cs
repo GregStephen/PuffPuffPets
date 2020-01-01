@@ -47,10 +47,10 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetProductsByUid(Uid);
         }
 
-        [HttpGet("unshippedOrders/{SellerId}")]
-        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid SellerId)
+        [HttpGet("unshippedOrders/{SellerId}/{booleanValue}")]
+        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid SellerId, int booleanValue)
         {
-            return _repo.GetUnshippedProductsBySellerId(SellerId);
+            return _repo.GetUnshippedProductsBySellerId(SellerId, booleanValue);
         }
 
         [HttpGet("search/q={term}/categories")]
