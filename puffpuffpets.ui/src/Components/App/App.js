@@ -57,11 +57,11 @@ class App extends React.Component {
   };
 
   componentDidMount () {
-    //const { userObj } = this.state;
-   // if (userObj.id === 0)
-   // {
-   //   firebase.auth().signOut();
-   // }
+    const { userObj } = this.state;
+    if (userObj.id === 0)
+    {
+      firebase.auth().signOut();
+    }
     
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -84,7 +84,6 @@ class App extends React.Component {
     if(this.state.authed) {
       UserRequests.logInUser(firebase.auth().currentUser.uid)
       .then((loggedInUserObj) => {
-        console.error('here2')
         this.setState({ userObj: loggedInUserObj });
       })
     }
