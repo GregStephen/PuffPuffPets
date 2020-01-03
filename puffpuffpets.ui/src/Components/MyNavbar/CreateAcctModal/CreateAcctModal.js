@@ -62,6 +62,7 @@ class CreateAcctModal extends React.Component {
     newUser.DateCreated = new Date();
     this.props.createNewUser(newUser, firebaseInfo);
     this.toggleModal();
+    this.setState({firebaseInfo: defaultInfo})
   }
 
   formFieldStringState = (e) => {
