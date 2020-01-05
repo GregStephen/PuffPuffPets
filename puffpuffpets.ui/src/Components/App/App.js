@@ -15,6 +15,8 @@ import UserProfile from '../UserProfile/UserProfile';
 import SellerProducts from '../SellerProducts/SellerProducts';
 import SellerStorePage from '../SellerStorePage/SellerStorePage';
 import UnshippedOrders from '../UnshippedOrders/UnshippedOrders';
+import sellerOrderHistory from '../SellerOrderHistory/SellerOrderHistory';
+import customerOrderHistory from '../CustomerOrderHistory/CustomerOrderHistory'
 
 import fbConnect from '../../Helpers/Data/fbConnection';
 import UserRequests from '../../Helpers/Data/UserRequests';
@@ -140,6 +142,8 @@ class App extends React.Component {
               <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/store/:sellerId' component={ SellerStorePage } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/unshippedOrders/:sellerId' component={ UnshippedOrders } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/sellerOrderHistory/:sellerId' component={ sellerOrderHistory } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/customerOrderHistory/:sellerId' component={ customerOrderHistory } authed={ authed } userObj={ userObj }/>
               <Redirect from='*' to='/auth'/>
             </Switch>
         </Router>

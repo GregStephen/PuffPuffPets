@@ -124,6 +124,8 @@ class MyNavbar extends React.Component {
       const myCart = `/myCart/${userObj.id}`;
       const productsPage = `/products/${userObj.id}`;
       const unshippedOrders = `/unshippedOrders/${userObj.id}`;
+      const sellerOrderHistory = `/sellerOrderHistory/${userObj.id}`;
+      const customerOrderHistory = `/customerOrderHistory/${userObj.id}`;
       if (!authed)
       {
         return (
@@ -136,6 +138,7 @@ class MyNavbar extends React.Component {
         return (
           <Nav className="ml-auto" navbar>
             <NavLink tag={RRNavLink} to={myCart}>Cart</NavLink>
+            <NavLink tag={RRNavLink} to={customerOrderHistory}>Order History</NavLink>
             {this.displayBuyerNav()}
           </Nav>
         );
@@ -146,6 +149,7 @@ class MyNavbar extends React.Component {
           <Nav className="ml-auto" navbar>
             <NavLink tag={RRNavLink} to={unshippedOrders}>Unshipped Orders</NavLink>
             <NavLink tag={RRNavLink} to={productsPage}>Products Page</NavLink>
+            <NavLink tag={RRNavLink} to={sellerOrderHistory}>Order History</NavLink>
             {this.displaySellerNav()}
           </Nav>
         );

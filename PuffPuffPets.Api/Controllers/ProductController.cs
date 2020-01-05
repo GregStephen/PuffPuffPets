@@ -47,12 +47,6 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetProductsByUid(Uid);
         }
 
-        [HttpGet("unshippedOrders/{SellerId}")]
-        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid SellerId)
-        {
-            return _repo.GetUnshippedProductsBySellerId(SellerId);
-        }
-
         [HttpGet("search/q={term}/categories")]
         public SearchReturn GetAllSearchedProducts(string term, [FromQuery(Name="cat")]string[] searchCategories)
         {
@@ -80,7 +74,7 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
+        [HttpPut("quantityInStock/{id}")]
         public IActionResult EditProduct(EditProductDto editedProduct, Guid id)
         {
             _repo.EditProduct(editedProduct, id);

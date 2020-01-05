@@ -10,7 +10,8 @@ namespace PuffPuffPets.Api.Repositories
     public interface IOrderRepository
     {
         IEnumerable<Order> GetAllOrders();
-        IEnumerable<Order> GetOrdersByUserId(Guid userId);
+        IEnumerable<CustomerOrderHistoryDto> GetOrderHistoryByCustomerId(Guid customerId);
+        IEnumerable<UnshippedOrShippedProductDto> GetUnshippedProductsOrOrderHistoryBySellerId(Guid sellerId, int booleanValue);
         Order GetOrderById(Guid orderId);
         bool AddNewOrder(Order newOrder);
         bool DeleteOrder(Guid orderId);

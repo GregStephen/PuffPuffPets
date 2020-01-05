@@ -23,9 +23,6 @@ namespace PuffPuffPets.Api.Repositories
 
         public IEnumerable<Product> GetAllProductsByCategory(Guid categoryId);
         IEnumerable<Product> GetProductsByUid(Guid Uid);
-        IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid sellerId);
     }
 
-
 }
-       

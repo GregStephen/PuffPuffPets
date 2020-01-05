@@ -20,6 +20,5 @@ namespace PuffPuffPets.Api.DataModels
         public int Price { get; set; }
         public string MoneyPrice { get; set; }
         public int QuantityInStock { get; set; }
-
     }
 }

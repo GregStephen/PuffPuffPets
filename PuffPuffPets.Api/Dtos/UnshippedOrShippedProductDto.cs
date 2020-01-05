@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace PuffPuffPets.Api.Dtos
 {
-    public class UnshippedProductDto
+    public class UnshippedOrShippedProductDto
     {
+        public Guid CustomerId { get; set; }
         public Guid ProductId { get; set; }
         public Guid OrderId { get; set; }
         public string Title { get; set; }
@@ -20,5 +21,7 @@ namespace PuffPuffPets.Api.Dtos
         public int QuantityOrdered { get; set; }
         public DateTime PurchaseDate { get; set; }
         public Guid ProductOrderId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
