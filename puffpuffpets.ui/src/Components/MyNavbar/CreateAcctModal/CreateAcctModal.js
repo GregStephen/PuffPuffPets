@@ -29,6 +29,7 @@ class CreateAcctModal extends React.Component {
     firebaseInfo: defaultInfo,
     collapse: false,
     status: 'Closed',
+    error: ''
   }
 
   componentDidMount() {
@@ -64,9 +65,15 @@ class CreateAcctModal extends React.Component {
     e.preventDefault();
     const { newUser, firebaseInfo } = this.state;
     newUser.DateCreated = new Date();
-    this.props.createNewUser(newUser, firebaseInfo);
-    this.toggleModal();
-    this.setState({firebaseInfo: defaultInfo})
+    this.props.createNewUser(newUser, firebaseInfo)
+      .then(() => {
+        this.toggleModal();
+        this.setState({firebaseInfo: defaultInfo})
+      })
+      .catch(err => {
+        // if anything breaks this will show up on the log in modal why it broke
+        this.setState({ error: err.message});
+        });
   }
 
   formFieldStringState = (e) => {
@@ -89,8 +96,7 @@ class CreateAcctModal extends React.Component {
   }
 
   render() {
-    const { newUser, firebaseInfo } = this.state;
-    const { error } = this.props;
+    const { newUser, firebaseInfo, error } = this.state;
     return (
       <div className="CreateAcctModal container">
         <Form className="row justify-content-center" onSubmit={this.formSubmit}>

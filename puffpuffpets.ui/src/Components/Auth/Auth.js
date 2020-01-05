@@ -30,7 +30,8 @@ class Auth extends React.Component {
 
   createUser = (newUser, password) => {
     UserRequests.addUser(newUser, password)
-    .then(() => this.props.history.push('/home'))
+    .then(() => {
+      this.props.history.push('/home')})
     .catch(err => console.error(err))
   }
 

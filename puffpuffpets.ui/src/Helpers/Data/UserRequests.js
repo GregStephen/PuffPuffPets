@@ -60,6 +60,12 @@ const deleteUser = uid => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
+const getSellerStats = sellerId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/stats/${sellerId}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err))
+})
+
 export default {
     getAllUsers,
     getUserById,
@@ -67,4 +73,5 @@ export default {
     logInUser,
     editUser,
     deleteUser,
+    getSellerStats,
 };

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import SellerStats from '../SellerStats/SellerStats';
+
 import './SellerHome.scss';
 
 class SellerHome extends Component {
@@ -15,6 +17,8 @@ class SellerHome extends Component {
       <div className="SellerHome">
           <h1>Seller HOMEPAGE</h1>
           <h1>WELCOME {userObj.firstName}</h1>
+          <SellerStats 
+          userObj = { userObj } />
       </div>
     );
   }
