@@ -91,7 +91,7 @@ class UserProfile extends React.Component {
           {modalOpen === 'info' ? 'Edit Account' : 
           modalOpen === 'password' ? 'Change Password' : 
           modalOpen === 'email' ? 'Change Email' : 
-          'Delete Account'}
+          modalOpen === 'delete' ? 'Delete Account' : ''}
         </ModalHeader>
         { modalOpen === 'info' ? 
           <EditUserInfoModal
@@ -109,11 +109,13 @@ class UserProfile extends React.Component {
           toggleChangeEmail = { this.toggleModalOpen }
           userObj = { userObj }
           />
-          : <DeleteUserModal
+          : modalOpen === 'delete' ? 
+          <DeleteUserModal
           toggleDeleteUser = { this.toggleModalOpen } 
           userObj = { userObj }
           userDeleted = { this.userDeleted } 
           />
+          : ''
         }
         </Modal>
       </div>

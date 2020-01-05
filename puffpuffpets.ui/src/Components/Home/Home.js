@@ -6,8 +6,14 @@ import './Home.scss';
 
 class Home extends Component {
   static propTypes = {
+    userLogIn: PropTypes.func,
     userObj: PropTypes.object.isRequired,
   };
+
+  componentDidMount() {
+    this.props.userLogIn();
+  }
+  
   render () {
     const {userObj} = this.props;
     return (
