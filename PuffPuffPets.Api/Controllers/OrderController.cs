@@ -36,10 +36,16 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetOrderById(orderId);
         }
 
-        [HttpGet("user/{userId}")]
-        public IEnumerable<Order> GetByUserId(Guid userId)
+        [HttpGet("customerOrderHistory/{customerId}")]
+        public IEnumerable<CustomerOrderHistoryDto> GetByUserId(Guid customerId)
         {
-            return _repo.GetOrdersByUserId(userId).Where(order => order.UserId == userId);
+            return _repo.GetOrderHistoryByCustomerId(customerId);
+        }
+
+        [HttpGet("sellerOrders/{SellerId}/{booleanValue}")]
+        public IEnumerable<UnshippedOrShippedProductDto> GetUnshippedProductsBySellerId(Guid SellerId, int booleanValue)
+        {
+            return _repo.GetUnshippedProductsOrOrderHistoryBySellerId(SellerId, booleanValue);
         }
 
         [HttpPost]

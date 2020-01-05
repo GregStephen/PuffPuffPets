@@ -59,7 +59,7 @@ class Checkout extends React.Component {
       if(cartProducts.length > 0 && totalPrice.length > 0 && paymentTypeSelected !== '' && this.state.addressSelected !== '') {
         const decimalPrice = totalPrice.reduce((a,b) => a + b, 0);
         tempUpdatedOrder.id = cartProducts[0].orderId;
-        tempUpdatedOrder.totalPrice = parseInt(decimalPrice) * 100;
+        tempUpdatedOrder.totalPrice = decimalPrice * 100;
         tempUpdatedOrder.paymentTypeId = paymentTypeSelected;
         tempUpdatedOrder.purchaseDate = moment().format();
 

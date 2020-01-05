@@ -1,7 +1,6 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 
-import UnshippedOrdersData from '../../Helpers/Data/UnshippedOrdersData';
+import OrderHistoryData from '../../Helpers/Data/OrderHistoryData';
 import UnshippedOrderCard from '../UnshippedOrderCard/UnshippedOrderCard';
 
 class UnshippedOrders extends React.Component {
@@ -10,7 +9,7 @@ class UnshippedOrders extends React.Component {
   }
 
   getMyUnshippedOrders = () => {
-    UnshippedOrdersData.getMyUnshippedOrders(this.props.userObj.id)
+    OrderHistoryData.getMyUnshippedOrders(this.props.userObj.id)
     .then(unshippedOrders => this.setState({ unshippedOrders }))
     .catch(err => console.error(err, 'could not get unshipped orders'));
   }
@@ -26,7 +25,6 @@ class UnshippedOrders extends React.Component {
       unshippedOrder={unshippedOrder}
       key={unshippedOrder.productId + unshippedOrder.orderId}
       getMyUnshippedOrders={this.getMyUnshippedOrders}
-      // handleAddressChange={this.handleAddressChange}
       />
     ));
 

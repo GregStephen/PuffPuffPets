@@ -200,49 +200,5 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public IEnumerable<UnshippedProductDto> GetUnshippedProductsBySellerId(Guid sellerId, int booleanValue)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"SELECT P.Id AS ProductId
-                            ,P.SellerId
-                            ,P.Title
-                            ,P.ImgUrl
-                            ,P.TypeId
-                            ,P.Description
-                            ,P.Price
-                            ,P.CategoryId
-                            ,P.QuantityInStock
-                            ,PO.Id AS ProductOrderId
-                            ,PO.QuantityOrdered
-                            ,PO.OrderId
-                            INTO #tempP_PO
-                            FROM [Product] P
-                            JOIN [ProductOrder] PO
-                            ON PO.ProductId = P.Id
-                            WHERE P.SellerId = @sellerId AND PO.isShipped = @booleanValue
-
-                            SELECT ProductId
-                            ,SellerId
-                            ,Title
-                            ,ImgUrl
-                            ,TypeId
-                            ,Description
-                            ,Price
-                            ,CategoryId
-                            ,QuantityInStock
-                            ,QuantityOrdered
-                            ,ProductOrderId
-                            ,O.PurchaseDate
-                            ,O.Id as OrderId
-                            FROM #tempP_PO
-                            JOIN [Order] O
-                            ON #tempP_PO.OrderId = O.Id
-                            WHERE O.IsCompleted = 1";
-                var parameters = new { sellerId, booleanValue };
-                var products = db.Query<UnshippedProductDto>(sql, parameters);
-                return products;
-            }
-        }
     }
 }

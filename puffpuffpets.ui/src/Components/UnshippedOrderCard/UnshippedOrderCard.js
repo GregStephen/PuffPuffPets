@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import unshippedOrdersData from '../../Helpers/Data/UnshippedOrdersData';
+import ProductRequests from '../../Helpers/Data/ProductRequests';
+import OrderHistoryData from '../../Helpers/Data/OrderHistoryData'
 
 
 class UnshippedOrderCard extends React.Component {
@@ -26,10 +27,10 @@ class UnshippedOrderCard extends React.Component {
     updatedProduct.price = unshippedOrder.price;
     updatedProduct.categoryId = unshippedOrder.categoryId;
 
-    const updateQtyInStock = unshippedOrdersData.updateQuantityInStock(updatedProduct, unshippedOrder.productId);
-    const updateShippingDate = unshippedOrdersData.updateShippedDate(newShippedDate, unshippedOrder.productOrderId);
+    const updateQtyInStock = ProductRequests.updateQuantityInStock(updatedProduct, unshippedOrder.productId);
+    const updateShippedDate = OrderHistoryData.updateShippedDate(newShippedDate, unshippedOrder.productOrderId);
 
-    Promise.all([updateQtyInStock, updateShippingDate]).then(() => this.props.getMyUnshippedOrders());
+    Promise.all([updateQtyInStock, updateShippedDate]).then(() => this.props.getMyUnshippedOrders());
   }
 
   render() {

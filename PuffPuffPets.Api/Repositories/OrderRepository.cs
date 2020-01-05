@@ -72,15 +72,72 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public IEnumerable<Order> GetOrdersByUserId(Guid userId)
+        public IEnumerable<CustomerOrderHistoryDto> GetOrderHistoryByCustomerId(Guid customerId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var orders = db.Query<Order>(@"SELECT *
-                                            FROM [Order] JOIN [User]
-                                            ON [Order].UserId = [User].Id");
+                var sql = (@"SELECT P.Id AS ProductId
+                                            ,P.SellerId
+                                            ,P.Title
+                                            ,P.ImgUrl
+                                            ,P.TypeId
+                                            ,P.Description
+                                            ,P.Price AS IndividualPrice
+                                            ,P.CategoryId
+                                            ,PO.Id AS ProductOrderId
+                                            ,PO.QuantityOrdered
+                                            ,PO.OrderId
+                                            ,O.TotalPrice
+                                            ,O.PurchaseDate
+                                            ,US.BusinessName
+                                            FROM [Order] O
+                                            JOIN [User] UC
+                                            ON O.UserId = UC.Id AND UC.Id = @customerId AND O.IsCompleted = 1
+                                            JOIN [ProductOrder] PO
+                                            ON O.Id = PO.OrderId
+                                            JOIN [Product] P
+                                            ON PO.ProductId = P.Id
+                                            JOIN [User] US
+                                            ON US.Id = P.SellerId");
 
-                return orders.ToList();
+                var parameters = new { customerId };
+                var orders = db.Query<CustomerOrderHistoryDto>(sql, parameters);
+                return orders;
+            }
+        }
+
+        public IEnumerable<UnshippedOrShippedProductDto> GetUnshippedProductsOrOrderHistoryBySellerId(Guid sellerId, int booleanValue)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT P.Id AS ProductId
+                            ,P.SellerId
+                            ,P.Title
+                            ,P.ImgUrl
+                            ,P.TypeId
+                            ,P.Description
+                            ,P.Price
+                            ,P.CategoryId
+                            ,P.QuantityInStock
+                            ,PO.Id AS ProductOrderId
+                            ,PO.QuantityOrdered
+                            ,PO.OrderId
+                            ,O.PurchaseDate
+                            ,U.FirstName
+                            ,U.LastName
+                            FROM [Product] P
+                            JOIN [ProductOrder] PO
+                            ON PO.ProductId = P.Id
+                            AND P.SellerId = @sellerId AND PO.isShipped = @booleanValue
+                            JOIN [Order] O
+                            ON PO.OrderId = O.Id AND O.IsCompleted = 1
+                            JOIN [User] U
+                            ON U.Id = O.UserId
+                            ORDER BY O.PurchaseDate DESC";
+
+                var parameters = new { sellerId, booleanValue };
+                var products = db.Query<UnshippedOrShippedProductDto>(sql, parameters);
+                return products;
             }
         }
 
