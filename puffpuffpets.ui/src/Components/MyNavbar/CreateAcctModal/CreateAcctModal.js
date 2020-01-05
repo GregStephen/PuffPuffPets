@@ -31,6 +31,9 @@ class CreateAcctModal extends React.Component {
     status: 'Closed',
   }
 
+  componentDidMount() {
+    this.setState({firebaseInfo: defaultInfo})
+  }
   onEntering = () => {
     this.setState({ status: 'Opening...' });
   }
@@ -53,6 +56,7 @@ class CreateAcctModal extends React.Component {
 
   toggleModal = () => {
     const { toggleCreateAccount } = this.props;
+    this.setState({firebaseInfo: defaultInfo})
     toggleCreateAccount();
   }
 
@@ -62,6 +66,7 @@ class CreateAcctModal extends React.Component {
     newUser.DateCreated = new Date();
     this.props.createNewUser(newUser, firebaseInfo);
     this.toggleModal();
+    this.setState({firebaseInfo: defaultInfo})
   }
 
   formFieldStringState = (e) => {

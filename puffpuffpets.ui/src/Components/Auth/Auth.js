@@ -5,6 +5,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import ProductCard from '../ProductCard/ProductCard';
 
 import ProductRequests from '../../Helpers/Data/ProductRequests';
+import UserRequests from '../../Helpers/Data/UserRequests';
 
 import './Auth.scss';
 
@@ -28,7 +29,9 @@ class Auth extends React.Component {
   }
 
   createUser = (newUser, password) => {
-    this.props.createThisUser(newUser, password);
+    UserRequests.addUser(newUser, password)
+    .then(() => this.props.history.push('/home'))
+    .catch(err => console.error(err))
   }
 
   render() {

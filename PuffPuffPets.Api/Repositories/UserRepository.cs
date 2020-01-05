@@ -141,7 +141,7 @@ namespace PuffPuffPets.Api.Repositories
                 paymentTypeRepo.DeleteAllPaymentTypesByUserId(userId);
                 var sql = @"UPDATE [User]
                             SET [FirstName] = 'DELETED',
-                                [LastName] = 'DELETED',
+                                [LastName] = 'DELETED'
                             WHERE Id = @userId";
                 var parameters = new { userId };
                 return db.Execute(sql, parameters) == 1;

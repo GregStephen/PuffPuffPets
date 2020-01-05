@@ -4,6 +4,7 @@ import {
   ModalHeader,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import EditUserInfoModal from '../EditUserInfoModal/EditUserInfoModal';
 import DeleteUserModal from '../DeleteUserModal/DeleteUserModal';
@@ -28,6 +29,7 @@ class UserProfile extends React.Component {
     allAddresses: [],
     modalOpen: '',
     userPageModalIsOpen: false,
+    userSince: '',
   }
 
   static propTypes = {
@@ -55,6 +57,8 @@ class UserProfile extends React.Component {
 
   componentDidMount() {
     const {userObj} = this.props;
+    const now = moment(userObj.dateCreated).fromNow(true)
+    this.setState({ userSince: now });
     AddressRequests.getAllAddressesByUserId(userObj.id)
       .then((results) => {
         this.setState({ allAddresses: results });
@@ -65,12 +69,13 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    const { preferredAddress, modalOpen } = this.state;
+    const { preferredAddress, modalOpen, userSince } = this.state;
     const { userObj } = this.props;
 
     return (
       <div className="UserProfile">
         <h1>Hey {userObj.firstName} {userObj.lastName}</h1>
+        <p>You've been with us for: {userSince}</p>
         <p>Preferred Address:</p>
         <p>{preferredAddress.addressLine1}</p>
         {preferredAddress.addressLine2 != null 
@@ -86,7 +91,7 @@ class UserProfile extends React.Component {
           {modalOpen === 'info' ? 'Edit Account' : 
           modalOpen === 'password' ? 'Change Password' : 
           modalOpen === 'email' ? 'Change Email' : 
-          'Delete Account'}
+          modalOpen === 'delete' ? 'Delete Account' : ''}
         </ModalHeader>
         { modalOpen === 'info' ? 
           <EditUserInfoModal
@@ -104,11 +109,13 @@ class UserProfile extends React.Component {
           toggleChangeEmail = { this.toggleModalOpen }
           userObj = { userObj }
           />
-          : <DeleteUserModal
+          : modalOpen === 'delete' ? 
+          <DeleteUserModal
           toggleDeleteUser = { this.toggleModalOpen } 
           userObj = { userObj }
           userDeleted = { this.userDeleted } 
           />
+          : ''
         }
         </Modal>
       </div>

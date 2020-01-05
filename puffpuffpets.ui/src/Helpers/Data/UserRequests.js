@@ -43,16 +43,16 @@ const editUser = (editedUser) => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const addUser = (userObj, firebaseInfo) => {
-    return firebase.auth().createUserWithEmailAndPassword(firebaseInfo.email, firebaseInfo.password)
+const addUser = (userObj, firebaseInfo) => new Promise((resolve, reject) => {
+    firebase.auth().createUserWithEmailAndPassword(firebaseInfo.email, firebaseInfo.password)
     .then(cred => {
+        userObj.firebaseUid =  firebase.auth().currentUser.uid;
         cred.user.getIdToken()
         .then(token => sessionStorage.setItem('token', token))
         .then(() => {
-            userObj.firebaseUid =  firebase.auth().currentUser.uid;
-            axios.post(`${baseUrl}`, userObj)})
-    });
-};
+            axios.post(`${baseUrl}`, userObj)});
+    }).catch(err => reject(err));
+});
 
 const deleteUser = uid => new Promise((resolve, reject) => {
     axios.delete(`${baseUrl}/${uid}`)

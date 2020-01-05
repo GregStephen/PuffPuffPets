@@ -108,7 +108,7 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
+                var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice, u.BusinessName, c.Name as CategoryName, t.Type as TypeName
                             FROM [Product] p
                             JOIN [User] u
                             on p.SellerId = u.Id

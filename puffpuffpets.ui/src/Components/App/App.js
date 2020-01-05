@@ -57,15 +57,14 @@ class App extends React.Component {
   };
 
   componentDidMount () {
-    const { userObj } = this.state;
-    if (userObj.id === 0)
-    {
-      firebase.auth().signOut();
-    }
+    // const { userObj } = this.state;
+    // if (userObj.id === 0)
+    // {
+      // firebase.auth().signOut();
+    // }
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({authed: true});
-        this.userLogIn();
+            this.setState({ authed: true });
       } else {
         this.setState({ authed: false, userObj: defaultUser });
       }
@@ -77,9 +76,8 @@ class App extends React.Component {
   };
 
   userLogIn = () => {
-    const firebaseUid =  firebase.auth().currentUser.uid;
     // gets the user data from PPP database by firebaseUid
-    UserRequests.logInUser(firebaseUid)
+      UserRequests.logInUser(firebase.auth().currentUser.uid)
       .then((loggedInUserObj) => {
         this.setState({ userObj: loggedInUserObj });
       })
@@ -92,13 +90,13 @@ class App extends React.Component {
     })
   }
   
-  createThisUser = (userToCreate, firebaseInfo) => {
-    UserRequests.addUser(userToCreate, firebaseInfo)
-      .then(() => {
-        this.userLogIn();
-      })
-      .catch(err => console.error(err))
-  }
+  // createThisUser = (userToCreate, firebaseInfo) => {
+  //   UserRequests.addUser(userToCreate, firebaseInfo)
+  //     .then(() => {
+  //       this.userLogIn();
+  //     })
+  //     .catch(err => console.error(err))
+  // }
 
   editThisUser = (userToEdit) => {
     UserRequests.editUser(userToEdit)
@@ -134,7 +132,7 @@ class App extends React.Component {
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } createThisUser={ this.createThisUser } userLogIn={ this.userLogIn }/>
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed } userObj={ userObj } createThisUser={ this.createThisUser }/>
-              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj }/>
+              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj } userLogIn={ this.userLogIn }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
               <PrivateRoute path='/myCart/:userId' component={ MyCart } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/checkout/:userId' component={Checkout} authed={authed} userObj={userObj}/>
