@@ -6,7 +6,7 @@ class SellerStats extends React.Component {
   state = {
     sellerStats: {},
     topProduct: {},
-    thisMonth: 'feb',
+    thisMonth: '',
   }
 
   componentDidMount() {
@@ -14,7 +14,6 @@ class SellerStats extends React.Component {
     UserRequests.getSellerStats(userObj.id)
       .then((results) => {
         this.setState({ sellerStats: results, topProduct: results.topProduct })
-        console.error(results);
       })
       .catch(err => console.error(err));
     const month = moment().format('MMMM');
@@ -29,7 +28,7 @@ class SellerStats extends React.Component {
         <p>Total sales for all time: { sellerStats.totalSales}</p>
         <p>Total sales for {thisMonth}: {sellerStats.monthSales}</p>
         <p>Top selling product: {topProduct.title} </p>
-        <p>{sellerStats.topProductAmountSold} units sold!</p>
+        <p>{sellerStats.topProductAmountSold} units of {topProduct.title} sold!</p>
       </div>
     )
   }
