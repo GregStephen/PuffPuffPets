@@ -1,11 +1,15 @@
 import React from 'react';
-import UserRequests from '../../Helpers/Data/UserRequests';
 import moment from 'moment';
+
+import UserRequests from '../../Helpers/Data/UserRequests';
+
+import './SellerStats.scss';
 
 class SellerStats extends React.Component {
   state = {
     sellerStats: {},
     topProduct: {},
+    topMonthProduct: {},
     thisMonth: '',
   }
 
@@ -13,7 +17,7 @@ class SellerStats extends React.Component {
     const {userObj} = this.props;
     UserRequests.getSellerStats(userObj.id)
       .then((results) => {
-        this.setState({ sellerStats: results, topProduct: results.topProduct })
+        this.setState({ sellerStats: results, topProduct: results.topProduct, topMonthProduct: results.topMonthProduct })
       })
       .catch(err => console.error(err));
     const month = moment().format('MMMM');
@@ -21,14 +25,17 @@ class SellerStats extends React.Component {
 
   }
   render() {
-    const { sellerStats, thisMonth, topProduct } = this.state;
+    const { sellerStats, thisMonth, topProduct, topMonthProduct } = this.state;
+    const { userObj } = this.props;
     return (
-      <div className="SellerStats">
-        <h1>Here are your current stats</h1>
-        <p>Total sales for all time: { sellerStats.totalSales}</p>
+      <div className="SellerStats col-6">
+        <h3>Here are your current stats for</h3>
+        <h3>{userObj.businessName}</h3>
+        <p>Total sales for all time: {sellerStats.totalSales}</p>
+        <p>Top selling product of all time: {topProduct.title} - {sellerStats.topProductAmountSold} units sold</p>
         <p>Total sales for {thisMonth}: {sellerStats.monthSales}</p>
-        <p>Top selling product: {topProduct.title} </p>
-        <p>{sellerStats.topProductAmountSold} units of {topProduct.title} sold!</p>
+        <p>Top selling product for {thisMonth}: {topMonthProduct.title} - {sellerStats.topMonthProductAmountSold} units sold</p>
+
       </div>
     )
   }

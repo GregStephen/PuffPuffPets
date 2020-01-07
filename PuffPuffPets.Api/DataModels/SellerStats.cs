@@ -11,5 +11,7 @@ namespace PuffPuffPets.Api.DataModels
         public string MonthSales { get; set; }
         public Product TopProduct { get; set; }
         public int TopProductAmountSold { get; set; }
+        public Product TopMonthProduct { get; set;}
+        public int TopMonthProductAmountSold { get; set; }
     }
 }

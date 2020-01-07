@@ -166,6 +166,21 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
+        public TopProduct GetTopProductForMonth(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) p.Id as MostSoldProduct, sum(po.QuantityOrdered) as MostSoldAmount
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId AND MONTH(po.ShippedDate) = (MONTH(getDate()))
+                            GROUP BY p.Id
+                            ORDER BY MostSoldAmount DESC";
+                var parameters = new { sellerId };
+                return db.QueryFirst<TopProduct>(sql, parameters);
+            }
+        }
         public string GetTotalSales(Guid sellerId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -203,13 +218,16 @@ namespace PuffPuffPets.Api.Repositories
                 var sellerStats = new SellerStats();
                 var topProductInfo= GetTopProduct(sellerId);
                 var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                var topMonthProductInfo = GetTopProductForMonth(sellerId);
+                var topMonthProduct = productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
                 var totalSales = GetTotalSales(sellerId);
                 var monthSales = GetTotalSalesForTheMonth(sellerId);
                 sellerStats.TotalSales = totalSales;
                 sellerStats.MonthSales = monthSales;
                 sellerStats.TopProduct = topProduct;
                 sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
-                
+                sellerStats.TopMonthProduct = topMonthProduct;
+                sellerStats.TopMonthProductAmountSold = topMonthProductInfo.MostSoldAmount;
                 return sellerStats;
             }
         }
