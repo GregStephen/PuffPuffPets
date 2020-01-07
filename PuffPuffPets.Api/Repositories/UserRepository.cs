@@ -147,5 +147,37 @@ namespace PuffPuffPets.Api.Repositories
                 return db.Execute(sql, parameters) == 1;
             }
         }
+
+        public TopProduct GetTopProduct(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) p.Id as MostSoldProduct, sum(po.QuantityOrdered) as MostSoldAmount
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId
+                            GROUP BY p.Id
+                            ORDER BY MostSoldAmount DESC";
+                var parameters = new { sellerId };
+                return db.QueryFirst<TopProduct>(sql, parameters);
+            }
+        }
+        public SellerStats GetSellerStats(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var productRepo = new ProductRepository();
+                var sellerStats = new SellerStats();
+                var topProductInfo= GetTopProduct(sellerId);
+                var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                sellerStats.TopProduct = topProduct;
+                sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
+                var sql = @"";
+                var parameters = new { sellerId };
+                
+                return sellerStats;
+            }
+        }
     }
 }
