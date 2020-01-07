@@ -116,7 +116,7 @@ namespace PuffPuffPets.Api.Repositories
                             on p.CategoryId = c.Id
                             JOIN [ProductType] t
                             on p.TypeId = t.Id
-                            WHERE [Id] = @productId";
+                            WHERE p.[Id] = @productId";
                 var parameters = new { productId };
                 var product = db.QueryFirst<Product>(sql, parameters);
                 return product;

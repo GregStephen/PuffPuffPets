@@ -163,6 +163,36 @@ namespace PuffPuffPets.Api.Repositories
                 return db.QueryFirst<TopProduct>(sql, parameters);
             }
         }
+
+        public string GetTotalSales(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT FORMAT( SUM(p.Price * po.QuantityOrdered)/100.00, 'C') as TotalSales
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId
+                            GROUP BY p.SellerId";
+                var parameters = new { sellerId };
+                return db.QueryFirst<string>(sql, parameters);
+            }
+        }
+
+        public string GetTotalSalesForTheMonth(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT FORMAT( SUM(p.Price * po.QuantityOrdered)/100.00, 'C') as TotalSales
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId AND MONTH(po.ShippedDate) = (MONTH(getDate()))
+                            GROUP BY p.SellerId";
+                var parameters = new { sellerId };
+                return db.QueryFirst<string>(sql, parameters);
+            }
+        }
         public SellerStats GetSellerStats(Guid sellerId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -171,10 +201,12 @@ namespace PuffPuffPets.Api.Repositories
                 var sellerStats = new SellerStats();
                 var topProductInfo= GetTopProduct(sellerId);
                 var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                var totalSales = GetTotalSales(sellerId);
+                var monthSales = GetTotalSalesForTheMonth(sellerId);
+                sellerStats.TotalSales = totalSales;
+                sellerStats.MonthSales = monthSales;
                 sellerStats.TopProduct = topProduct;
                 sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
-                var sql = @"";
-                var parameters = new { sellerId };
                 
                 return sellerStats;
             }

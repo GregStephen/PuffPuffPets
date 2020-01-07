@@ -43,6 +43,12 @@ namespace PuffPuffPets.Api.Controllers
             return _repo.GetUserByFirebaseUid(firebaseUid);
         }
 
+        [HttpGet("stats/{userId}")]
+        public SellerStats GetSellerStats(Guid userId)
+        {
+            return _repo.GetSellerStats(userId);
+        }
+
         [HttpPut]
         public IActionResult EditUser(EditUserDto editUserDto)
         {
