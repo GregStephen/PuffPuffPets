@@ -38,9 +38,17 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpGet("uid/{firebaseUid}")]
-        public User Get(string firebaseUid)
+        public IActionResult Get(string firebaseUid)
         {
-            return _repo.GetUserByFirebaseUid(firebaseUid);
+           var user = _repo.GetUserByFirebaseUid(firebaseUid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
         }
 
         [HttpGet("stats/{userId}")]

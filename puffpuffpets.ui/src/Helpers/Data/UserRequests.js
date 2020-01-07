@@ -50,7 +50,7 @@ const addUser = (userObj, firebaseInfo) => new Promise((resolve, reject) => {
         cred.user.getIdToken()
         .then(token => sessionStorage.setItem('token', token))
         .then(() => {
-            axios.post(`${baseUrl}`, userObj)});
+            axios.post(`${baseUrl}`, userObj).catch(err => reject(err))});
     }).catch(err => reject(err));
 });
 

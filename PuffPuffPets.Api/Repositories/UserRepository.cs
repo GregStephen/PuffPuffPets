@@ -39,16 +39,16 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var userToReturn = new User();
                 var sql = @"SELECT *
                             FROM [User]
                             WHERE [FirebaseUid] = @firebaseUid";
                 var parameters = new { firebaseUid };
-                var user = db.QueryFirst<User>(sql, parameters);
-                userToReturn = user;
-                return userToReturn;
+                var user = db.QueryFirstOrDefault<User>(sql, parameters);
+                return user;
             }
         }
+
+
 
         public bool UserNameCheck(string newUserNameCheck)
         {
