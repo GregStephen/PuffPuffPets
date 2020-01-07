@@ -66,14 +66,8 @@ class CreateAcctModal extends React.Component {
     const { newUser, firebaseInfo } = this.state;
     newUser.DateCreated = new Date();
     this.props.createNewUser(newUser, firebaseInfo)
-      .then(() => {
-        this.toggleModal();
-        this.setState({firebaseInfo: defaultInfo})
-      })
-      .catch(err => {
-        // if anything breaks this will show up on the log in modal why it broke
-        this.setState({ error: err.message});
-        });
+    this.toggleModal();
+    this.setState({firebaseInfo: defaultInfo})
   }
 
   formFieldStringState = (e) => {
