@@ -21,6 +21,8 @@ const defaultCheckedCategories = {
 }
 
 class SearchBar extends React.Component {
+  _isMounted = false;
+
   static propTypes = {
     displaySearchedProducts: PropTypes.func.isRequired,
   };
@@ -121,6 +123,7 @@ class SearchBar extends React.Component {
 
   
   componentDidMount() {
+    this._isMounted = true;
     // sets the initial state of the checkboxes, gets all products available for each category
     // and sets each checkbox to a false value
     CategoryRequests.getAllCategories()
@@ -131,14 +134,21 @@ class SearchBar extends React.Component {
               category.totalProducts = result.length;
             })
         }) 
-        this.setState({ categories: results });
-        let checkboxes = {};
-        results.forEach((result => {
-          checkboxes[result.id] = false
-        })) 
-        this.setState({ checkedCategories: checkboxes})
+        if (this._isMounted)
+        {
+          this.setState({ categories: results });
+          let checkboxes = {};
+          results.forEach((result => {
+            checkboxes[result.id] = false
+          })) 
+          this.setState({ checkedCategories: checkboxes})
+        }
       })
       .catch(err => console.error(err));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

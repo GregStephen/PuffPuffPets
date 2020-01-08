@@ -16,10 +16,10 @@ class ProductPage extends React.Component {
     }
     
     render () {
-        
+        const {product} = this.state;
         return (
             <div className="ProductPage container">
-            <h1>Hi</h1>
+            <h1>{product.title}</h1>
             <button className="btn btn-primary">Add to Cart</button>
         </div>
     )
