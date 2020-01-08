@@ -125,6 +125,7 @@ namespace PuffPuffPets.Api.Repositories
                             ,O.PurchaseDate
                             ,U.FirstName
                             ,U.LastName
+                            ,U.UserName
                             FROM [Product] P
                             JOIN [ProductOrder] PO
                             ON PO.ProductId = P.Id
