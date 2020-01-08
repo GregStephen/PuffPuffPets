@@ -2,6 +2,8 @@ import React from 'react';
 import {
   Modal,
   ModalHeader,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -82,10 +84,14 @@ class UserProfile extends React.Component {
         ? <p>{preferredAddress.addressLine2}</p>
         : ''}
         <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('info')}>Change Personal Info</button>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('password')}>Change Password</button>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('email')}>Change Email</button>
-        <button className='btn btn-danger' onClick={() => this.toggleModalOpen('delete')}>DELETE PROFILE</button>
+        <div className="col-4 modal-group">
+        <ListGroup flush>
+          <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('info')}>Change Personal Info</ListGroupItem>
+          <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('password')}>Change Password</ListGroupItem>
+          <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('email')}>Change Email</ListGroupItem>
+          <ListGroupItem className="profile-modal delete-profile" tag="a" onClick={() => this.toggleModalOpen('delete')}>Delete Profile</ListGroupItem>
+        </ListGroup>
+        </div>
         <Modal isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
         <ModalHeader toggle={this.userPageModalIsOpen}>
           {modalOpen === 'info' ? 'Edit Account' : 

@@ -1,0 +1,22 @@
+.UserProfile {
+  .modal-group {
+    margin-top: 3em;
+    margin-left: 1em;
+    border: 1px solid black;
+
+  }
+}
+
+.profile-modal {
+  cursor: pointer;
+}
+
+
+
+a:not([href]):not([tabindex]) {
+  color:darkolivegreen;
+  text-decoration: underline;
+}
+a:not([href]):not([tabindex]).delete-profile {
+  color: darkred;
+}
