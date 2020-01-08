@@ -33,7 +33,9 @@ const getUserById = uid => new Promise((resolve, reject) => {
 
 const logInUser = (firebaseUid) => new Promise((resolve, reject) => {
     axios.get(`${baseUrl}/uid/${firebaseUid}`)
-        .then(result => resolve(result.data))
+        .then((result) => {
+            console.error(result);
+            resolve(result.data)})
         .catch(err => reject(err));
 });
 
@@ -50,7 +52,7 @@ const addUser = (userObj, firebaseInfo) => new Promise((resolve, reject) => {
         cred.user.getIdToken()
         .then(token => sessionStorage.setItem('token', token))
         .then(() => {
-            axios.post(`${baseUrl}`, userObj)});
+            axios.post(`${baseUrl}`, userObj).catch(err => reject(err))});
     }).catch(err => reject(err));
 });
 
@@ -60,6 +62,12 @@ const deleteUser = uid => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
+const getSellerStats = sellerId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/stats/${sellerId}`)
+        .then(result => resolve(result.data))
+        .catch(err => reject(err))
+})
+
 export default {
     getAllUsers,
     getUserById,
@@ -67,4 +75,5 @@ export default {
     logInUser,
     editUser,
     deleteUser,
+    getSellerStats,
 };

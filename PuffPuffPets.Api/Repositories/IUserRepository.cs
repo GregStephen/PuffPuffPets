@@ -15,5 +15,6 @@ namespace PuffPuffPets.Api.Repositories
         bool EditUser(EditUserDto editedUser);
         bool AddNewUser(AddNewUserDto newUser);
         bool DeleteUser(Guid userId);
+        SellerStats GetSellerStats(Guid sellerId);
     }
 }

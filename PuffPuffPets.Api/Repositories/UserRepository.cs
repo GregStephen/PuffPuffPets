@@ -43,10 +43,12 @@ namespace PuffPuffPets.Api.Repositories
                             FROM [User]
                             WHERE [FirebaseUid] = @firebaseUid";
                 var parameters = new { firebaseUid };
-                var user = db.QueryFirst<User>(sql, parameters);
+                var user = db.QueryFirstOrDefault<User>(sql, parameters);
                 return user;
             }
         }
+
+
 
         public bool UserNameCheck(string newUserNameCheck)
         {
@@ -145,6 +147,88 @@ namespace PuffPuffPets.Api.Repositories
                             WHERE Id = @userId";
                 var parameters = new { userId };
                 return db.Execute(sql, parameters) == 1;
+            }
+        }
+
+        public TopProduct GetTopProduct(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) p.Id as MostSoldProduct, sum(po.QuantityOrdered) as MostSoldAmount
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId
+                            GROUP BY p.Id
+                            ORDER BY MostSoldAmount DESC";
+                var parameters = new { sellerId };
+                return db.QueryFirst<TopProduct>(sql, parameters);
+            }
+        }
+
+        public TopProduct GetTopProductForMonth(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT TOP(1) p.Id as MostSoldProduct, sum(po.QuantityOrdered) as MostSoldAmount
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId AND MONTH(po.ShippedDate) = (MONTH(getDate()))
+                            GROUP BY p.Id
+                            ORDER BY MostSoldAmount DESC";
+                var parameters = new { sellerId };
+                return db.QueryFirst<TopProduct>(sql, parameters);
+            }
+        }
+        public string GetTotalSales(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT FORMAT( SUM(p.Price * po.QuantityOrdered)/100.00, 'C') as TotalSales
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId
+                            GROUP BY p.SellerId";
+                var parameters = new { sellerId };
+                return db.QueryFirst<string>(sql, parameters);
+            }
+        }
+
+        public string GetTotalSalesForTheMonth(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT FORMAT( SUM(p.Price * po.QuantityOrdered)/100.00, 'C') as TotalSales
+                            FROM ProductOrder po
+                            JOIN Product p
+                            ON po.ProductId = p.Id
+                            WHERE p.SellerId = @sellerId AND MONTH(po.ShippedDate) = (MONTH(getDate()))
+                            GROUP BY p.SellerId";
+                var parameters = new { sellerId };
+                return db.QueryFirst<string>(sql, parameters);
+            }
+        }
+        public SellerStats GetSellerStats(Guid sellerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var productRepo = new ProductRepository();
+                var sellerStats = new SellerStats();
+                var topProductInfo= GetTopProduct(sellerId);
+                var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                var topMonthProductInfo = GetTopProductForMonth(sellerId);
+                var topMonthProduct = productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
+                var totalSales = GetTotalSales(sellerId);
+                var monthSales = GetTotalSalesForTheMonth(sellerId);
+                sellerStats.TotalSales = totalSales;
+                sellerStats.MonthSales = monthSales;
+                sellerStats.TopProduct = topProduct;
+                sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
+                sellerStats.TopMonthProduct = topMonthProduct;
+                sellerStats.TopMonthProductAmountSold = topMonthProductInfo.MostSoldAmount;
+                return sellerStats;
             }
         }
     }
