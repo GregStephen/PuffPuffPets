@@ -1,8 +1,6 @@
 import React from 'react';
 import Product from '../../Helpers/Data/ProductRequests';
 
-
-
 import './ProductPage.scss';
 
 class ProductPage extends React.Component {
