@@ -35,6 +35,7 @@ class CreateAcctModal extends React.Component {
   componentDidMount() {
     this.setState({firebaseInfo: defaultInfo})
   }
+  
   onEntering = () => {
     this.setState({ status: 'Opening...' });
   }

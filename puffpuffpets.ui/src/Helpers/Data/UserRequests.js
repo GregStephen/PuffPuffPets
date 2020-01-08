@@ -33,7 +33,9 @@ const getUserById = uid => new Promise((resolve, reject) => {
 
 const logInUser = (firebaseUid) => new Promise((resolve, reject) => {
     axios.get(`${baseUrl}/uid/${firebaseUid}`)
-        .then(result => resolve(result.data))
+        .then((result) => {
+            console.error(result);
+            resolve(result.data)})
         .catch(err => reject(err));
 });
 

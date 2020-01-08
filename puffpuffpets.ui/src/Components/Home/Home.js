@@ -11,10 +11,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const {userObj} = this.props;
-    while (userObj.id === 0) {
-      this.props.userLogIn();
-    }
+    this.props.userLogIn();
   }
   
   render () {
