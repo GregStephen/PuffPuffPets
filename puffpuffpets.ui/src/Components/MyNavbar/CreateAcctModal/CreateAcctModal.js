@@ -29,11 +29,13 @@ class CreateAcctModal extends React.Component {
     firebaseInfo: defaultInfo,
     collapse: false,
     status: 'Closed',
+    error: ''
   }
 
   componentDidMount() {
     this.setState({firebaseInfo: defaultInfo})
   }
+  
   onEntering = () => {
     this.setState({ status: 'Opening...' });
   }
@@ -64,7 +66,7 @@ class CreateAcctModal extends React.Component {
     e.preventDefault();
     const { newUser, firebaseInfo } = this.state;
     newUser.DateCreated = new Date();
-    this.props.createNewUser(newUser, firebaseInfo);
+    this.props.createNewUser(newUser, firebaseInfo)
     this.toggleModal();
     this.setState({firebaseInfo: defaultInfo})
   }
@@ -89,8 +91,7 @@ class CreateAcctModal extends React.Component {
   }
 
   render() {
-    const { newUser, firebaseInfo } = this.state;
-    const { error } = this.props;
+    const { newUser, firebaseInfo, error } = this.state;
     return (
       <div className="CreateAcctModal container">
         <Form className="row justify-content-center" onSubmit={this.formSubmit}>

@@ -19,8 +19,6 @@ import PropTypes from 'prop-types';
 import LoginModal from './LoginModal/LoginModal';
 import CreateAcctModal from './CreateAcctModal/CreateAcctModal';
 
-import UserRequests from '../../Helpers/Data/UserRequests';
-
 import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
@@ -108,9 +106,7 @@ class MyNavbar extends React.Component {
   }
 
   createNewUser = (newUser, firebaseInfo) => {
-    UserRequests.addUser(newUser, firebaseInfo)
-    .then()
-    .catch(err => console.error(err))
+    this.props.userCreated(newUser, firebaseInfo);
   }
 
   logMeOut = (e) => {

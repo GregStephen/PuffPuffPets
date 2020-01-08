@@ -123,9 +123,14 @@ namespace PuffPuffPets.Api.Repositories
                             ,PO.QuantityOrdered
                             ,PO.OrderId
                             ,O.PurchaseDate
+                            ,O.Id AS OrderId
                             ,U.FirstName
                             ,U.LastName
                             ,U.UserName
+                            ,UA.AddressLine1
+                            ,UA.City
+                            ,UA.State
+                            ,UA.ZipCode
                             FROM [Product] P
                             JOIN [ProductOrder] PO
                             ON PO.ProductId = P.Id
@@ -134,6 +139,8 @@ namespace PuffPuffPets.Api.Repositories
                             ON PO.OrderId = O.Id AND O.IsCompleted = 1
                             JOIN [User] U
                             ON U.Id = O.UserId
+                            JOIN [UserAddress] UA
+                            ON U.Id = UA.UserId
                             ORDER BY O.PurchaseDate DESC";
 
                 var parameters = new { sellerId, booleanValue };

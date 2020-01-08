@@ -36,7 +36,7 @@ class UnshippedOrderCard extends React.Component {
   render() {
     const { unshippedOrder } = this.props;
     return (
-      <div className="UnshippedOrder col-8">
+      <div className="UnshippedOrder col-6">
         <div className="UnshippedOrder-card card container">
           <div className="card-body">
             <div className="row">
@@ -49,6 +49,14 @@ class UnshippedOrderCard extends React.Component {
               <div>
                 <p className="qtyOrderedTxt">Quantity Ordered: <i>{unshippedOrder.quantityOrdered}</i></p>
                 <p className="qtyInStockTxt">Quantity In Stock: <i>{unshippedOrder.quantityInStock}</i></p>
+              </div>
+              <div className="col-4">
+                <p>
+                  {unshippedOrder.firstName} {unshippedOrder.lastName}<br/>
+                  {unshippedOrder.addressLine1}<br/>
+                  {unshippedOrder.city}, {unshippedOrder.state} {unshippedOrder.zipCode}
+                </p>
+                <p></p>
               </div>
             </div>
           </div>
