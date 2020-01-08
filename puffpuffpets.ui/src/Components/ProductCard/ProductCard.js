@@ -38,7 +38,7 @@ toggleModalOpen = (value) => {
 render() {
   const {modalOpen} = this.state;
   const {product, userObj} = this.props;
-  const sellerStorePage = `/store/${product.sellerId}`
+  const sellerStorePage = `/store/${product.sellerId}`; 
   const productPage = `/productPage/${product.id}`
 return (
   <div className="ProductCard col-6">
@@ -54,7 +54,6 @@ return (
         <p className="card-text col-6 text-left">{product.categoryName}</p>
         <p className="card-text col-6 text-right">{product.typeName}</p>
       </div>
-
       <p className="card-text">{product.description}</p>
 
       <p className="card-text product-price">{product.moneyPrice}</p>
