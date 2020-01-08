@@ -47,8 +47,7 @@ class CustomerHome extends React.Component {
     const {userObj} = this.props;
     return (
       <div className="CustomerHome container">
-          <h1>Customer HOMEPAGE</h1>
-          <h1>WELCOME {userObj.firstName}</h1>
+          <h1>Welcome {userObj.firstName}</h1>
           <div className="row justify-content-center">
           {searchTerm !== '' ? 
             totalResults === 1 
