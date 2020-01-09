@@ -110,7 +110,7 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT P.Id AS ProductId
+                var sql = @"SELECT DISTINCT P.Id AS ProductId
                             ,P.SellerId
                             ,P.Title
                             ,P.ImgUrl

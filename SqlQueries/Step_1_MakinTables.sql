@@ -100,7 +100,8 @@ IF not exists (SELECT * FROM sys.tables WHERE [name] = 'Order')
 		[PaymentTypeId] UNIQUEIDENTIFIER null,
 		[TotalPrice] Int not null DEFAULT(0),
 		[IsCompleted] Bit not null,
-		[PurchaseDate] DateTime null
+		[PurchaseDate] DateTime null,
+		[ShippingAddress] NVARCHAR(255) null
 	)
 	END
 ELSE
