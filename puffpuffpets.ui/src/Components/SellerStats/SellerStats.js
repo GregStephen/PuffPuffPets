@@ -31,11 +31,22 @@ class SellerStats extends React.Component {
       <div className="SellerStats col-6">
         <h3>Here are your current stats for</h3>
         <h3>{userObj.businessName}</h3>
-        <p>Total sales for all time: {sellerStats.totalSales}</p>
-        <p>Top selling product of all time: {topProduct.title} - {sellerStats.topProductAmountSold} units sold</p>
-        <p>Total sales for {thisMonth}: {sellerStats.monthSales}</p>
-        <p>Top selling product for {thisMonth}: {topMonthProduct.title} - {sellerStats.topMonthProductAmountSold} units sold</p>
-
+        {sellerStats.totalSales !== null ?
+          <div className="alltime-sales">
+            <p>Total sales for all time: {sellerStats.totalSales}</p>
+            <p>Top selling product of all time: {topProduct.title} - {sellerStats.topProductAmountSold} units sold</p>
+          </div>
+         :
+         <p>You haven't sold anything yet!</p>
+        }
+        {sellerStats.monthSales !== null ? 
+        <div className="month-sales">
+          <p>Total sales for {thisMonth}: {sellerStats.monthSales}</p>
+          <p>Top selling product for {thisMonth}: {topMonthProduct.title} - {sellerStats.topMonthProductAmountSold} units sold</p>
+        </div>
+        :
+        <p>You haven't sold anything yet in {thisMonth}</p>
+        }
       </div>
     )
   }

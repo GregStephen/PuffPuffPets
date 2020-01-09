@@ -32,9 +32,17 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public User GetUser(Guid userId)
+        public IActionResult GetUser(Guid userId)
         {
-            return _repo.GetUserById(userId);
+            var user = _repo.GetUserById(userId); 
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
         }
 
         [HttpGet("uid/{firebaseUid}")]
@@ -52,9 +60,17 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpGet("stats/{userId}")]
-        public SellerStats GetSellerStats(Guid userId)
+        public IActionResult GetSellerStats(Guid userId)
         {
-            return _repo.GetSellerStats(userId);
+            var stats =  _repo.GetSellerStats(userId);
+            if (stats == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(stats);
+            }
         }
 
         [HttpPut]

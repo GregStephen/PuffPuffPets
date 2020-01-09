@@ -61,11 +61,15 @@ class SellerProducts extends React.Component {
     ))
     return (
       <div className="SellerProducts container">
-        <h1>SELLER PRODUCTS</h1>
+        <h1>Your Products</h1>
         <Button className="btn btn-success" onClick={this.toggleNewProductModal}>Add A Product</Button>
-        <div className="row">
+        {
+        this.state.sellersProducts.length === 0 ?
+        <p>You gotta add some products to your profile!</p>
+      : <div className="row">
           {showProducts}
         </div>
+        }
         <div>
           <Modal isOpen={this.state.newProductModal} toggle={this.toggleModal}>
               <ModalHeader toggle={this.toggleNewProductModal}>Add a new product</ModalHeader>

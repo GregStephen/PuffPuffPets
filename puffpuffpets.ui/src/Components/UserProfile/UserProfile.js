@@ -2,6 +2,8 @@ import React from 'react';
 import {
   Modal,
   ModalHeader,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -73,51 +75,59 @@ class UserProfile extends React.Component {
     const { userObj } = this.props;
 
     return (
-      <div className="UserProfile">
-        <h1>Hey {userObj.firstName} {userObj.lastName}</h1>
-        <p>You've been with us for: {userSince}</p>
-        <p>Preferred Address:</p>
-        <p>{preferredAddress.addressLine1}</p>
-        {preferredAddress.addressLine2 != null 
-        ? <p>{preferredAddress.addressLine2}</p>
-        : ''}
-        <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('info')}>Change Personal Info</button>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('password')}>Change Password</button>
-        <button className='btn btn-info' onClick={() => this.toggleModalOpen('email')}>Change Email</button>
-        <button className='btn btn-danger' onClick={() => this.toggleModalOpen('delete')}>DELETE PROFILE</button>
-        <Modal isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
-        <ModalHeader toggle={this.userPageModalIsOpen}>
-          {modalOpen === 'info' ? 'Edit Account' : 
-          modalOpen === 'password' ? 'Change Password' : 
-          modalOpen === 'email' ? 'Change Email' : 
-          modalOpen === 'delete' ? 'Delete Account' : ''}
-        </ModalHeader>
-        { modalOpen === 'info' ? 
-          <EditUserInfoModal
-          toggleEditUserInfo = { this.toggleModalOpen } 
-          userObj = { userObj }  
-          userEdited = { this.userEdited }                 
-          /> 
-          : modalOpen === 'password' ?
-          <ChangePasswordModal
-          toggleChangePassword = { this.toggleModalOpen } 
-          userObj = { userObj }               
-          />
-          : modalOpen === 'email' ?
-          <ChangeEmailModal
-          toggleChangeEmail = { this.toggleModalOpen }
-          userObj = { userObj }
-          />
-          : modalOpen === 'delete' ? 
-          <DeleteUserModal
-          toggleDeleteUser = { this.toggleModalOpen } 
-          userObj = { userObj }
-          userDeleted = { this.userDeleted } 
-          />
-          : ''
-        }
-        </Modal>
+      <div className="UserProfile container">
+        <div className="row">
+          <div className="user-info col-md-6 col-sm-12">
+            <h1>Hey {userObj.firstName} {userObj.lastName}</h1>
+            <p>You've been with us for: {userSince}</p>
+            <p>Preferred Address:</p>
+            <p>{preferredAddress.addressLine1}</p>
+            {preferredAddress.addressLine2 != null 
+            ? <p>{preferredAddress.addressLine2}</p>
+            : ''}
+            <p>{preferredAddress.city}, {preferredAddress.state} {preferredAddress.zipCode}</p>
+          </div>
+          <div className="col-lg-3 offset-lg-3 col-md-4 offset-md-2 col-sm-12 modal-group">
+            <ListGroup flush>
+              <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('info')}>Change Personal Info</ListGroupItem>
+              <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('password')}>Change Password</ListGroupItem>
+              <ListGroupItem className="profile-modal" tag="a" onClick={() => this.toggleModalOpen('email')}>Change Email</ListGroupItem>
+              <ListGroupItem className="profile-modal delete-profile" tag="a" onClick={() => this.toggleModalOpen('delete')}>Delete Profile</ListGroupItem>
+            </ListGroup>
+          </div>
+          <Modal isOpen={this.state.userPageModalIsOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.userPageModalIsOpen}>
+            {modalOpen === 'info' ? 'Edit Account' : 
+            modalOpen === 'password' ? 'Change Password' : 
+            modalOpen === 'email' ? 'Change Email' : 
+            modalOpen === 'delete' ? 'Delete Account' : ''}
+          </ModalHeader>
+          { modalOpen === 'info' ? 
+            <EditUserInfoModal
+            toggleEditUserInfo = { this.toggleModalOpen } 
+            userObj = { userObj }  
+            userEdited = { this.userEdited }                 
+            /> 
+            : modalOpen === 'password' ?
+            <ChangePasswordModal
+            toggleChangePassword = { this.toggleModalOpen } 
+            userObj = { userObj }               
+            />
+            : modalOpen === 'email' ?
+            <ChangeEmailModal
+            toggleChangeEmail = { this.toggleModalOpen }
+            userObj = { userObj }
+            />
+            : modalOpen === 'delete' ? 
+            <DeleteUserModal
+            toggleDeleteUser = { this.toggleModalOpen } 
+            userObj = { userObj }
+            userDeleted = { this.userDeleted } 
+            />
+            : ''
+          }
+          </Modal>
+        </div>
       </div>
     )
   }
