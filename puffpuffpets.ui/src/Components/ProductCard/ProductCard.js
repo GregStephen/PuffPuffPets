@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import DeleteProductModal from '../DeleteProductModal/DeleteProductModal';
 import UnauthorizedModal from '../UnauthorizedModal/UnauthorizedModal';
+import EditProductModal from '../EditProductModal/EditProductModal';
 
 import productShape from '../../Helpers/Props/productShape';
 
@@ -62,6 +63,8 @@ return (
         ? 
         <div>
           <button className="btn btn-danger" onClick={() => this.toggleModalOpen('delete')}>Delete</button>
+          <button className="btn btn-info" onClick={() => this.toggleModalOpen('edit')}>Edit</button>
+          <p>Quantity In stock: {product.quantityInStock}</p>
         </div>
         : userObj.userName === 'unauthorized' 
         ? 
@@ -73,8 +76,8 @@ return (
       <p className="card-text">{}</p>
       <Modal isOpen={this.state.productPageModalIsOpen} toggle={this.toggleModal}>
       <ModalHeader toggle={this.productPageModalIsOpen}>
-          {modalOpen === 'delete' ? 'Delete Product' : 
-          'Must Create an Account Or Log In'}
+          {modalOpen === 'delete' ? 'Delete Product' : modalOpen === 'edit' ? 'Edit Product' 
+          : modalOpen ===' unauthorized' ? 'Must Create an Account Or Log In' : ""}
         </ModalHeader>
         { modalOpen === 'delete' ? 
           <DeleteProductModal
@@ -82,10 +85,17 @@ return (
           toggleDeleteProduct= { this.toggleModalOpen }
           productDeleted= { this.productDeleted }
           />
-          :
+          : modalOpen === 'edit' ?
+          <EditProductModal
+          product= { product }
+          toggleModalOpen = { this.toggleModalOpen }
+          productEdited= { this.productEdited }
+          />
+          : modalOpen === 'unauthorized' ?
           <UnauthorizedModal
           toggleModalOpen = { this.toggleModalOpen }               
           />
+          : ""
           }
       </Modal>
     </div>
