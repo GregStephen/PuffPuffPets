@@ -13,5 +13,6 @@ namespace PuffPuffPets.Api.DataModels
         public int TotalPrice { get; set; }
         public Guid paymentTypeId { get; set; }
         public DateTime PurchaseDate { get; set; }
+        public string ShippingAddress { get; set; }
     }
 }

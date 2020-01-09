@@ -23,13 +23,15 @@ namespace PuffPuffPets.Api.Repositories
                                     isCompleted,
                                     TotalPrice,
                                     PaymentTypeId,
-                                    PurchaseDate)
+                                    PurchaseDate,
+                                    ShippingAddress)
                                OUTPUT INSERTED.*
                                VALUES
                                     (@userId,
                                     0,
                                     0,
                                     @paymentTypeId,
+                                    null,
                                     null)";
 
                 return db.Execute(sql, newOrder) == 1;
@@ -110,7 +112,7 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT DISTINCT P.Id AS ProductId
+                var sql = @"SELECT P.Id AS ProductId
                             ,P.SellerId
                             ,P.Title
                             ,P.ImgUrl
@@ -140,7 +142,7 @@ namespace PuffPuffPets.Api.Repositories
                             JOIN [User] U
                             ON U.Id = O.UserId
                             JOIN [UserAddress] UA
-                            ON U.Id = UA.UserId
+                            ON U.Id = UA.UserId AND O.ShippingAddress = UA.AddressLine1
                             ORDER BY O.PurchaseDate DESC";
 
                 var parameters = new { sellerId, booleanValue };
@@ -157,7 +159,8 @@ namespace PuffPuffPets.Api.Repositories
                             SET IsCompleted = 1,
                             TotalPrice = @totalPrice,
                             PaymentTypeId = @paymentTypeId,
-                            PurchaseDate = @purchaseDate
+                            PurchaseDate = @purchaseDate,
+                            ShippingAddress = @shippingAddress
                             WHERE [Id] = @id";
 
                 return db.Execute(sql, editedOrder) == 1;
