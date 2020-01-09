@@ -38,36 +38,37 @@ toggleModalOpen = (value) => {
 render() {
   const {modalOpen} = this.state;
   const {product, userObj} = this.props;
-  const sellerStorePage = `/store/${product.sellerId}`
+  const sellerStorePage = `/store/${product.sellerId}`; 
+  const productPage = `/productPage/${product.id}`
 return (
-  <div className="ProductCard col-6">
+  <div className="ProductCard col-lg-6 col-sm-12">
     <div className="card-body">
+    <Link className="product-link" to={{pathname: productPage}}>
       <h5 className="card-title">{product.title}</h5>
-      <Link to={{ pathname: sellerStorePage }}>{product.businessName}</Link>
-      <img className="card-img-top" src={product.imgUrl} alt="Card cap" />
+    </Link>
+      <Link className="business-link" to={{ pathname: sellerStorePage }}>{product.businessName}</Link>
+      <Link to={{pathname: productPage}}>
+        <img className="card-img-top" src={product.imgUrl} alt="Card cap" />
+      </Link>
+      <div className="row col-12 justify-content-between">
+        <p className="card-text col-6 text-left">{product.categoryName}</p>
+        <p className="card-text col-6 text-right">{product.typeName}</p>
+      </div>
       <p className="card-text">{product.description}</p>
-      <p className="card-text">{product.moneyPrice}</p>
-      <p className="card-text">{product.categoryName}</p>
-      <p className="card-text">{product.typeName}</p>
 
+      <p className="card-text product-price">{product.moneyPrice}</p>
       
       {userObj.id === product.sellerId 
         ? 
         <div>
-          <button className="btn btn-primary">View</button>
           <button className="btn btn-danger" onClick={() => this.toggleModalOpen('delete')}>Delete</button>
         </div>
         : userObj.userName === 'unauthorized' 
         ? 
         <div>
-          <button className="btn btn-primary" onClick={() => this.toggleModalOpen('unauthorized')}>View</button>
           <button className="btn btn-primary" onClick={() => this.toggleModalOpen('unauthorized')}>Add To Cart</button>
         </div>
-        :
-        <div>
-          <button className="btn btn-primary">View</button>
-          <button className="btn btn-primary">Add To Cart</button>
-        </div>
+        : ''
         }
       <p className="card-text">{}</p>
       <Modal isOpen={this.state.productPageModalIsOpen} toggle={this.toggleModal}>

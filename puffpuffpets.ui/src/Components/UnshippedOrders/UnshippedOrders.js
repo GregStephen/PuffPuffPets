@@ -31,7 +31,10 @@ class UnshippedOrders extends React.Component {
       <div className="UnshippedOrders container">
         <h1>Unshipped Orders</h1>
         <form>
-        { makeUnshippedOrderCards }
+          { this.state.unshippedOrders.length === 0 ? 
+           <p>You don't have any orders that need shipping</p>
+           : makeUnshippedOrderCards
+          }
         </form>
       </div>
     );

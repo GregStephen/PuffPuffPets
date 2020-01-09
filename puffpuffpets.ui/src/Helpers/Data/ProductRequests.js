@@ -63,6 +63,12 @@ const deleteProduct = id => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
+const getProductByProductId = ProductId => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/${ProductId}`)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err));
+});
+
 const updateQuantityInStock = (newQuantityInStockProduct, id) => new Promise((resolve, reject) => {
   axios.put(`${baseUrl}/quantityInStock/${id}`, newQuantityInStockProduct)
     .then(result => resolve(result.data))
@@ -78,4 +84,5 @@ export default {
     editProduct,
     deleteProduct,
     updateQuantityInStock,
+    getProductByProductId,
 };

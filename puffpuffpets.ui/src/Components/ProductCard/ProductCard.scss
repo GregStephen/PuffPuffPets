@@ -7,11 +7,22 @@
     border-radius: 10px;
     margin-top: 30px;
     margin-bottom: 30px;
-}
-
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-family: Acme;
-    font-size:15px;
+    .card-title {
+        font-size: 2em;
+    }
+    .product-link {
+        text-decoration: none;
+        color: black;
+    }
+    .product-link :hover {
+        text-decoration: underline;
+        color:darkolivegreen;
+    }
+    .business-link {
+        font-size: 1.2em;
+        margin-bottom: 7.5em;
+    }
+    .product-price {
+        font-size:1.5em;
+    }
 }

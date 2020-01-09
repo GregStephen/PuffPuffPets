@@ -44,7 +44,13 @@ class MyCart extends React.Component {
     return (
       <div className="MyCart container">
         <h1>CART</h1>
-        { makeCartCardsNewest }
+        { this.state.cartProducts.length === 0 ? 
+        <div>
+          <h5>Hey your cart is empty! Your pets are in need!</h5>
+          <h5>Please look at our products <Link to={'/home'}>here</Link></h5>
+        </div>
+      : makeCartCardsNewest
+      }
         { proceedToCheckout }
         </div>
     );
