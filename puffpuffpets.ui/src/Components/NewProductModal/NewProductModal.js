@@ -43,8 +43,10 @@ class NewProductModal extends React.Component {
     e.preventDefault();
     const { newProduct } = this.state;
     const priceInPennies = (newProduct.Price * 100)
+    const quantityAsInt = parseInt(newProduct.QuantityInStock, 10);
     newProduct.Price = priceInPennies;
     newProduct.SellerId = this.props.userObj.id;
+    newProduct.QuantityInStock = quantityAsInt;
     this.props.addNewProduct(newProduct);
     this.toggleModal();
   }
