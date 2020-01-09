@@ -41,7 +41,7 @@ render() {
   const sellerStorePage = `/store/${product.sellerId}`; 
   const productPage = `/productPage/${product.id}`
 return (
-  <div className="ProductCard col-6">
+  <div className="ProductCard col-lg-6 col-sm-12">
     <div className="card-body">
     <Link className="product-link" to={{pathname: productPage}}>
       <h5 className="card-title">{product.title}</h5>

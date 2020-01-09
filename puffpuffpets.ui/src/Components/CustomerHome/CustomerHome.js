@@ -48,13 +48,15 @@ class CustomerHome extends React.Component {
     return (
       <div className="CustomerHome container">
           <h1>Welcome {userObj.firstName}</h1>
-          <div className="row justify-content-center">
-          {searchTerm !== '' ? 
-            totalResults === 1 
-            ? <p>{totalResults} result for '{searchTerm}'</p>
-            : <p>{totalResults} results for '{searchTerm}'</p>
-            : <p>{totalResults} results</p>}
-            <div className="col-8">
+          <div className="row">
+            <div className="col-lg-4 col-sm-12">
+            {searchTerm !== '' ? 
+              totalResults === 1 
+              ? <p>{totalResults} result for '{searchTerm}'</p>
+              : <p>{totalResults} results for '{searchTerm}'</p>
+              : <p>{totalResults} results</p>}
+            </div>
+            <div className="col-lg-8 col-sm-12">
               <SearchBar
               displaySearchedProducts= { this.displaySearchedProducts}/>
             </div>

@@ -167,6 +167,7 @@ class SearchBar extends React.Component {
         <Form onSubmit={this.searchOnSubmit}>
           <InputGroup>
             <Input 
+            maxLength="40"
             type="search"
             name="searchTerm"
             id="searchTerm"
