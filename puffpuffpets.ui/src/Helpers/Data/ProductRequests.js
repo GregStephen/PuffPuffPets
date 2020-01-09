@@ -46,7 +46,6 @@ const getAllProductsInCategoryById = categoryId => new Promise((resolve, reject)
 });
 
 const addProduct = productObj => new Promise((resolve, reject) => {
-    console.error(productObj);
     axios.post(`${baseUrl}`, productObj)
         .then(result => resolve(result.data))
         .catch(err => reject(err))
