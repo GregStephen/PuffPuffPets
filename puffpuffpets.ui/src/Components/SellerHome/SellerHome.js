@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import SellerStats from '../SellerStats/SellerStats';
+import UnshippedOrders from '../UnshippedOrders/UnshippedOrders'
 
 import './SellerHome.scss';
+
 
 class SellerHome extends Component {
   state = {
@@ -24,6 +26,11 @@ class SellerHome extends Component {
         <div className="row">
           <SellerStats 
           userObj = { userObj } />
+        </div>
+        <br/>
+        <div className="row unshippedOrders">
+          <UnshippedOrders 
+          userObj={userObj}/>
         </div>
       </div>
     );

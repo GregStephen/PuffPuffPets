@@ -14,7 +14,6 @@ import MyCart from '../MyCart/MyCart';
 import UserProfile from '../UserProfile/UserProfile';
 import SellerProducts from '../SellerProducts/SellerProducts';
 import SellerStorePage from '../SellerStorePage/SellerStorePage';
-import UnshippedOrders from '../UnshippedOrders/UnshippedOrders';
 import sellerOrderHistory from '../SellerOrderHistory/SellerOrderHistory';
 import customerOrderHistory from '../CustomerOrderHistory/CustomerOrderHistory'
 import ProductPage from '../ProductPage/ProductPage';
@@ -141,7 +140,6 @@ class App extends React.Component {
               <PrivateRoute path='/orderComplete/:orderId' component={OrderComplete} authed={authed}/>
               <PrivateRoute path='/products/:userId' component={ SellerProducts } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/store/:sellerId' component={ SellerStorePage } authed={ authed } userObj={ userObj }/>
-              <PrivateRoute path='/unshippedOrders/:sellerId' component={ UnshippedOrders } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/sellerOrderHistory/:sellerId' component={ sellerOrderHistory } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/customerOrderHistory/:sellerId' component={ customerOrderHistory } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/productPage/:productId' component={ ProductPage } authed={ authed } userObj={ userObj }/>

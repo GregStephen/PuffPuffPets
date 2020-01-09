@@ -14,7 +14,6 @@ class UnshippedOrders extends React.Component {
     .catch(err => console.error(err, 'could not get unshipped orders'));
   }
 
-
   componentDidMount = () => {
     this.getMyUnshippedOrders();
   }

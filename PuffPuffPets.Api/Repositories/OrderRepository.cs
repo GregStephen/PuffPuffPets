@@ -23,13 +23,15 @@ namespace PuffPuffPets.Api.Repositories
                                     isCompleted,
                                     TotalPrice,
                                     PaymentTypeId,
-                                    PurchaseDate)
+                                    PurchaseDate,
+                                    ShippingAddress)
                                OUTPUT INSERTED.*
                                VALUES
                                     (@userId,
                                     0,
                                     0,
                                     @paymentTypeId,
+                                    null,
                                     null)";
 
                 return db.Execute(sql, newOrder) == 1;
@@ -123,8 +125,14 @@ namespace PuffPuffPets.Api.Repositories
                             ,PO.QuantityOrdered
                             ,PO.OrderId
                             ,O.PurchaseDate
+                            ,O.Id AS OrderId
                             ,U.FirstName
                             ,U.LastName
+                            ,U.UserName
+                            ,UA.AddressLine1
+                            ,UA.City
+                            ,UA.State
+                            ,UA.ZipCode
                             FROM [Product] P
                             JOIN [ProductOrder] PO
                             ON PO.ProductId = P.Id
@@ -133,6 +141,8 @@ namespace PuffPuffPets.Api.Repositories
                             ON PO.OrderId = O.Id AND O.IsCompleted = 1
                             JOIN [User] U
                             ON U.Id = O.UserId
+                            JOIN [UserAddress] UA
+                            ON U.Id = UA.UserId AND O.ShippingAddress = UA.AddressLine1
                             ORDER BY O.PurchaseDate DESC";
 
                 var parameters = new { sellerId, booleanValue };
@@ -149,7 +159,8 @@ namespace PuffPuffPets.Api.Repositories
                             SET IsCompleted = 1,
                             TotalPrice = @totalPrice,
                             PaymentTypeId = @paymentTypeId,
-                            PurchaseDate = @purchaseDate
+                            PurchaseDate = @purchaseDate,
+                            ShippingAddress = @shippingAddress
                             WHERE [Id] = @id";
 
                 return db.Execute(sql, editedOrder) == 1;

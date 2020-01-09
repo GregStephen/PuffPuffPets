@@ -7,7 +7,6 @@ namespace PuffPuffPets.Api.Dtos
 {
     public class UnshippedOrShippedProductDto
     {
-        public Guid CustomerId { get; set; }
         public Guid ProductId { get; set; }
         public Guid OrderId { get; set; }
         public string Title { get; set; }
@@ -23,5 +22,10 @@ namespace PuffPuffPets.Api.Dtos
         public Guid ProductOrderId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string AddressLine1 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int ZipCode { get; set; }
     }
 }

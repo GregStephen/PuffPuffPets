@@ -13,6 +13,7 @@ namespace PuffPuffPets.Api.Dtos
         public int TotalPrice { get; set; }
         public Guid PaymentTypeId { get; set; }
         public DateTime PurchaseDate { get; set; }
+        public string ShippingAddress { get; set; }
 
     }
 }
