@@ -162,7 +162,7 @@ namespace PuffPuffPets.Api.Repositories
                             GROUP BY p.Id
                             ORDER BY MostSoldAmount DESC";
                 var parameters = new { sellerId };
-                return db.QueryFirst<TopProduct>(sql, parameters);
+                return db.QueryFirstOrDefault<TopProduct>(sql, parameters);
             }
         }
 
@@ -178,7 +178,7 @@ namespace PuffPuffPets.Api.Repositories
                             GROUP BY p.Id
                             ORDER BY MostSoldAmount DESC";
                 var parameters = new { sellerId };
-                return db.QueryFirst<TopProduct>(sql, parameters);
+                return db.QueryFirstOrDefault<TopProduct>(sql, parameters);
             }
         }
         public string GetTotalSales(Guid sellerId)
@@ -192,7 +192,7 @@ namespace PuffPuffPets.Api.Repositories
                             WHERE p.SellerId = @sellerId
                             GROUP BY p.SellerId";
                 var parameters = new { sellerId };
-                return db.QueryFirst<string>(sql, parameters);
+                return db.QueryFirstOrDefault<string>(sql, parameters);
             }
         }
 
@@ -207,7 +207,7 @@ namespace PuffPuffPets.Api.Repositories
                             WHERE p.SellerId = @sellerId AND MONTH(po.ShippedDate) = (MONTH(getDate()))
                             GROUP BY p.SellerId";
                 var parameters = new { sellerId };
-                return db.QueryFirst<string>(sql, parameters);
+                return db.QueryFirstOrDefault<string>(sql, parameters);
             }
         }
         public SellerStats GetSellerStats(Guid sellerId)
@@ -216,18 +216,30 @@ namespace PuffPuffPets.Api.Repositories
             {
                 var productRepo = new ProductRepository();
                 var sellerStats = new SellerStats();
+
                 var topProductInfo= GetTopProduct(sellerId);
-                var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+
+                if (topProductInfo != null)
+                {
+                    var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                    sellerStats.TopProduct = topProduct;
+                    sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
+                }
+
                 var topMonthProductInfo = GetTopProductForMonth(sellerId);
-                var topMonthProduct = productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
+
+                if (topMonthProductInfo != null)
+                {
+                    var topMonthProduct = productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
+                    sellerStats.TopMonthProduct = topMonthProduct;
+                    sellerStats.TopMonthProductAmountSold = topMonthProductInfo.MostSoldAmount;
+                }
+
                 var totalSales = GetTotalSales(sellerId);
                 var monthSales = GetTotalSalesForTheMonth(sellerId);
                 sellerStats.TotalSales = totalSales;
                 sellerStats.MonthSales = monthSales;
-                sellerStats.TopProduct = topProduct;
-                sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
-                sellerStats.TopMonthProduct = topMonthProduct;
-                sellerStats.TopMonthProductAmountSold = topMonthProductInfo.MostSoldAmount;
+
                 return sellerStats;
             }
         }
