@@ -60,10 +60,7 @@ return (
         <p className="card-text col-6 text-left">{product.categoryName}</p>
         <p className="card-text col-6 text-right">{product.typeName}</p>
       </div>
-      <p className="card-text">{product.description}</p>
-
       <p className="card-text product-price">{product.moneyPrice}</p>
-      
       {userObj.id === product.sellerId 
         ? 
         <div>
