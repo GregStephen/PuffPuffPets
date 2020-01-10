@@ -14,41 +14,52 @@ class EditProductModal extends React.Component {
   }
 
   toggleModal = (e) => {
+    // runs the toggle open modal from parent component
+    // passes in the value of e so it knows which one to close
     const { toggleModalOpen } = this.props;
     toggleModalOpen(e);
   };
 
   componentDidMount() {
+    // gets the product you are editing
     const product = this.props.product;
     const newPrice = (product.price / 100)
+    // sets the price as a decimal for display
     product.price = newPrice.toFixed(2);
     this.setState({ updatedProduct: product});
+    // gets the categories from db and sets state for option input
     CategoryRequests.getAllCategories()
       .then(categories => this.setState({ categories }))
       .catch(err => console.error(err));
+    // gets the products from db and sets state for option input
     ProductTypeRequests.getAllProductTypes()
       .then(productTypes => this.setState({ productTypes }))
       .catch(err => console.error(err));
   };
 
+  // changes the price to non decimal penny form and quantity to int for db
+  // passes updated product and product id to parent element
+  // toggles the modal
   formSubmit = (e) => {
     e.preventDefault();
     const { updatedProduct } = this.state;
     const { productEdited } = this.props;
+    
     const priceInPennies = (updatedProduct.price * 100)
     const quantityAsInt = parseInt(updatedProduct.quantityInStock, 10);
     updatedProduct.price = priceInPennies;
     updatedProduct.quantityInStock = quantityAsInt;
     productEdited(updatedProduct, updatedProduct.id);
     this.toggleModal();
-    // this does all the stuff with all the things
   }
 
+  // updates the state of whatever was changed
   formFieldStringState = (e) => {
     const tempProduct = { ...this.state.updatedProduct };
     tempProduct[e.target.id] = e.target.value;
     this.setState({ updatedProduct: tempProduct });
   };
+
   render() {
     const { updatedProduct, categories, productTypes } = this.state;
     return (
