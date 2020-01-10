@@ -29,6 +29,11 @@ productDeleted = (productId) => {
   deleteThisProduct(productId);
 }
 
+productEdited = (product, id) => {
+  const {editThisProduct} = this.props;
+  editThisProduct(product, id);
+}
+
 toggleModalOpen = (value) => {
   this.setState({ modalOpen: value })
   this.setState(prevState => ({

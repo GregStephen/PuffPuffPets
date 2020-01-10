@@ -51,8 +51,8 @@ const addProduct = productObj => new Promise((resolve, reject) => {
         .catch(err => reject(err))
 });
 
-const editProduct = (editedProduct) => new Promise((resolve, reject) => {
-    axios.put(`${baseUrl}`, editedProduct)
+const editProduct = (editedProduct, id) => new Promise((resolve, reject) => {
+    axios.put(`${baseUrl}/${id}`, editedProduct)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
 });
