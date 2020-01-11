@@ -111,7 +111,12 @@ class App extends React.Component {
     const {userObj} = this.state;
     UserRequests.deleteUser(userObj.id, userObj.isSeller)
       .then(() => {
-        this.userLoggedOut();
+        var user = firebase.auth().currentUser;
+        user.delete().then(function() {
+          // bye bitch.
+        }).catch(function(error) {
+          // An error happened.
+        });
       })
       .catch(err => console.error(err));
   }
