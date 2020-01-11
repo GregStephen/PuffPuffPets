@@ -13,10 +13,12 @@ namespace PuffPuffPets.Api.Repositories
     public class ProductRepository: IProductRepository
     {
         string _connectionString;
+        private ICategoryRepository _categoryRepo;
 
-        public ProductRepository(IConfiguration configuration)
+        public ProductRepository(IConfiguration configuration, ICategoryRepository categoryRepo)
         {
             _connectionString = configuration.GetValue<string>("ConnectionString");
+            _categoryRepo = categoryRepo;
         }
 
         public AllProductsReturn GetAllProducts()
@@ -44,7 +46,6 @@ namespace PuffPuffPets.Api.Repositories
        {
             using (var db = new SqlConnection(_connectionString))
             {
-                var catRepo = new CategoryRepository();
                 var searchResults = new SearchReturn();
             
                 var sql = @"SELECT p.*, FORMAT (p.Price / 100.00, 'C') as MoneyPrice ,u.BusinessName, c.Name as CategoryName, t.Type as TypeName
@@ -85,7 +86,7 @@ namespace PuffPuffPets.Api.Repositories
                 sql += whereStatement;
                 var parameters = new { regex, searchCategories };
                 var productsSearched = db.Query<Product>(sql, parameters);
-                var categoryTotalResults = catRepo.GetProductsInCategories(regex);
+                var categoryTotalResults = _categoryRepo.GetProductsInCategories(regex);
                 searchResults.Products = productsSearched;
                 searchResults.TotalProducts = productsSearched.Count();
                 searchResults.TotalForEachCategory = categoryTotalResults;
