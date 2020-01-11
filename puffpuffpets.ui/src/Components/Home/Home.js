@@ -14,11 +14,24 @@ class Home extends Component {
     this.props.userLogIn();
   }
   
+  editUser = (editedUser) => {
+    this.props.editThisUser(editedUser);
+  }
+
+  deleteUser = () => {
+    this.props.deleteThisUser();
+  }
+
   render () {
     const {userObj} = this.props;
     return (
       <div className="Home">
-        {userObj.isSeller ? <SellerHome userObj={userObj}/> 
+        {userObj.isSeller ? 
+        <SellerHome 
+        userObj={userObj}
+        editThisUser={this.editUser}
+        deleteThisUser={this.deleteUser}
+        /> 
         : <CustomerHome userObj={userObj}/>}
       </div>
     );

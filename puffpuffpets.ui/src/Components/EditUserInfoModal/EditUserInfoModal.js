@@ -14,6 +14,7 @@ const defaultUser = {
 class EditUserInfoModal extends React.Component {
   state = {
     updatedUser: defaultUser,
+    businessName: ''
   }
 
   static propTypes = {
@@ -23,7 +24,12 @@ class EditUserInfoModal extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ updatedUser: this.props.userObj})
+    const {userObj} = this.props;
+    this.setState({ updatedUser: userObj})
+    if (userObj.isSeller)
+    {
+      this.setState({businessName: userObj.businessName})
+    }
   };
 
   toggleModal = (e) => {
@@ -33,8 +39,12 @@ class EditUserInfoModal extends React.Component {
 
   formSubmit = (e) => {    
     e.preventDefault();
-    const { updatedUser } = this.state;
-    const { userEdited } = this.props;
+    const { updatedUser, businessName } = this.state;
+    const { userEdited, userObj } = this.props;
+    if (userObj.isSeller) {
+      updatedUser.businessName = businessName;
+    }
+  
     userEdited(updatedUser);
     this.toggleModal();
   };
@@ -45,8 +55,14 @@ class EditUserInfoModal extends React.Component {
     this.setState({ updatedUser: tempUser });
   };
 
+  formFieldBusinessState = (e) => {
+    let tempBusinessName = this.state.businessName;
+    tempBusinessName = e.target.value;
+    this.setState({ businessName: tempBusinessName});
+  }
+
   render() {
-    const { updatedUser } = this.state;
+    const { updatedUser, businessName } = this.state;
     return (
       <div className="EditUserInfoModal container">
       <Form className="row justify-content-center" onSubmit={this.formSubmit}>
@@ -77,6 +93,14 @@ class EditUserInfoModal extends React.Component {
               id="lastName"
               value={updatedUser.lastName}
               onChange={this.formFieldStringState}
+              required />
+            <Label for="businessName">Business Name:</Label>
+            <Input
+              type="input"
+              name="businessName"
+              id="businessName"
+              value={businessName}
+              onChange={this.formFieldBusinessState}
               required />
           </FormGroup>
         </ModalBody>

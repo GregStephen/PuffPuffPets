@@ -14,7 +14,7 @@ namespace PuffPuffPets.Api.Repositories
         User GetUserByFirebaseUid(string firebaseUid);
         bool EditUser(EditUserDto editedUser);
         bool AddNewUser(AddNewUserDto newUser);
-        bool DeleteUser(Guid userId);
+        bool DeleteUser(Guid userId, bool isSeller);
         SellerStats GetSellerStats(Guid sellerId);
     }
 }

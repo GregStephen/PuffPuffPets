@@ -109,7 +109,7 @@ class App extends React.Component {
   
   deleteThisUser = () => {
     const {userObj} = this.state;
-    UserRequests.deleteUser(userObj.id)
+    UserRequests.deleteUser(userObj.id, userObj.isSeller)
       .then(() => {
         this.userLoggedOut();
       })
@@ -133,7 +133,7 @@ class App extends React.Component {
           <MyNavbar authed={ authed } userObj={ userObj } userLoggedOut={ this.userLoggedOut } userCreated={ this.userCreated } userLogIn={ this.userLogIn }/>
             <Switch>
               <PublicRoute path='/auth' component={ Auth } authed={ authed } userObj={ userObj } userCreated={ this.userCreated }/>
-              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj } userLogIn={ this.userLogIn }/>
+              <PrivateRoute path='/home' component={ Home } authed={ authed } userObj={ userObj } userLogIn={ this.userLogIn } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
               <PrivateRoute path='/user' component={ UserProfile } authed={ authed } userObj={ userObj } editThisUser={ this.editThisUser } deleteThisUser={ this.deleteThisUser }/>
               <PrivateRoute path='/myCart/:userId' component={ MyCart } authed={ authed } userObj={ userObj }/>
               <PrivateRoute path='/checkout/:userId' component={Checkout} authed={authed} userObj={userObj}/>

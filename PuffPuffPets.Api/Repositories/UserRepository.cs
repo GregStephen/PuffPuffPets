@@ -79,6 +79,7 @@ namespace PuffPuffPets.Api.Repositories
                                 [UserName] = @userName,
                                 [FirstName] = @firstName,
                                 [LastName] = @lastName,
+                                [BusinessName] = @businessName
                             WHERE [Id] = @id";
                 return db.Execute(sql, editedUser) == 1;
             }
@@ -133,7 +134,7 @@ namespace PuffPuffPets.Api.Repositories
             }
         }
 
-        public bool DeleteUser(Guid userId)
+        public bool DeleteUser(Guid userId, bool isSeller)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -141,6 +142,15 @@ namespace PuffPuffPets.Api.Repositories
                 addressRepo.DeleteUserAddresses(userId);
                 var paymentTypeRepo = new PaymentTypeRepository();
                 paymentTypeRepo.DeleteAllPaymentTypesByUserId(userId);
+                var productRepo = new ProductRepository();
+                if (isSeller)
+                {
+                    var productsToDelete = productRepo.GetProductsByUid(userId);
+                    foreach(Product product in productsToDelete)
+                    {
+                        productRepo.DeleteProduct(product.Id);
+                    }
+                }
                 var sql = @"UPDATE [User]
                             SET [FirstName] = 'DELETED',
                                 [LastName] = 'DELETED'
