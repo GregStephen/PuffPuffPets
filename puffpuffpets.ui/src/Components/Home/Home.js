@@ -32,7 +32,9 @@ class Home extends Component {
         editThisUser={this.editUser}
         deleteThisUser={this.deleteUser}
         /> 
-        : <CustomerHome userObj={userObj}/>}
+        : !userObj.isSeller ?
+        <CustomerHome userObj={userObj}/>
+      : ''}
       </div>
     );
   }
