@@ -36,7 +36,6 @@ class EditUserInfoModal extends React.Component {
     const { updatedUser } = this.state;
     const { userEdited } = this.props;
     userEdited(updatedUser);
-    console.error('form submitted', updatedUser);
     this.toggleModal();
   };
 

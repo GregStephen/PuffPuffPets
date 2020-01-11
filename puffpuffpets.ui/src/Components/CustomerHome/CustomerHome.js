@@ -60,9 +60,17 @@ class CustomerHome extends React.Component {
               <SearchBar
               displaySearchedProducts= { this.displaySearchedProducts}/>
             </div>
-            <div className="row col-12 justify-content-start">
-            {showProducts}
-            </div>
+            {productsToShow.length === 0 ? 
+              <div className="row col-12 justify-content-center">
+                <div className="no-match off-set-4 col-6">
+                <h3>Sorry, no items matched your search</h3>
+                <p>Maybe try changing your search term or clear your categories</p>
+                </div>
+              </div>
+              : 
+              <div className="row col-12 justify-content-start">
+              { showProducts }
+              </div>}
           </div> 
       </div>
     );

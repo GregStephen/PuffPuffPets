@@ -29,6 +29,13 @@ class SellerProducts extends React.Component {
       .catch(err => console.error(err));
   }
 
+  editThisProduct = (product, id) => {
+    ProductRequests.editProduct(product, id)
+    .then(() => { this.getSellersProducts();
+    })
+    .catch(err => console.error(err));
+  }
+
   toggleNewProductModal = () => {
     this.setState(prevState => ({
       newProductModal: !prevState.newProductModal,
@@ -55,6 +62,7 @@ class SellerProducts extends React.Component {
       <ProductCard 
       key={product.id}
       product={product}
+      editThisProduct={this.editThisProduct}
       deleteThisProduct={this.deleteThisProduct}
       userObj={this.props.userObj}
       />
