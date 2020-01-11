@@ -6,11 +6,18 @@ using PuffPuffPets.Api.DataModels;
 using System.Threading.Tasks;
 using Dapper;
 using PuffPuffPets.Api.Dtos;
+using Microsoft.Extensions.Configuration;
+
 namespace PuffPuffPets.Api.Repositories
 {
     public class ProductRepository: IProductRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
+
+        public ProductRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+        }
 
         public AllProductsReturn GetAllProducts()
         {

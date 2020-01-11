@@ -28,6 +28,10 @@ namespace PuffPuffPets.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var authSettings = Configuration.GetSection("AuthenticationSettings");
+            var connectionString = Configuration.GetValue<string>("ConnectionString");
+
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
@@ -47,13 +51,13 @@ namespace PuffPuffPets.Api
                .AddJwtBearer(options =>
                {
                    options.IncludeErrorDetails = true;
-                   options.Authority = "https://securetoken.google.com/puffpuffpets";
+                   options.Authority = authSettings["Authority"];
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        ValidateIssuer = true,
-                       ValidIssuer = "https://securetoken.google.com/puffpuffpets",
+                       ValidIssuer = authSettings["Issuer"],
                        ValidateAudience = true,
-                       ValidAudience = "puffpuffpets",
+                       ValidAudience = authSettings["Audience"],
                        ValidateLifetime = true
                    };
                }

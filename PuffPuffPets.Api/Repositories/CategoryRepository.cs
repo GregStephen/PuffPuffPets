@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using PuffPuffPets.Api.DataModels;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,12 @@ namespace PuffPuffPets.Api.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
 
+        public CategoryRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+        }
         public IEnumerable<Category> GetAllCategories()
         {
             using (var db = new SqlConnection(_connectionString))

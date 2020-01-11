@@ -6,11 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using PuffPuffPets.Api.Dtos;
+using Microsoft.Extensions.Configuration;
+
 namespace PuffPuffPets.Api.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
+
+        public AddressRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+        }
 
         public bool AddNewAddress(AddAddressDto newAddress)
         {

@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using PuffPuffPets.Api.DataModels;
 using PuffPuffPets.Api.Dtos;
 using System;
@@ -11,7 +12,12 @@ namespace PuffPuffPets.Api.Repositories
 {
     public class PaymentTypeRepository : IPaymentTypeRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
+
+        public PaymentTypeRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+        }
 
         public IEnumerable<PaymentType> GetAllPaymentTypes(Guid userId)
         {
