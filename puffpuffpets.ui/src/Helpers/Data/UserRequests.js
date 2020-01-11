@@ -67,6 +67,12 @@ const getSellerStats = sellerId => new Promise((resolve, reject) => {
         .catch(err => reject(err))
 })
 
+const addToCart = addData => new Promise((resolve, reject) => {
+    axios.post(`${baseUrl}/addToCart`, addData)
+    .then(result => resolve(result.data))
+    .catch(err => reject(err))
+})
+
 export default {
     getAllUsers,
     getUserById,
@@ -75,4 +81,5 @@ export default {
     editUser,
     deleteUser,
     getSellerStats,
+    addToCart
 };

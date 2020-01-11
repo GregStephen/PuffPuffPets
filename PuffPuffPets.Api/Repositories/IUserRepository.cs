@@ -16,5 +16,6 @@ namespace PuffPuffPets.Api.Repositories
         bool AddNewUser(AddNewUserDto newUser);
         bool DeleteUser(Guid userId);
         SellerStats GetSellerStats(Guid sellerId);
+        bool AddProductOrder(AddProductOrderDTO NewProductOrder);
     }
 }

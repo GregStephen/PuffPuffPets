@@ -13,7 +13,7 @@ namespace PuffPuffPets.Api.Repositories
     {
         string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
 
-        public bool AddNewProductOrder(ProductOrder newProductOrder)
+        public bool AddNewProductOrder(NewProductOrderDTO newProductOrder)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -30,7 +30,7 @@ namespace PuffPuffPets.Api.Repositories
                                     @OrderId,
                                     @QuantityOrdered,
                                     @isShipped,
-                                    @ShippedDate)";
+                                    null)";
 
                 return db.Execute(sql, newProductOrder) == 1;
             }
