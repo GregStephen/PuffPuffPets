@@ -19,7 +19,7 @@ namespace PuffPuffPets.Api.Repositories
             _connectionString = configuration.GetValue<string>("ConnectionString");
         }
 
-        public bool AddNewProductOrder(ProductOrder newProductOrder)
+        public bool AddNewProductOrder(NewProductOrderDTO newProductOrder)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -36,7 +36,7 @@ namespace PuffPuffPets.Api.Repositories
                                     @OrderId,
                                     @QuantityOrdered,
                                     @isShipped,
-                                    @ShippedDate)";
+                                    null)";
 
                 return db.Execute(sql, newProductOrder) == 1;
             }

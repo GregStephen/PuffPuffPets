@@ -106,5 +106,18 @@ namespace PuffPuffPets.Api.Controllers
             _repo.DeleteUser(userId, isSeller);
             return Ok();
         }
+
+        [HttpPost("addToCart")]
+        public IActionResult AddToCart(AddProductOrderDTO ProductOrderAdd)
+        {
+            if (_repo.AddProductOrder(ProductOrderAdd))
+            {
+                return Created($"user/{ProductOrderAdd.ProductId}", ProductOrderAdd);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

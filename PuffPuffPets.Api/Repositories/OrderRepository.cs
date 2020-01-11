@@ -173,5 +173,16 @@ namespace PuffPuffPets.Api.Repositories
             }
 
         }
+
+        public Guid FindCurrentOrder(Guid userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var SQL = @"SELECT Id FROM [Order] WHERE isCompleted = 0 AND UserId= @UserId";
+                var Parameters = new { userId };
+                return db.QueryFirst<Guid>(SQL, Parameters);
+            }
+
+        }
     }
 }

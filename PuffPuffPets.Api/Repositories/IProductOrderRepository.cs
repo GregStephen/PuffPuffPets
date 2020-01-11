@@ -12,7 +12,7 @@ namespace PuffPuffPets.Api.Repositories
         IEnumerable<ProductOrder> GetAllProductOrders();
         IEnumerable<Order_ProductOrder> GetProductOrdersByUserId(Guid userId);
         ProductOrder GetProductOrderById(Guid productOrderId);
-        bool AddNewProductOrder(ProductOrder newProductOrder);
+        bool AddNewProductOrder(NewProductOrderDTO newProductOrder);
         bool DeleteProductOrder(Guid productOrderId);
         bool EditQuantityOrdered(EditProductOrderDto quantityOrdered);
         bool EditShippedDate(EditProductOrderDto shippedDate);

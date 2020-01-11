@@ -259,5 +259,21 @@ namespace PuffPuffPets.Api.Repositories
                 return sellerStats;
             }
         }
+
+        public bool AddProductOrder(AddProductOrderDTO NewProductOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var OrderRepo = new OrderRepository();
+                var OrderId = OrderRepo.FindCurrentOrder(NewProductOrder.UserId);
+                var NewPO = new NewProductOrderDTO();
+                NewPO.OrderId = OrderId;
+                NewPO.ProductId = NewProductOrder.ProductId;
+                NewPO.QuantityOrdered = NewProductOrder.QuantityOrdered;
+                NewPO.isShipped = false;
+                var PORepo = new ProductOrderRepository();
+                return PORepo.AddNewProductOrder(NewPO);
+            }
+        }
     }
 }
