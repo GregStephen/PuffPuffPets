@@ -115,7 +115,7 @@ class App extends React.Component {
         user.delete().then(function() {
           // bye bitch.
         }).catch(function(error) {
-          // An error happened.
+          console.error(error)
         });
       })
       .catch(err => console.error(err));
