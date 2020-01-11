@@ -100,10 +100,10 @@ namespace PuffPuffPets.Api.Controllers
             }
 
         }
-        [HttpDelete("{userId}")]
-        public IActionResult DeleteUser(Guid userId)
+        [HttpDelete("{userId}/{isSeller}")]
+        public IActionResult DeleteUser(Guid userId, bool isSeller)
         {
-            _repo.DeleteUser(userId);
+            _repo.DeleteUser(userId, isSeller);
             return Ok();
         }
     }

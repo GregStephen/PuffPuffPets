@@ -55,8 +55,8 @@ const addUser = (userObj, firebaseInfo) => new Promise((resolve, reject) => {
     }).catch(err => reject(err));
 });
 
-const deleteUser = uid => new Promise((resolve, reject) => {
-    axios.delete(`${baseUrl}/${uid}`)
+const deleteUser = (uid, isSeller) => new Promise((resolve, reject) => {
+    axios.delete(`${baseUrl}/${uid}/${isSeller}`)
         .then(result => resolve(result.data))
         .catch(err => reject(err));
 });
