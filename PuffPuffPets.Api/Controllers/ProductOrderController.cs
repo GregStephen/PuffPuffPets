@@ -43,7 +43,7 @@ namespace PuffPuffPets.Api.Controllers
         }
 
         [HttpPost]
-        public void Add(ProductOrder newProductOrder)
+        public void Add(NewProductOrderDTO newProductOrder)
         {
             _repo.AddNewProductOrder(newProductOrder);
         }
