@@ -6,12 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using PuffPuffPets.Api.Dtos;
+using Microsoft.Extensions.Configuration;
 
 namespace PuffPuffPets.Api.Repositories
 {
     public class ProductOrderRepository : IProductOrderRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
+
+        public ProductOrderRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+        }
 
         public bool AddNewProductOrder(NewProductOrderDTO newProductOrder)
         {

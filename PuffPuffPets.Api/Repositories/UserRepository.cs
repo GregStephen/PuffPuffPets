@@ -6,12 +6,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using PuffPuffPets.Api.Dtos;
+using Microsoft.Extensions.Configuration;
 
 namespace PuffPuffPets.Api.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        string _connectionString = "Server=localhost;Database=PuffPuffPets;Trusted_Connection=True;";
+        string _connectionString;
+        private IAddressRepository _addressRepo;
+        private IPaymentTypeRepository _paymentTypeRepo;
+        private IProductRepository _productRepo;
+        private IOrderRepository _orderRepo;
+        private IProductOrderRepository _productOrderRepo;
+
+        public UserRepository(IConfiguration configuration, IAddressRepository addressRepo, IProductOrderRepository productOrderRepo, IPaymentTypeRepository paymentTypeRepo, IProductRepository productRepo, IOrderRepository orderRepo)
+        {
+            _connectionString = configuration.GetValue<string>("ConnectionString");
+            _addressRepo = addressRepo;
+            _productRepo = productRepo;
+            _paymentTypeRepo = paymentTypeRepo;
+            _orderRepo = orderRepo;
+            _productOrderRepo = productOrderRepo;
+        }
 
         public IEnumerable<User> GetAllUsers()
         {
@@ -93,7 +109,6 @@ namespace PuffPuffPets.Api.Repositories
                 {
                     return false;
                 }
-                var addressRepo = new AddressRepository();
                 var newAddress = new AddAddressDto();
                 newAddress.AddressLine1 = newUser.AddressLine1;
                 newAddress.AddressLine2 = newUser.AddressLine2;
@@ -124,7 +139,7 @@ namespace PuffPuffPets.Api.Repositories
                 // This would be if there was no trouble creating the user
                 {
                     newAddress.UserId = userId;
-                    return addressRepo.AddNewAddress(newAddress);
+                    return _addressRepo.AddNewAddress(newAddress);
                 }
                 else
                 // This would be if there WAS trouble creating the user
@@ -138,17 +153,14 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var addressRepo = new AddressRepository();
-                addressRepo.DeleteUserAddresses(userId);
-                var paymentTypeRepo = new PaymentTypeRepository();
-                paymentTypeRepo.DeleteAllPaymentTypesByUserId(userId);
-                var productRepo = new ProductRepository();
+                _addressRepo.DeleteUserAddresses(userId);
+                _paymentTypeRepo.DeleteAllPaymentTypesByUserId(userId);
                 if (isSeller)
                 {
-                    var productsToDelete = productRepo.GetProductsByUid(userId);
+                    var productsToDelete = _productRepo.GetProductsByUid(userId);
                     foreach(Product product in productsToDelete)
                     {
-                        productRepo.DeleteProduct(product.Id);
+                        _productRepo.DeleteProduct(product.Id);
                     }
                 }
                 var sql = @"UPDATE [User]
@@ -224,14 +236,13 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var productRepo = new ProductRepository();
                 var sellerStats = new SellerStats();
 
                 var topProductInfo= GetTopProduct(sellerId);
 
                 if (topProductInfo != null)
                 {
-                    var topProduct = productRepo.GetProductById(topProductInfo.MostSoldProduct);
+                    var topProduct = _productRepo.GetProductById(topProductInfo.MostSoldProduct);
                     sellerStats.TopProduct = topProduct;
                     sellerStats.TopProductAmountSold = topProductInfo.MostSoldAmount;
                 }
@@ -240,7 +251,7 @@ namespace PuffPuffPets.Api.Repositories
 
                 if (topMonthProductInfo != null)
                 {
-                    var topMonthProduct = productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
+                    var topMonthProduct = _productRepo.GetProductById(topMonthProductInfo.MostSoldProduct);
                     sellerStats.TopMonthProduct = topMonthProduct;
                     sellerStats.TopMonthProductAmountSold = topMonthProductInfo.MostSoldAmount;
                 }
@@ -258,15 +269,13 @@ namespace PuffPuffPets.Api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var OrderRepo = new OrderRepository();
-                var OrderId = OrderRepo.FindCurrentOrder(NewProductOrder.UserId);
+                var OrderId = _orderRepo.FindCurrentOrder(NewProductOrder.UserId);
                 var NewPO = new NewProductOrderDTO();
                 NewPO.OrderId = OrderId;
                 NewPO.ProductId = NewProductOrder.ProductId;
                 NewPO.QuantityOrdered = NewProductOrder.QuantityOrdered;
                 NewPO.isShipped = false;
-                var PORepo = new ProductOrderRepository();
-                return PORepo.AddNewProductOrder(NewPO);
+                return _productOrderRepo.AddNewProductOrder(NewPO);
             }
         }
     }

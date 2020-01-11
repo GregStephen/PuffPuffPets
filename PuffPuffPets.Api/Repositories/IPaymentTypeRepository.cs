@@ -13,5 +13,6 @@ namespace PuffPuffPets.Api.Repositories
         PaymentType GetSinglePaymentType(Guid paymentTypeId);
         bool AddNewPaymentType(AddPaymentTypeDto newPaymentType);
         bool DeletePaymentType(Guid paymentTypeId);
+        void DeleteAllPaymentTypesByUserId(Guid userId);
     }
 }
